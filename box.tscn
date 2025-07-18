@@ -42,7 +42,7 @@ tracks/0/path = NodePath(".:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.3, 2),
+"times": PackedFloat32Array(0.133333, 0.433333, 2.13333),
 "transitions": PackedFloat32Array(1, 2.92817, 2.92817),
 "update": 0,
 "values": [Color(3, 3, 3, 0), Color(1.75, 1.75, 1.75, 1), Color(1.5, 1.5, 1.5, 1)]
@@ -95,12 +95,16 @@ _data = {
 &"float": SubResource("Animation_uckbv")
 }
 
-[node name="Placement" type="VBoxContainer"]
+[node name="Placement" type="VBoxContainer" node_paths=PackedStringArray("animation", "text_box", "user_label")]
 offset_right = 140.0
 offset_bottom = 58.0
 script = ExtResource("1_3n43a")
+animation = NodePath("MarginContainer/TextBox/Animation")
+text_box = NodePath("MarginContainer/TextBox")
+user_label = NodePath("user")
 
 [node name="user" type="Label" parent="."]
+modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("1_i8g28")
 text = "TuniTem"
@@ -108,7 +112,11 @@ text = "TuniTem"
 [node name="Pad2" type="Control" parent="."]
 layout_mode = 2
 
-[node name="TextBox" type="RichTextLabel" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 15
+
+[node name="TextBox" type="RichTextLabel" parent="MarginContainer"]
 modulate = Color(1.5, 1.5, 1.5, 1)
 clip_contents = false
 layout_mode = 2
@@ -117,13 +125,13 @@ text = "aaaaaaaasoidujfghbnosierdungosirengoisurengoiuenr"
 fit_content = true
 scroll_active = false
 
-[node name="Animation" type="AnimationPlayer" parent="TextBox"]
+[node name="Animation" type="AnimationPlayer" parent="MarginContainer/TextBox"]
 libraries = {
 &"": SubResource("AnimationLibrary_i6mwt")
 }
 speed_scale = 0.5
 
-[node name="Panel" type="Panel" parent="TextBox"]
+[node name="Panel" type="Panel" parent="MarginContainer/TextBox"]
 modulate = Color(0.513233, 0.513233, 0.513233, 1)
 layout_mode = 1
 anchors_preset = 15

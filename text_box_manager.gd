@@ -4,16 +4,24 @@ const DEFAULT_LENGTH = 850
 const TEST_INTERVAL = 10
 const MAX_TEXT_LINES = 15
 
-@onready var animation: AnimationPlayer = $TextBox/Animation
-@onready var text_box: RichTextLabel = $TextBox
+@export var animation: AnimationPlayer
+@export var text_box: RichTextLabel
+@export var user_label: Label
 
 var USEABLE_CHARS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-=!@#$%^&*_+()[]{}|\\;:\"\'<>?,./ "
-var text = "aaaaaaaasoidujfghbnosierdungosirengoisurengoiuenr"
+var text : String  = "aaaaaaaasoidujfghbnosierdungosirengoisurengoiuenr"
+var color : Color = Color("#8c6da7")
+var user : String = "Unknown"
 
 func _ready():
 	animation.play("chat")
 	text_box.text = text
+	user_label.text = user
+	user_label.modulate = color * Color(1.0, 1.0, 1.0, 0.0)
+	create_tween().tween_property(user_label, "modulate", color, 1.0)
+	
 	call_deferred("find_minimum_border_size")
+	free_in_time(5.0)
 	#for emoji in Global.emojis: 
 		#USEABLE_CHARS += emoji[1]
 	
@@ -53,9 +61,13 @@ func get_num_lines():
 
 func free_in_time(time : float):
 	await get_tree().create_timer(time).timeout
-	animation.play("float")
-	var tween = create_tween()
-	tween.tween_property(text_box, "position:y", -5000, 8.0).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_EXPO)
+	#animation.play("float")
+	var angle = randf_range(-90, 90)
+	create_tween().tween_property(text_box, "rotation_degrees", angle, 8.0).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CUBIC)
+	create_tween().tween_property(text_box, "position:y", -5000, 8.0).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_EXPO)
+	create_tween().tween_property(user_label, "rotation_degrees", angle, 8.0).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CUBIC)
+	create_tween().tween_property(user_label, "position:y", -5000, 8.0).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_EXPO)
+	
 	await get_tree().create_timer(8.0).timeout
 	queue_free()
 	
