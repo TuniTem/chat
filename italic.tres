@@ -1,0 +1,7 @@
+[gd_resource type="FontVariation" load_steps=2 format=3 uid="uid://w40gj0t6gd4w"]
+
+[ext_resource type="FontFile" uid="uid://bupu2v14iq1fp" path="res://Pangolin-Regular.ttf" id="1_lm4nh"]
+
+[resource]
+base_font = ExtResource("1_lm4nh")
+variation_transform = Transform2D(1, 0.2735, 0, 1, 0, 0)

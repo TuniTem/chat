@@ -3,50 +3,66 @@ extends VBoxContainer
 const DEFAULT_LENGTH = 850
 const TEST_INTERVAL = 10
 const MAX_TEXT_LINES = 15
+const PREFIX = "[pulse freq=0.5 color=#ffffff80 ease=-2.0]"
 
 @export var animation: AnimationPlayer
 @export var text_box: RichTextLabel
-@export var user_label: Label
+@export var user_label: RichTextLabel
 
 var USEABLE_CHARS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-=!@#$%^&*_+()[]{}|\\;:\"\'<>?,./ "
 var text : String  = "aaaaaaaasoidujfghbnosierdungosirengoisurengoiuenr"
 var color : Color = Color("#8c6da7")
 var user : String = "Unknown"
+var falling : bool = false
 
 func _ready():
+	
+	color = Color("8c6da7")
 	animation.play("chat")
-	text_box.text = text
-	user_label.text = user
+	text_box.text = PREFIX + filter(text)
+	user_label.text = filter(user)
 	user_label.modulate = color * Color(1.0, 1.0, 1.0, 0.0)
 	create_tween().tween_property(user_label, "modulate", color, 1.0)
-	
-	call_deferred("find_minimum_border_size")
+	#call_deferred("find_minimum_border_size")
 	free_in_time(5.0)
 	#for emoji in Global.emojis: 
 		#USEABLE_CHARS += emoji[1]
-	
-	
-	
-var prev_input : String
-#func _process(delta: float):
-	#call_deferred("find_minimum_border_size")
-	#if is_instance_valid(input):
-		#if input.has_focus() and input.text != prev_input:
-			#var carot_pos = input.get_caret_column()
-			#input.text = filter(input.text)
-			##if input.text.count(":") >= 2:
-				##for emoji in Global.emojis:
-					##if emoji[0] in input.text:
-						##input.text = input.text.replace(emoji[0], emoji[1]) 
-			#
-			#if text_box.get_line_count() > MAX_TEXT_LINES:
-				#input.text = input.text.erase(len(input.text)-1)
-			#input.set_caret_column(carot_pos)
-			#text_box.text = input.text
-			#call_deferred("find_minimum_border_size")
-		#text_box.anchor_top = 0.0
-		#prev_input = input.text
 
+func fall():
+	if not falling:
+		falling = true
+		var angle = randf_range(-90, 90)
+		create_tween().tween_property(user_label, "rotation_degrees", angle, 8.0).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CUBIC)
+		create_tween().tween_property(user_label, "position:y", -5000, 8.0).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_EXPO)
+		create_tween().tween_property(user_label, "modulate", Color(1.0, 1.0, 1.0, 0.0), 6.0)
+		create_tween().tween_property(text_box, "modulate", Color(10.0, 10.0, 10.0, 1.0), 0.1)
+		sparkle()
+		await get_tree().create_timer(0.3).timeout
+		create_tween().tween_property(text_box, "rotation_degrees", angle, 8.0).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CUBIC)
+		create_tween().tween_property(text_box, "position:y", -5000, 8.0).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_EXPO)
+		create_tween().tween_property(text_box, "modulate", Color(1.0, 1.0, 1.0, 0.0), 6.0).set_ease(Tween.EASE_OUT)
+		await get_tree().create_timer(8.0).timeout
+		queue_free()
+
+
+@onready var sparkle_holder: Node2D = $SparkleHolder
+const SPARKLE_1 = preload("res://sparkle/sparkle1.tscn")
+const NUM_SPARKLES = 50
+func sparkle():
+	var bounds : Rect2 = text_box.get_global_rect()
+	for i in NUM_SPARKLES:
+		var dir : Vector2 = Vector2.from_angle(randf_range(0, TAU))
+		var edge = randi() % 4
+		match edge:
+			0: dir = Vector2(randf_range(bounds.position.x, bounds.position.x + bounds.size.x), bounds.position.y)
+			1: dir = Vector2(bounds.position.x + bounds.size.x, randf_range(bounds.position.y, bounds.position.y + bounds.size.y))
+			2: dir = Vector2(randf_range(bounds.position.x, bounds.position.x + bounds.size.x), bounds.position.y + bounds.size.y)
+			3: dir = Vector2(bounds.position.x, randf_range(bounds.position.y, bounds.position.y + bounds.size.y))
+		var inst = SPARKLE_1.instantiate()
+		inst.position = dir
+		inst.center = bounds.position + bounds.size/2
+		Global.sparkle_holder.add_child(inst)
+	
 
 func filter(text : String):
 	var out = ""
@@ -56,37 +72,7 @@ func filter(text : String):
 	
 	return out
 
-func get_num_lines():
-	return text_box.get_line_count()
-
 func free_in_time(time : float):
+
 	await get_tree().create_timer(time).timeout
-	#animation.play("float")
-	var angle = randf_range(-90, 90)
-	create_tween().tween_property(text_box, "rotation_degrees", angle, 8.0).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CUBIC)
-	create_tween().tween_property(text_box, "position:y", -5000, 8.0).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_EXPO)
-	create_tween().tween_property(user_label, "rotation_degrees", angle, 8.0).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CUBIC)
-	create_tween().tween_property(user_label, "position:y", -5000, 8.0).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_EXPO)
-	
-	await get_tree().create_timer(8.0).timeout
-	queue_free()
-	
-
-func find_minimum_border_size():
-	text_box.offset_right = DEFAULT_LENGTH
-	#text_box.offset_top = 665.0
-	#text_box.offset_bottom = 665.0
-	if text_box.get_line_count() == 1:
-		var good_line_size = DEFAULT_LENGTH
-		for test_size in range(DEFAULT_LENGTH, int(text_box.custom_minimum_size.x), -TEST_INTERVAL):
-			text_box.offset_right = test_size
-			if text_box.get_line_count() == 2: break
-			else: good_line_size = test_size
-		
-		text_box.offset_right = good_line_size
-		call_deferred("fix_weird_ahh_bug")
-	
-	print(Engine.get_frames_drawn())
-	
-
-func fix_weird_ahh_bug(): text_box.offset_top = 600
+	fall()

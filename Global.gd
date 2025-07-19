@@ -1,5 +1,7 @@
 extends Node
 
+var sparkle_holder : Node2D
+
 @onready var chat : TwitchChat = %Chat
 @onready var twitch: TwitchService = %TwitchService
 

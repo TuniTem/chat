@@ -63,9 +63,10 @@ oauth_setting = ExtResource("3_lraed")
 scopes = SubResource("Resource_n5rs1")
 token = ExtResource("5_xuwfl")
 
-[node name="EventSub" type="Node" parent="TwitchService"]
+[node name="EventSub" type="Node" parent="TwitchService" node_paths=PackedStringArray("api")]
 unique_name_in_owner = true
 script = ExtResource("6_cq2gi")
+api = NodePath("../API")
 scopes = SubResource("Resource_n5rs1")
 
 [node name="API" type="Node" parent="TwitchService"]

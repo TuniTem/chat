@@ -19,6 +19,13 @@ config/icon="res://icon.svg"
 
 Global="*res://global.tscn"
 
+[display]
+
+window/size/viewport_width=1920
+window/size/viewport_height=1080
+window/size/transparent=true
+window/per_pixel_transparency/allowed=true
+
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/twitcher/plugin.cfg")
@@ -34,6 +41,7 @@ debug={
 [rendering]
 
 viewport/hdr_2d=true
+viewport/transparent_background=true
 
 [twitcher]
 
