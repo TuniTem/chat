@@ -1,0 +1,14 @@
+[remap]
+
+importer="gif.animated.texture.plugin"
+type="SpriteFrames"
+uid="uid://c62xs0iq4jyqu"
+path="res://.godot/imported/forsenPls.gif-d422528ae9b35614ad6ed1d0539fbadd.res"
+
+[deps]
+
+source_file="res://art/emotes/forsenPls.gif"
+dest_files=["res://.godot/imported/forsenPls.gif-d422528ae9b35614ad6ed1d0539fbadd.res"]
+
+[params]
+

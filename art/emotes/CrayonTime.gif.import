@@ -1,0 +1,14 @@
+[remap]
+
+importer="gif.animated.texture.plugin"
+type="SpriteFrames"
+uid="uid://14jrrf6mhpef"
+path="res://.godot/imported/CrayonTime.gif-4aae73112abc52f294b22aa9b511fcba.res"
+
+[deps]
+
+source_file="res://art/emotes/CrayonTime.gif"
+dest_files=["res://.godot/imported/CrayonTime.gif-4aae73112abc52f294b22aa9b511fcba.res"]
+
+[params]
+

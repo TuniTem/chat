@@ -1,0 +1,14 @@
+[remap]
+
+importer="gif.animated.texture.plugin"
+type="SpriteFrames"
+uid="uid://cgipnarfsfbr5"
+path="res://.godot/imported/BillyApprove.gif-a598fa8cb3c8d30e4ffc0aa40dbb7634.res"
+
+[deps]
+
+source_file="res://art/emotes/BillyApprove.gif"
+dest_files=["res://.godot/imported/BillyApprove.gif-a598fa8cb3c8d30e4ffc0aa40dbb7634.res"]
+
+[params]
+

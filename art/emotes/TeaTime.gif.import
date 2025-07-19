@@ -1,0 +1,14 @@
+[remap]
+
+importer="gif.animated.texture.plugin"
+type="SpriteFrames"
+uid="uid://dd8ei4t04uxl4"
+path="res://.godot/imported/TeaTime.gif-ca273b872105033cfe5473c55451ad0a.res"
+
+[deps]
+
+source_file="res://art/emotes/TeaTime.gif"
+dest_files=["res://.godot/imported/TeaTime.gif-ca273b872105033cfe5473c55451ad0a.res"]
+
+[params]
+

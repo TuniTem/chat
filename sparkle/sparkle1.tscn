@@ -65,6 +65,8 @@ _data = {
 }
 
 [node name="Node2D" type="Node2D"]
+show_behind_parent = true
+z_index = -1215
 script = ExtResource("2_gmkix")
 
 [node name="Sparkle" type="Sprite2D" parent="."]

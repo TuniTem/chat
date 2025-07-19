@@ -2,8 +2,8 @@ extends Node2D
 
 @onready var animation_player: AnimationPlayer = $Sparkle/AnimationPlayer
 
-const SCALE_FACTOR = 1.0
-const SLOW_SPEED = 3.0
+const SCALE_FACTOR = 0.6
+const SLOW_SPEED = 1.0
 const TEXTURES : Array = [
 	preload("res://art/star/star2.png"),
 	preload("res://art/star/star2.png"),
@@ -24,8 +24,8 @@ func _ready() -> void:
 	animation_player.speed_scale = randf_range(1.5, 2.5)
 
 func _process(delta: float) -> void:
-	position += -position.direction_to(center).normalized() * scale / SLOW_SPEED
-	scale *= 1.0-SCALE_FACTOR*delta*SLOW_SPEED/2.0
+	position += -position.direction_to(center).normalized() * scale * SLOW_SPEED
+	scale *= 1.0-SCALE_FACTOR*delta*SLOW_SPEED
 	if scale.x < 0.05: 
 		free()
 

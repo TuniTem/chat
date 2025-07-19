@@ -1,0 +1,14 @@
+[remap]
+
+importer="gif.animated.texture.plugin"
+type="SpriteFrames"
+uid="uid://cvefffvlq0rlb"
+path="res://.godot/imported/gachiBASS.gif-3e769f58414a06bcddd886384dbaea2e.res"
+
+[deps]
+
+source_file="res://art/emotes/gachiBASS.gif"
+dest_files=["res://.godot/imported/gachiBASS.gif-3e769f58414a06bcddd886384dbaea2e.res"]
+
+[params]
+

@@ -1,0 +1,14 @@
+[remap]
+
+importer="gif.animated.texture.plugin"
+type="SpriteFrames"
+uid="uid://dxpdhas2i0f1l"
+path="res://.godot/imported/AlienDance.gif-3d67b1a62ec94ef1e2e7f25f3ebdc4a0.res"
+
+[deps]
+
+source_file="res://art/emotes/AlienDance.gif"
+dest_files=["res://.godot/imported/AlienDance.gif-3d67b1a62ec94ef1e2e7f25f3ebdc4a0.res"]
+
+[params]
+

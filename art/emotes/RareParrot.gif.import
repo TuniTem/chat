@@ -1,0 +1,14 @@
+[remap]
+
+importer="gif.animated.texture.plugin"
+type="SpriteFrames"
+uid="uid://bv56nhwhh65qh"
+path="res://.godot/imported/RareParrot.gif-613ad002d0bec300aee48a0f0731274c.res"
+
+[deps]
+
+source_file="res://art/emotes/RareParrot.gif"
+dest_files=["res://.godot/imported/RareParrot.gif-613ad002d0bec300aee48a0f0731274c.res"]
+
+[params]
+

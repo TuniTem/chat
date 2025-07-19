@@ -1,0 +1,14 @@
+[remap]
+
+importer="gif.animated.texture.plugin"
+type="SpriteFrames"
+uid="uid://cwsipmm1qm11g"
+path="res://.godot/imported/PETPET.gif-a09403323f302414c23385c55d1853eb.res"
+
+[deps]
+
+source_file="res://art/emotes/PETPET.gif"
+dest_files=["res://.godot/imported/PETPET.gif-a09403323f302414c23385c55d1853eb.res"]
+
+[params]
+

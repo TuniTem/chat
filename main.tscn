@@ -1,11 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://e6smj52fq76u"]
+[gd_scene load_steps=5 format=3 uid="uid://e6smj52fq76u"]
 
 [ext_resource type="Script" uid="uid://bt67igeh5arjf" path="res://twitch.gd" id="1_0xm2m"]
 [ext_resource type="Script" uid="uid://d0253vbx2k6gk" path="res://chat.gd" id="1_h2yge"]
 [ext_resource type="PackedScene" uid="uid://tjxc40mmgxnw" path="res://box.tscn" id="3_h2yge"]
-[ext_resource type="PackedScene" uid="uid://cinuqq31bufq8" path="res://sparkle/sparkle1.tscn" id="4_1bvp3"]
 
-[sub_resource type="Environment" id="Environment_0xm2m"]
+[sub_resource type="Environment" id="Environment_1bvp3"]
 background_mode = 3
 glow_enabled = true
 glow_intensity = 1.13
@@ -26,7 +25,7 @@ grow_vertical = 2
 script = ExtResource("1_0xm2m")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_0xm2m")
+environment = SubResource("Environment_1bvp3")
 
 [node name="chat" type="VBoxContainer" parent="."]
 layout_mode = 1
@@ -35,7 +34,7 @@ anchor_top = 1.0
 anchor_bottom = 1.0
 offset_left = 27.0
 offset_top = -583.0
-offset_right = 473.0
+offset_right = 471.0
 offset_bottom = -24.0
 grow_vertical = 0
 alignment = 2
@@ -43,8 +42,5 @@ script = ExtResource("1_h2yge")
 
 [node name="Placement" parent="chat" instance=ExtResource("3_h2yge")]
 layout_mode = 2
-
-[node name="Sparkle" parent="." instance=ExtResource("4_1bvp3")]
-position = Vector2(412, 843)
 
 [node name="SparkleHolder" type="Node2D" parent="."]

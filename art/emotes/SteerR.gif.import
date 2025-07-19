@@ -1,0 +1,14 @@
+[remap]
+
+importer="gif.animated.texture.plugin"
+type="SpriteFrames"
+uid="uid://dviywcvxvu3l3"
+path="res://.godot/imported/SteerR.gif-ca965903dcf15875995fc7be56aa44c7.res"
+
+[deps]
+
+source_file="res://art/emotes/SteerR.gif"
+dest_files=["res://.godot/imported/SteerR.gif-ca965903dcf15875995fc7be56aa44c7.res"]
+
+[params]
+

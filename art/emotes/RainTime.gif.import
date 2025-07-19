@@ -1,0 +1,14 @@
+[remap]
+
+importer="gif.animated.texture.plugin"
+type="SpriteFrames"
+uid="uid://b6nq80lrrdrf7"
+path="res://.godot/imported/RainTime.gif-3594755a2a2613d489f1a1ec2c141d0a.res"
+
+[deps]
+
+source_file="res://art/emotes/RainTime.gif"
+dest_files=["res://.godot/imported/RainTime.gif-3594755a2a2613d489f1a1ec2c141d0a.res"]
+
+[params]
+

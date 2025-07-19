@@ -1,0 +1,14 @@
+[remap]
+
+importer="gif.animated.texture.plugin"
+type="SpriteFrames"
+uid="uid://ddubo6moxnpb"
+path="res://.godot/imported/GuitarTime.gif-d5404887d902bc14d4fd98d452199d07.res"
+
+[deps]
+
+source_file="res://art/emotes/GuitarTime.gif"
+dest_files=["res://.godot/imported/GuitarTime.gif-d5404887d902bc14d4fd98d452199d07.res"]
+
+[params]
+

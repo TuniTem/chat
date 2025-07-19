@@ -1,0 +1,14 @@
+[remap]
+
+importer="gif.animated.texture.plugin"
+type="SpriteFrames"
+uid="uid://b8vjvenv8bkyh"
+path="res://.godot/imported/PartyParrot.gif-e236193ab1866f84415011387355307b.res"
+
+[deps]
+
+source_file="res://art/emotes/PartyParrot.gif"
+dest_files=["res://.godot/imported/PartyParrot.gif-e236193ab1866f84415011387355307b.res"]
+
+[params]
+

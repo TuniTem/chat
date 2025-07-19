@@ -1,0 +1,14 @@
+[remap]
+
+importer="gif.animated.texture.plugin"
+type="SpriteFrames"
+uid="uid://bdowbglvkxfe0"
+path="res://.godot/imported/PepePls.gif-049c54ee7b89d6c35eaefefc6832c364.res"
+
+[deps]
+
+source_file="res://art/emotes/PepePls.gif"
+dest_files=["res://.godot/imported/PepePls.gif-049c54ee7b89d6c35eaefefc6832c364.res"]
+
+[params]
+

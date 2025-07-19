@@ -1,0 +1,14 @@
+[remap]
+
+importer="gif.animated.texture.plugin"
+type="SpriteFrames"
+uid="uid://jerh86sc02b5"
+path="res://.godot/imported/Clap2.gif-b2c67e74012d8ccc5fc5c13e92e019e5.res"
+
+[deps]
+
+source_file="res://art/emotes/Clap2.gif"
+dest_files=["res://.godot/imported/Clap2.gif-b2c67e74012d8ccc5fc5c13e92e019e5.res"]
+
+[params]
+

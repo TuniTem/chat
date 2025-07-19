@@ -1,0 +1,14 @@
+[remap]
+
+importer="gif.animated.texture.plugin"
+type="SpriteFrames"
+uid="uid://dpv8okxfr8imo"
+path="res://.godot/imported/sevenTV.gif-65f89804db255dd255ccd3f1fa9dfa10.res"
+
+[deps]
+
+source_file="res://art/emotes/sevenTV.gif"
+dest_files=["res://.godot/imported/sevenTV.gif-65f89804db255dd255ccd3f1fa9dfa10.res"]
+
+[params]
+

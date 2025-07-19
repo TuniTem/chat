@@ -1,0 +1,14 @@
+[remap]
+
+importer="gif.animated.texture.plugin"
+type="SpriteFrames"
+uid="uid://dx4qe83n0ysqn"
+path="res://.godot/imported/nymnCorn.gif-695212391d864979e726c0f0de2e89de.res"
+
+[deps]
+
+source_file="res://art/emotes/nymnCorn.gif"
+dest_files=["res://.godot/imported/nymnCorn.gif-695212391d864979e726c0f0de2e89de.res"]
+
+[params]
+

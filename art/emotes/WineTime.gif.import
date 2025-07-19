@@ -1,0 +1,14 @@
+[remap]
+
+importer="gif.animated.texture.plugin"
+type="SpriteFrames"
+uid="uid://km85tc0o23hk"
+path="res://.godot/imported/WineTime.gif-a1ad62ffc3d1ba7710d31c05b33fae90.res"
+
+[deps]
+
+source_file="res://art/emotes/WineTime.gif"
+dest_files=["res://.godot/imported/WineTime.gif-a1ad62ffc3d1ba7710d31c05b33fae90.res"]
+
+[params]
+

@@ -1,0 +1,14 @@
+[remap]
+
+importer="gif.animated.texture.plugin"
+type="SpriteFrames"
+uid="uid://dvy3ud65tttcd"
+path="res://.godot/imported/PianoTime.gif-30a7b8a90c6b98d5231685bdab745891.res"
+
+[deps]
+
+source_file="res://art/emotes/PianoTime.gif"
+dest_files=["res://.godot/imported/PianoTime.gif-30a7b8a90c6b98d5231685bdab745891.res"]
+
+[params]
+
