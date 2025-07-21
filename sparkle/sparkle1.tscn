@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://cinuqq31bufq8"]
 
 [ext_resource type="Texture2D" uid="uid://be1rhdnxfhuet" path="res://art/star/star2.png" id="1_2oxkt"]
-[ext_resource type="Script" uid="uid://b5ap1bu87o0ss" path="res://sparkle.gd" id="2_gmkix"]
+[ext_resource type="Script" uid="uid://b5ap1bu87o0ss" path="res://scripts/sparkle.gd" id="2_gmkix"]
 
 [sub_resource type="Animation" id="Animation_5vw27"]
 length = 0.001

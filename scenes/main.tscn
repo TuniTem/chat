@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://e6smj52fq76u"]
+[gd_scene load_steps=6 format=3 uid="uid://e6smj52fq76u"]
 
-[ext_resource type="Script" uid="uid://bt67igeh5arjf" path="res://twitch.gd" id="1_0xm2m"]
-[ext_resource type="Script" uid="uid://d0253vbx2k6gk" path="res://chat.gd" id="1_h2yge"]
-[ext_resource type="PackedScene" uid="uid://tjxc40mmgxnw" path="res://box.tscn" id="3_h2yge"]
+[ext_resource type="Script" uid="uid://bt67igeh5arjf" path="res://scripts/twitch.gd" id="1_0xm2m"]
+[ext_resource type="Script" uid="uid://d0253vbx2k6gk" path="res://scripts/chat.gd" id="1_h2yge"]
+[ext_resource type="PackedScene" uid="uid://tjxc40mmgxnw" path="res://scenes/box.tscn" id="3_h2yge"]
+[ext_resource type="PackedScene" uid="uid://c2wko75dwdur8" path="res://scenes/tree.tscn" id="4_jyhfs"]
 
 [sub_resource type="Environment" id="Environment_1bvp3"]
 background_mode = 3
@@ -44,3 +45,7 @@ script = ExtResource("1_h2yge")
 layout_mode = 2
 
 [node name="SparkleHolder" type="Node2D" parent="."]
+
+[node name="Tree" parent="." instance=ExtResource("4_jyhfs")]
+modulate = Color(3, 3, 3, 1)
+position = Vector2(935, 862)

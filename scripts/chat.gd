@@ -1,5 +1,5 @@
 extends VBoxContainer
-const CHAT_BUBBLE = preload("res://box.tscn")
+const CHAT_BUBBLE = preload("res://scenes/box.tscn")
 
 func _ready() -> void:
 	for child in get_children():

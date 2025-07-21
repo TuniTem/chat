@@ -18,7 +18,8 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-Global="*res://global.tscn"
+Global="*res://scenes/global.tscn"
+DB="*res://scripts/db.gd"
 
 [display]
 

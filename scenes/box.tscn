@@ -1,18 +1,18 @@
 [gd_scene load_steps=19 format=3 uid="uid://tjxc40mmgxnw"]
 
-[ext_resource type="Script" uid="uid://dc8j8o7j0ffxo" path="res://text_box_manager.gd" id="1_3n43a"]
-[ext_resource type="FontVariation" uid="uid://w40gj0t6gd4w" path="res://italic.tres" id="2_3n43a"]
-[ext_resource type="Shader" uid="uid://crvrwrwwqtf2f" path="res://shader/transitionin.gdshader" id="2_amiuo"]
-[ext_resource type="FontVariation" uid="uid://oilnyae6van3" path="res://new_font_variation.tres" id="2_bqn3j"]
-[ext_resource type="StyleBox" uid="uid://dxga0xh41ca1a" path="res://textbg.tres" id="2_jcqri"]
-[ext_resource type="AudioStream" uid="uid://dt1ylinp7dtt7" path="res://audio/DREAM-SFX-ParryBuild2.wav" id="5_jjbh2"]
-[ext_resource type="AudioStream" uid="uid://brlwrwavl4kyd" path="res://audio/notif1.wav" id="7_bk3la"]
-[ext_resource type="AudioStream" uid="uid://d10dt67k0xpoy" path="res://audio/notif2.wav" id="8_7jpco"]
-[ext_resource type="AudioStream" uid="uid://ci7d8wk26j5mt" path="res://audio/notif3.wav" id="9_1e45e"]
+[ext_resource type="Script" uid="uid://dc8j8o7j0ffxo" path="res://scripts/text_box_manager.gd" id="1_wavyb"]
+[ext_resource type="Shader" uid="uid://crvrwrwwqtf2f" path="res://shader/transitionin.gdshader" id="2_igdtg"]
+[ext_resource type="FontVariation" uid="uid://w40gj0t6gd4w" path="res://italic.tres" id="3_anxlp"]
+[ext_resource type="FontVariation" uid="uid://oilnyae6van3" path="res://new_font_variation.tres" id="4_yches"]
+[ext_resource type="StyleBox" uid="uid://dxga0xh41ca1a" path="res://textbg.tres" id="5_h6rpn"]
+[ext_resource type="AudioStream" uid="uid://dt1ylinp7dtt7" path="res://audio/DREAM-SFX-ParryBuild2.wav" id="6_gu2bm"]
+[ext_resource type="AudioStream" uid="uid://brlwrwavl4kyd" path="res://audio/notif1.wav" id="7_x8w8a"]
+[ext_resource type="AudioStream" uid="uid://d10dt67k0xpoy" path="res://audio/notif2.wav" id="8_ym20b"]
+[ext_resource type="AudioStream" uid="uid://ci7d8wk26j5mt" path="res://audio/notif3.wav" id="9_oukka"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_wj1a8"]
 resource_local_to_scene = true
-shader = ExtResource("2_amiuo")
+shader = ExtResource("2_igdtg")
 shader_parameter/size = 2.0
 shader_parameter/sides = 3
 shader_parameter/rotation = 84.553
@@ -34,7 +34,7 @@ shadow_offset = Vector2(0, 2.927)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_amiuo"]
 resource_local_to_scene = true
-shader = ExtResource("2_amiuo")
+shader = ExtResource("2_igdtg")
 shader_parameter/size = 4.0
 shader_parameter/sides = 1
 shader_parameter/rotation = 13.265
@@ -82,6 +82,30 @@ tracks/2/keys = {
 "update": 0,
 "values": [0.863]
 }
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../..:scale")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("../..:rotation")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
 
 [sub_resource type="Animation" id="Animation_bqn3j"]
 resource_name = "chat"
@@ -93,7 +117,7 @@ tracks/0/path = NodePath(".:visible_ratio")
 tracks/0/interp = 1
 tracks/0/loop_wrap = false
 tracks/0/keys = {
-"times": PackedFloat32Array(0.0666667, 0.233333),
+"times": PackedFloat32Array(0.3, 0.466666),
 "transitions": PackedFloat32Array(0.812253, 1),
 "update": 0,
 "values": [0.0, 1.0]
@@ -105,7 +129,7 @@ tracks/1/path = NodePath("../../MarginContainer2/user:material:shader_parameter/
 tracks/1/interp = 1
 tracks/1/loop_wrap = false
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.333333),
+"times": PackedFloat32Array(0.0666667, 0.366667),
 "transitions": PackedFloat32Array(0.297302, 1),
 "update": 0,
 "values": [0.0, 1.644]
@@ -117,10 +141,34 @@ tracks/2/path = NodePath(".:material:shader_parameter/position_x")
 tracks/2/interp = 1
 tracks/2/loop_wrap = false
 tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.166667),
-"transitions": PackedFloat32Array(0.5, 1),
+"times": PackedFloat32Array(0.133333, 0.3),
+"transitions": PackedFloat32Array(0.707107, 1),
 "update": 0,
 "values": [-0.429, 0.863]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../..:scale")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.433333),
+"transitions": PackedFloat32Array(0.176777, 1),
+"update": 0,
+"values": [Vector2(-0.6285, -0.6285), Vector2(1, 1)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("../..:rotation")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.533333),
+"transitions": PackedFloat32Array(0.170755, 1.1892),
+"update": 0,
+"values": [0.0872665, 0.0]
 }
 
 [sub_resource type="Animation" id="Animation_uckbv"]
@@ -137,19 +185,19 @@ _data = {
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_amiuo"]
 random_pitch = 1.63
 streams_count = 1
-stream_0/stream = ExtResource("5_jjbh2")
+stream_0/stream = ExtResource("6_gu2bm")
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_3d203"]
 random_pitch = 1.26
 streams_count = 3
-stream_0/stream = ExtResource("7_bk3la")
-stream_1/stream = ExtResource("8_7jpco")
-stream_2/stream = ExtResource("9_1e45e")
+stream_0/stream = ExtResource("7_x8w8a")
+stream_1/stream = ExtResource("8_ym20b")
+stream_2/stream = ExtResource("9_oukka")
 
 [node name="Placement" type="VBoxContainer" node_paths=PackedStringArray("animation", "text_box", "user_label", "text_box_pannel")]
 offset_right = 444.0
 offset_bottom = 194.0
-script = ExtResource("1_3n43a")
+script = ExtResource("1_wavyb")
 animation = NodePath("MarginContainer/TextBox/Animation")
 text_box = NodePath("MarginContainer/TextBox")
 user_label = NodePath("MarginContainer2/user")
@@ -169,7 +217,7 @@ theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_constants/shadow_offset_y = 3
 theme_override_constants/shadow_offset_x = 0
 theme_override_constants/shadow_outline_size = 7
-theme_override_fonts/normal_font = ExtResource("2_3n43a")
+theme_override_fonts/normal_font = ExtResource("3_anxlp")
 theme_override_font_sizes/normal_font_size = 36
 bbcode_enabled = true
 text = "TuniTem"
@@ -181,7 +229,7 @@ vertical_alignment = 2
 show_behind_parent = true
 z_as_relative = false
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
@@ -201,10 +249,10 @@ clip_contents = false
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 theme_override_colors/default_color = Color(0.705882, 0.564706, 0.85098, 1)
-theme_override_fonts/normal_font = ExtResource("2_bqn3j")
+theme_override_fonts/normal_font = ExtResource("4_yches")
 theme_override_font_sizes/normal_font_size = 31
 bbcode_enabled = true
-text = "[pulse freq=0.5 color=#ffffff80 ease=-2.0]aasdasda[img]res://art/runtime_emotes/peepoPls.gif[/img]sdasdasdasd"
+text = "[pulse freq=0.5 color=#ffffff80 ease=-2.0]aasdasda[sprite id='emote_1']AlienDance.gif[/sprite]sdasdasdasd23452345ASGAIUWEHGIPSJEGPJES"
 fit_content = true
 scroll_active = false
 visible_characters_behavior = 3
@@ -224,7 +272,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = ExtResource("2_jcqri")
+theme_override_styles/panel = ExtResource("5_h6rpn")
 
 [node name="Pad" type="Control" parent="."]
 custom_minimum_size = Vector2(0, 10)

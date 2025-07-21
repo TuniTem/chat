@@ -16,11 +16,15 @@ var color : Color = Color("#8c6da7")
 var user : String = "Unknown"
 var falling : bool = false
 var big_emote : bool = false
+var sprite_effect = SpriteFrameEffect.new()
 
 func _ready():
 	color = Color("8c6da7")
 	animation.play("chat")
-	text_box.text = PREFIX + replace_emotes(text) + " "
+	GifImporterImagemagick
+	text_box.install_effect(sprite_effect)
+	text_box.text = sprite_effect.prepare_message(PREFIX + replace_emotes(text) + " ", text_box)
+	#text_box.text = sprite_effect.prepare_message("[sprite id=1]res://art/runtime_emotes/AlienDance.gif[/sprite]", text_box)
 	user_label.text = filter(user)
 	
 	user_label.modulate = color * Color(1.0, 1.0, 1.0, 0.0)
@@ -77,7 +81,6 @@ func fall():
 		queue_free()
 
 
-@onready var sparkle_holder: Node2D = $SparkleHolder
 const SPARKLE_1 = preload("res://sparkle/sparkle1.tscn")
 const NUM_SPARKLES = 50
 func sparkle():
