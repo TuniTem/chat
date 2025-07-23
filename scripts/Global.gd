@@ -9,6 +9,7 @@ const EMOTE_SUBS : Array = [["_", ":"], ["#", "<"]]
 
 #branch stuff
 const HASH_LIMIT : int = 4294967295
+const MAX_GENERATION_ATTEMPTS : int = 100
 const DIST_MULT : float = 15.0
 const ANGLE_CLAMP : int = 30
 const RARITY : float = 144.0
@@ -16,8 +17,11 @@ const SPLITS : int = 3
 const CHAR_ORDER : String = "aAb0BcCdD1eEfFg2GhHiI3jJkKl4LmMnN5oOpPq6QrRsS7tTuUv8VwWxX9yYzZ_"
 const MATCH_WORD : String = "dreaming"
 const MATCH_THRESH = 4
+const COLLISIION : bool = false
+const DEBUG_GEN_USERS : int = 5000
 
 var tree : Array[Branch] = []
+var ends : Dictionary[int, Array] = {-1: [Vector2.ZERO, 0.0]}
 var avalable_branches : Array[Branch] = []
 var max_branch_id : int = 0
 var dummy_usernames = [
@@ -133,14 +137,18 @@ var emotes : Dictionary = {}
 func _ready():
 	chat.message_received.connect(_on_chat_message_received)
 	cashe_emotes()
+	DB.delete_DB("followers")
+	DB.delete_DB("branches")
+	
 	DB.backup("followers", true)
 	if DB.size("branches") == 0: 
-		DB.append("branches", ["1050685508", "TuniTemVT", PI/2.0, 100, 3000, false, 0, -1, 0, 2])
-	
-	for i in range(10):
-		DB.append("followers" , [str(randi_range(1000, 99999)), dummy_usernames.pick_random()])
-	
+		DB.append("branches", ["1050685508", "TuniTemVT", -PI/2.0, 100, 3000, false, 0, -1, 0, 2])
+	#prints("b4", DB.list("followers"))
+	for i in range(DEBUG_GEN_USERS):
+		DB.append("followers" , [str(randi_range(1000, 99999)), dummy_usernames.pick_random() + str(randi_range(1, 1000))])
+	#prints("ar", DB.list("followers"))
 	verify_branches()
+	
 
 func verify_branches():
 	var followers : Array = DB.list("followers")
@@ -148,14 +156,18 @@ func verify_branches():
 	var created_ids : Array[String] = []
 	for branch : Array in branches:
 		created_ids.append(branch[0])
-		
+	#print("a",DB.list("branches", 6))
+	var new_followers : Array = []
 	for follower : Array in followers:
-		if created_ids.has(follower[0]):
-			followers.erase(follower)
-	
-	if followers.size() != 0: 
+		if not created_ids.has(follower[0]):
+			new_followers.append(follower)
+		
+	#print("b",DB.list("branches", 6))
+	#prints("follow", new_followers)
+	#prints("cid",created_ids)
+	if new_followers.size() != 0: 
 		printerr("Unbranched followers! uncomment below line to fix")
-		for follower : Array in followers:
+		for follower : Array in new_followers:
 			update_branches()
 			generate_branch(follower[1], follower[0])
 	else:
@@ -173,18 +185,59 @@ func update_branches():
 			avalable_branches.append(branch)
 		
 		max_branch_id = max(branch.id, max_branch_id)
-		
+	
+	tree.sort_custom(func sort_id(a, b): return a.id < b.id)
+	for branch: Branch in tree:
+		var abs_angle = wrapf(branch.angle + ends[branch.parent_id][1], 0.0, TAU)
+		ends[branch.id] = [Vector2.RIGHT.rotated(abs_angle) * branch.distance + ends[branch.parent_id][0], abs_angle]
+
+func find_branch_end(parent_pos: Vector2, parent_angle: float, angle: float, distance: float) -> Vector2:
+	return parent_pos + Vector2.RIGHT.rotated(parent_angle + angle) * distance
+
+func get_branch(id : int) -> Branch:
+	#print(tree)
+	#if id == -1 : 
+	for branch : Branch in tree:
+		#prints("GB", id, branch.id)
+		if branch.id == id:
+			return branch
+	#print("betrlucknextim")
+	return tree[0]
 
 func generate_branch(source : String, id : String, trigger_anim : bool = false) -> Branch:
 	var branch : Branch = Branch.new()
 	branch.username = source
 	branch.user_id = id
-	branch.angle = remap(float(CHAR_ORDER.find(source[0])) / float(CHAR_ORDER.length() - 1), 0.0, 1.0, -ANGLE_CLAMP, ANGLE_CLAMP)
+	branch.angle = remap(float(CHAR_ORDER.find(source[0])) / float(CHAR_ORDER.length() - 1), 0.0, 1.0, deg_to_rad(-ANGLE_CLAMP), deg_to_rad(ANGLE_CLAMP))
 	branch.distance = source.length() * DIST_MULT
 	branch.curve_radius = branch.distance + branch.distance * float(CHAR_ORDER.find(source[-1])) / float(CHAR_ORDER.length() - 1)
+	
+	var selected : Branch = avalable_branches.pick_random()
+	if COLLISIION:
+		for attempt in MAX_GENERATION_ATTEMPTS:
+			#if selected.id == 0: break
+			var new_branch_end : Vector2 = find_branch_end(ends[selected.id][0], ends[selected.id][1], branch.angle, branch.distance)
+			
+			var intersects := false
+			for test_branch_id in ends.keys():
+				if test_branch_id == selected.id: continue
+				var parent_end : Vector2 = ends[get_branch(test_branch_id).parent_id][0]
+				if Geometry2D.segment_intersects_segment(ends[selected.id][0], new_branch_end, ends[test_branch_id][0], parent_end) != null:
+					intersects = true
+					break
+			
+			if not intersects:
+				break
+			
+			if attempt == MAX_GENERATION_ATTEMPTS - 1:
+				printerr("Could not find avalable branch parent")
+			
+			selected = avalable_branches.pick_random()
+	
+	
 	max_branch_id += 1
 	branch.id = max_branch_id
-	var selected : Branch = avalable_branches.pick_random()
+	
 	branch.parent_id = selected.id
 	selected.children += 1
 	if selected.children >= selected.max_children:
@@ -208,8 +261,7 @@ func generate_branch(source : String, id : String, trigger_anim : bool = false) 
 		branch.max_children = SPLITS + 1
 	
 	avalable_branches.append(branch)
-	DB.update("branches", id, branch.deconstruct())
-	
+	DB.append("branches", branch.deconstruct())
 	print("generated branch ", branch)
 	return branch
 
@@ -248,7 +300,6 @@ func cashe_emotes():
 		
 		emotes.set(emote, RUNTIME_EMOTES_PATH + file)
 	
-	print(emotes)
 	
 	if restart:
 		printerr("Import needed, closing. U can just reopen")

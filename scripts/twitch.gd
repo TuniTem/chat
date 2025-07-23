@@ -3,6 +3,7 @@ extends Control
 @onready var chat: VBoxContainer = $chat
 
 func _ready() -> void:
+	
 	Global.sparkle_holder = $SparkleHolder
 	
 	var setup_successful: bool = await Global.twitch.setup()

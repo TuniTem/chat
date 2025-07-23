@@ -4,61 +4,79 @@ const DB_EXT : String = ".db"
 const DB_PATH : String = "user://data/"
 const BACKUPS_PATH : String = "user://data/backups/"
 
-func list(db : String) -> Array:
+func list(db : String, idx : int = -1) -> Array:
 	var file = FileAccess.open(DB_PATH + db + ".db", FileAccess.READ)
 	if not file or file.get_error() != 0:
 		printerr("List failed with error code " + str(file.get_error() if file else null)) 
 		return []
-	var out : Array = []
-	var line : Variant = file.get_var(true)
-	while line != null:
-		out.append(line)
-		line = file.get_var(true)
-	
+		
+	var data : Array = file.get_var()
 	file.close()
-	return out
+	if idx == -1:
+		return data
+	
+	else:
+		var out : Array = []
+		for entry in data: 
+			out.append(entry[idx])
+		
+		return out
+	
 
 func size(db: String):
 	return list(db).size()
 
 func find(db: String, key: Variant):
 	var data : Array = list(db)
-	for entry in data:
-		if entry.size() > 0 and entry[0] == key:
-			return entry
+	var search : int = _find_entry_index(data, key)
+	if search != -1:
+		return data[search]
 
 func remove(db: String, key: Variant):
 	var data : Array = list(db)
-	for i in data.size():
-		if data[i].size() > 0 and data[i][0] == key:
-			data.remove_at(i)
-			var file = FileAccess.open(DB_PATH + db + ".db", FileAccess.WRITE)
-			for val in data: file.store_var(val, true)
-			file.close()
-			return
+	var search : int = _find_entry_index(data, key)
+	if search != -1:
+		data.remove_at(search)
+		_store(db, data)
 
 func update(db: String, key: Variant, new : Variant, index : int = -10, custom_backup_interval : int = 10):
 	var data : Array = list(db)
-	for i in data.size():
-		if data[i].size() > 0 and data[i][0] == key:
-			if index == -10: data[i] = new
-			else: data[i][index] = new
-			
-			var file = FileAccess.open(DB_PATH + db + ".db", FileAccess.WRITE)
-			for val in data: file.store_var(val, true)
-			file.close()
-			return
-	
-	append(db, new, custom_backup_interval)
+	var search : int = _find_entry_index(data, key)
+	#prints("search result", search)
+	if search != -1:
+		if index != -10: data[search][index] = new
+		else: data[search] = new
+		_store(db, data)
+		
+	else:
+		append(db, new, custom_backup_interval)
 
 func append(db : String, content : Variant, custom_backup_interval : int = 10):
-	var file = FileAccess.open(DB_PATH + db + DB_EXT, FileAccess.READ_WRITE if FileAccess.file_exists(DB_PATH + db + DB_EXT) else FileAccess.WRITE)
-	file.seek_end()
-	file.store_var(content, true)
-	file.close()
+	var data : Array = list(db)
+	data.append(content)
+	_store(db, data)
 	
 	if size(db) % custom_backup_interval == 1:
 		backup(db)
+
+func delete_DB(db : String):
+	var dir = DirAccess.open(DB_PATH)
+	#print(DirAccess.get_open_error())
+	dir.remove(db + DB_EXT)
+
+func _store(db: String, data : Array):
+	var file = FileAccess.open(DB_PATH + db + DB_EXT, FileAccess.WRITE)
+	file.store_var(data)
+	file.close()
+
+func _find_entry_index(data_array : Array, key : Variant):
+	return data_array.find_custom(
+		func find_key(entry): 
+			#prints("entry", entry[0], "key", key)
+			return entry[0] == key
+	)
+
+
 
 func backup(db : String, mark_start : bool = false, max_backups : int = 100):
 	var path = BACKUPS_PATH + db + "/"
