@@ -30,8 +30,8 @@ func _draw() -> void:
 		var end_pos = Vector2.RIGHT.rotated(abs_angle) * branch.distance + start_pos
 		var mid_point : Vector2 = (end_pos + start_pos) * 0.5
 		var circle_center : Vector2 = mid_point.direction_to(end_pos).rotated(PI / 2.0 if branch.cw else -PI / 2.0) * branch.curve_radius + mid_point
-		#var clr = Color(randf()/10.0, randf()/10.0, randf()/10.0)
-		#draw_dashed_line(start_pos, end_pos, Color(0.1, 0.1, 0.1), draw_scale/2.0, 10.0)
+		var clr = Color(randf()/10.0, randf()/10.0, randf()/10.0)
+		draw_dashed_line(start_pos, end_pos, Color(0.1, 0.1, 0.1), draw_scale/2.0, 10.0)
 		#draw_line(start_pos, end_pos, COLOR * Color(0.1, 0.1, 0.1), draw_scale, true)
 		
 		var angle_start = circle_center.angle_to_point(start_pos)
@@ -49,13 +49,22 @@ func _draw() -> void:
 			draw_scale,
 			true
 		)
+		draw_arc(
+			circle_center, 
+			(circle_center).distance_to(start_pos), 
+			angle_start,
+			angle_start + TAU,
+			MAX_POINT_COUNT,
+			Color(clr, 0.03),
+			draw_scale/2.0,
+			true
+		)
 		
-		
-		draw_circle(end_pos, draw_scale*0.5, COLOR, true, -1.0, true)
-		#draw_circle(circle_center, draw_scale * CIRCLE_MULT, clr, true, -1.0, true)
+		draw_circle(end_pos, draw_scale, COLOR, true, -1.0, true)
+		draw_circle(circle_center, draw_scale * CIRCLE_MULT, clr, true, -1.0, true)
 		#draw_string(PANGOLIN_REGULAR, end_pos + Vector2(0.0, 30.0), str(branch.id), 0, -1, 16, clr)
 		#draw_string(PANGOLIN_REGULAR, start_pos - Vector2(0.0, 30.0), str(branch.id), 0, -1, 16, clr)
-		#draw_circle(mid_point, draw_scale* 1.25, COLOR * Color(1.0, 1.0, 0.0), true, -1.0, true)
+		draw_circle(mid_point, draw_scale* 1.25, COLOR * Color(1.0, 1.0, 0.0), true, -1.0, true)
 		#draw_string(PANGOLIN_REGULAR, circle_center - Vector2(0.0, 30.0), str(branch.id), 0, -1, 16, Color.FOREST_GREEN)
 		#count += 1
 		#if count >= 10:

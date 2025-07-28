@@ -1,0 +1,9 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://b06nmgdh5eamq"]
+
+[ext_resource type="Shader" uid="uid://b4k8jk7jqpaxo" path="res://shader/WobbleText.gdshader" id="1_1kvhf"]
+
+[resource]
+shader = ExtResource("1_1kvhf")
+shader_parameter/time_factor = 2.0
+shader_parameter/amplitude = Vector2(30, 20)
+shader_parameter/pos_factor = 1.0

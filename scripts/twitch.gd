@@ -1,9 +1,10 @@
 extends Control
 
+const HIDDEN_USERS = ["TuniTemVT"]
+
 @onready var chat: VBoxContainer = $chat
 
 func _ready() -> void:
-	
 	Global.sparkle_holder = $SparkleHolder
 	
 	var setup_successful: bool = await Global.twitch.setup()
@@ -19,7 +20,12 @@ func _ready() -> void:
 	Global.chat.message_received.connect(_on_message_received)
 
 func _on_message_received(message: TwitchChatMessage):
-	chat.chat(message.message.text, message.chatter_user_name, Color(message.get_color("#8c6da7")))
+	if not Global.DEBUG:
+		if not message.chatter_user_name in HIDDEN_USERS:
+			chat.chat(message.message.text, message.chatter_user_name, Color(message.get_color("#8c6da7")))
+	
+	else:
+		chat.chat(message.message.text, message.chatter_user_name, Color(message.get_color("#8c6da7")))
 
 
 func get_self_info():

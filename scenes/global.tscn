@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://bjpqbgdvhy5kq"]
+[gd_scene load_steps=26 format=3 uid="uid://bjpqbgdvhy5kq"]
 
 [ext_resource type="Script" uid="uid://c7lx0ls8u6w4s" path="res://scripts/Global.gd" id="1_e7lx3"]
 [ext_resource type="Script" uid="uid://i8st3lv0lidh" path="res://addons/twitcher/twitch_service.gd" id="2_3q7h5"]
@@ -17,6 +17,7 @@
 [ext_resource type="Script" uid="uid://dcq1bvfrqimqq" path="res://addons/twitcher/chat/twitch_chat.gd" id="14_os8aq"]
 [ext_resource type="Script" uid="uid://cnmohrdxqihr0" path="res://addons/twitcher/generated/twitch_user.gd" id="15_121b5"]
 [ext_resource type="Script" uid="uid://bol5ltrjr6ux8" path="res://addons/twitcher/eventsub/twitch_event_listener.gd" id="17_korfd"]
+[ext_resource type="Script" uid="uid://bmluckfvgm1c2" path="res://addons/twitcher/chat/twitch_command.gd" id="18_korfd"]
 
 [sub_resource type="Resource" id="Resource_n5rs1"]
 script = ExtResource("4_korfd")
@@ -150,4 +151,33 @@ eventsub = NodePath("../EventSub")
 subscription = 5
 metadata/_custom_type_script = "uid://bol5ltrjr6ux8"
 
+[node name="Commands" type="Node" parent="TwitchService"]
+
+[node name="Discord" type="Node" parent="TwitchService/Commands" node_paths=PackedStringArray("eventsub")]
+script = ExtResource("18_korfd")
+command = "discord"
+aliases = Array[String](["disc", "dis"])
+description = "Links to the discord!"
+eventsub = NodePath("../../EventSub")
+metadata/_custom_type_script = "uid://bmluckfvgm1c2"
+
+[node name="Lurk" type="Node" parent="TwitchService/Commands" node_paths=PackedStringArray("eventsub")]
+script = ExtResource("18_korfd")
+command = "lurk"
+aliases = Array[String](["l"])
+description = "Lurk <3"
+eventsub = NodePath("../../EventSub")
+metadata/_custom_type_script = "uid://bmluckfvgm1c2"
+
+[node name="Timeleft" type="Node" parent="TwitchService/Commands" node_paths=PackedStringArray("eventsub")]
+script = ExtResource("18_korfd")
+command = "timeleft"
+aliases = Array[String](["time"])
+description = "How much time is left"
+eventsub = NodePath("../../EventSub")
+metadata/_custom_type_script = "uid://bmluckfvgm1c2"
+
 [connection signal="received" from="TwitchService/Follow" to="." method="_on_follow_received"]
+[connection signal="command_received" from="TwitchService/Commands/Discord" to="." method="_on_discord_command_received"]
+[connection signal="command_received" from="TwitchService/Commands/Lurk" to="." method="_on_lurk_command_received"]
+[connection signal="command_received" from="TwitchService/Commands/Timeleft" to="." method="_on_timeleft_command_received"]

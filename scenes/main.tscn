@@ -3,16 +3,15 @@
 [ext_resource type="Script" uid="uid://bt67igeh5arjf" path="res://scripts/twitch.gd" id="1_0xm2m"]
 [ext_resource type="Script" uid="uid://d0253vbx2k6gk" path="res://scripts/chat.gd" id="1_h2yge"]
 [ext_resource type="PackedScene" uid="uid://tjxc40mmgxnw" path="res://scenes/box.tscn" id="3_h2yge"]
-[ext_resource type="PackedScene" uid="uid://c2wko75dwdur8" path="res://scenes/tree.tscn" id="4_jyhfs"]
+[ext_resource type="PackedScene" uid="uid://drdfcb02hdnqa" path="res://scenes/notification_manager.tscn" id="4_jyhfs"]
 
 [sub_resource type="Environment" id="Environment_1bvp3"]
 background_mode = 3
 glow_enabled = true
-glow_intensity = 1.13
-glow_strength = 0.18
-glow_bloom = 0.72
-glow_blend_mode = 0
-glow_hdr_threshold = 0.0
+glow_intensity = 4.35
+glow_strength = 2.0
+glow_bloom = 0.04
+glow_hdr_threshold = 2.46
 glow_hdr_scale = 0.0
 glow_hdr_luminance_cap = 165.6
 
@@ -46,6 +45,8 @@ layout_mode = 2
 
 [node name="SparkleHolder" type="Node2D" parent="."]
 
-[node name="Tree" parent="." instance=ExtResource("4_jyhfs")]
-modulate = Color(3, 3, 3, 1)
-position = Vector2(935, 862)
+[node name="NotificationManager" parent="." node_paths=PackedStringArray("location") instance=ExtResource("4_jyhfs")]
+location = NodePath("Marker2D")
+
+[node name="Marker2D" type="Marker2D" parent="NotificationManager"]
+position = Vector2(1073, 140)

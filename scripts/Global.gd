@@ -1,5 +1,28 @@
 extends Node
+ # General
+const DEBUG = true
 
+# Commands
+const DISCORD_LINK = "https://discord.gg/ZSsZxYhRRt"
+const LURK_MESSAGES : Array[String] = [
+	"[user] drifts through another fragment",
+	"[user] blends in with the ink",
+	"[user] stays in faded corners",
+	"Shh... [user] is resting nearby",
+	"[user] floats quietly with us",
+	"[user] watches quietly"
+]
+const FOLLOW_NOTED : Array[String] = [
+	"[user], you will be marked into the stars",
+	"[user], you have been recorded in the astral ledger",
+	"[user], you are now caught in this fragment with us"
+]
+
+const TIME_OF_ARRIVAL = 1773306000
+
+var lurk_messages_buffer : Array[String]
+
+# Emotes
 const GLOBAL_EMOTES_PATH : String = "C:/ASSETS/Emotes/Twitch/all/"
 const CUSTOM_EMOTES_PATH : String = "C:/ASSETS/Emotes/Twitch/custom/"
 const RUNTIME_EMOTES_PATH : String = "res://art/emotes/"
@@ -7,7 +30,9 @@ const RUNTIME_EMOTES_PATH : String = "res://art/emotes/"
 const FOLLOWER_BACKUP_INTERVAL : int = 10
 const EMOTE_SUBS : Array = [["_", ":"], ["#", "<"]]
 
-#branch stuff
+var emotes : Dictionary = {}
+
+# Tree
 const HASH_LIMIT : int = 4294967295
 const MAX_GENERATION_ATTEMPTS : int = 100
 const DIST_MULT : float = 15.0
@@ -17,8 +42,9 @@ const SPLITS : int = 3
 const CHAR_ORDER : String = "aAb0BcCdD1eEfFg2GhHiI3jJkKl4LmMnN5oOpPq6QrRsS7tTuUv8VwWxX9yYzZ_"
 const MATCH_WORD : String = "dreaming"
 const MATCH_THRESH = 4
-const COLLISIION : bool = false
-const DEBUG_GEN_USERS : int = 5000
+const COLLISIION : bool = true
+const DEBUG_GEN_USERS : int = 1000
+const GEN_TREE : bool = false
 
 var tree : Array[Branch] = []
 var ends : Dictionary[int, Array] = {-1: [Vector2.ZERO, 0.0]}
@@ -127,27 +153,28 @@ var dummy_usernames = [
 	"tunnelmouse"
 ]
 
-var sparkle_holder : Node2D
-var emotes : Dictionary = {}
-
-
+# Twitch 
 @onready var chat : TwitchChat = %Chat
 @onready var twitch: TwitchService = %TwitchService
+
+# Nodes
+var sparkle_holder : Node2D
+var notification_manager : NotificationManager
 
 func _ready():
 	chat.message_received.connect(_on_chat_message_received)
 	cashe_emotes()
-	DB.delete_DB("followers")
-	DB.delete_DB("branches")
-	
-	DB.backup("followers", true)
-	if DB.size("branches") == 0: 
-		DB.append("branches", ["1050685508", "TuniTemVT", -PI/2.0, 100, 3000, false, 0, -1, 0, 2])
-	#prints("b4", DB.list("followers"))
-	for i in range(DEBUG_GEN_USERS):
-		DB.append("followers" , [str(randi_range(1000, 99999)), dummy_usernames.pick_random() + str(randi_range(1, 1000))])
-	#prints("ar", DB.list("followers"))
-	verify_branches()
+	if GEN_TREE:
+		DB.delete_DB("followers")
+		DB.delete_DB("branches")
+		
+		DB.backup("followers", true)
+		if DB.size("branches") == 0: 
+			DB.append("branches", ["1050685508", "TuniTemVT", -PI/2.0, 100, 3000, false, 0, -1, 0, 2])
+		
+		for i in range(DEBUG_GEN_USERS):
+			DB.append("followers" , [str(randi_range(1000, 99999)), dummy_usernames.pick_random() + str(randi_range(1, 1000))])
+		verify_branches()
 	
 
 func verify_branches():
@@ -305,11 +332,17 @@ func cashe_emotes():
 		printerr("Import needed, closing. U can just reopen")
 		get_tree().quit()
 
+func send_message(message : String):
+	var response_data: Array[TwitchSendChatMessage.ResponseData] = await chat.send_message(message)
+	if not response_data.is_empty() and response_data[0].is_sent:
+		print("Sent: " + message)
+	else:
+		printerr("Failed to send " + message + ". Reason: ", response_data[0].drop_reason if not response_data.is_empty() else "Unknown")
 
 # Callback function for new messages
 func _on_chat_message_received(chat_message: TwitchChatMessage):
 	print("[%s] %s: %s" % [chat_message.broadcaster_user_name, chat_message.chatter_user_name, chat_message.message.text])
-
+	notification_manager.send_notification(NotificationManager.NotificationType.FOLLOW, Time.get_unix_time_from_system(), chat_message.chatter_user_name)
 	# Example: Reply "Hello!" to any message containing "hi"
 	#if "hi" in chat_message.message.text.to_lower():
 		#var response_data: Array[TwitchSendChatMessage.ResponseData] = await chat.send_message("Hello!", chat_message.message_id)
@@ -321,7 +354,29 @@ func _on_chat_message_received(chat_message: TwitchChatMessage):
 
 func _on_follow_received(data: Dictionary) -> void:
 	DB.update("followers", data["user_id"], [data["user_id"], data["user_name"], Time.get_unix_time_from_datetime_string(data["followed_at"]), true])
-	if not DB.find("branches", data["user_id"]):
-		generate_branch(data["user_name"], data["user_id"], true)
-		update_branches()
+	notification_manager.send_notification(NotificationManager.NotificationType.FOLLOW, Time.get_unix_time_from_datetime_string(data["followed_at"]), data["user_name"])
 	
+	if not DB.find("branches", data["user_id"]):
+		send_message(FOLLOW_NOTED.pick_random().replace("[user]", data["user_name"]))
+		if GEN_TREE:
+			generate_branch(data["user_name"], data["user_id"], true)
+			update_branches()
+	
+
+func _on_discord_command_received(from_username: String, info: TwitchCommandInfo, args: PackedStringArray) -> void:
+	send_message("Dream with me <3 " + DISCORD_LINK)
+
+
+func _on_lurk_command_received(from_username: String, info: TwitchCommandInfo, args: PackedStringArray) -> void:
+	if lurk_messages_buffer.size() == 0 : lurk_messages_buffer = LURK_MESSAGES.duplicate()
+	send_message(lurk_messages_buffer.pop_at(randi_range(0, lurk_messages_buffer.size() - 1)).replace("[user]", from_username))
+
+
+func _on_timeleft_command_received(from_username: String, info: TwitchCommandInfo, args: PackedStringArray) -> void:
+	var seconds_total : int = TIME_OF_ARRIVAL - Time.get_unix_time_from_system()
+	print("stotal ", seconds_total)
+	var seconds_left : int = seconds_total % 60
+	var minutes_left : int = (seconds_total % 3600) / 60
+	var hours_left : int = (seconds_total % 86400) / 3600
+	var days_left : int = (seconds_total / 86400)
+	send_message(str(days_left) + " days, " + str(hours_left) + " hours, " + str(minutes_left) + " minutes, " + str(seconds_left) + " seconds.")
