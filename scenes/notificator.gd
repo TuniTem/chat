@@ -4,8 +4,8 @@ const USERNAME_PREFIX = "[wave][pulse freq=0.5 color=#dddddd40 ease=-2.0]"
 @export var username_label: RichTextLabel
 
 var username : String = "Unknown"
-
 signal on_complete
+
 
 func _ready() -> void:
 	username_label.text = USERNAME_PREFIX + username

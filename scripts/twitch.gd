@@ -1,6 +1,6 @@
 extends Control
 
-const HIDDEN_USERS = ["TuniTemVT"]
+const HIDDEN_USERS = ["TuniTemVT", "tunitemvt"]
 
 @onready var chat: VBoxContainer = $chat
 

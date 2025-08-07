@@ -1,6 +1,6 @@
 extends Node
  # General
-const DEBUG = true
+const DEBUG = false
 
 # Commands
 const DISCORD_LINK = "https://discord.gg/ZSsZxYhRRt"
@@ -160,6 +160,9 @@ var dummy_usernames = [
 # Nodes
 var sparkle_holder : Node2D
 var notification_manager : NotificationManager
+
+# Util
+var screen_id : String = ""
 
 func _ready():
 	chat.message_received.connect(_on_chat_message_received)
@@ -342,7 +345,7 @@ func send_message(message : String):
 # Callback function for new messages
 func _on_chat_message_received(chat_message: TwitchChatMessage):
 	print("[%s] %s: %s" % [chat_message.broadcaster_user_name, chat_message.chatter_user_name, chat_message.message.text])
-	notification_manager.send_notification(NotificationManager.NotificationType.FOLLOW, Time.get_unix_time_from_system(), chat_message.chatter_user_name)
+	#notification_manager.send_notification(NotificationManager.NotificationType.FOLLOW, Time.get_unix_time_from_system(), chat_message.chatter_user_name)
 	# Example: Reply "Hello!" to any message containing "hi"
 	#if "hi" in chat_message.message.text.to_lower():
 		#var response_data: Array[TwitchSendChatMessage.ResponseData] = await chat.send_message("Hello!", chat_message.message_id)
@@ -353,6 +356,7 @@ func _on_chat_message_received(chat_message: TwitchChatMessage):
 
 
 func _on_follow_received(data: Dictionary) -> void:
+	prints("follow: " + str(data))
 	DB.update("followers", data["user_id"], [data["user_id"], data["user_name"], Time.get_unix_time_from_datetime_string(data["followed_at"]), true])
 	notification_manager.send_notification(NotificationManager.NotificationType.FOLLOW, Time.get_unix_time_from_datetime_string(data["followed_at"]), data["user_name"])
 	

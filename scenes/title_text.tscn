@@ -1,0 +1,39 @@
+[gd_scene load_steps=5 format=3 uid="uid://cfk34if0a88b0"]
+
+[ext_resource type="Script" uid="uid://b1tk3besjcqu2" path="res://title_text.gd" id="1_fs3xi"]
+[ext_resource type="Shader" uid="uid://b4k8jk7jqpaxo" path="res://shader/WobbleText.gdshader" id="2_b1lcg"]
+[ext_resource type="FontFile" uid="uid://0cmifa12t8eo" path="res://art/Fonts/Comfy Feeling.otf" id="3_pxin7"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_sen5j"]
+shader = ExtResource("2_b1lcg")
+shader_parameter/time_factor = 0.183
+shader_parameter/amplitude = Vector2(5, 1)
+shader_parameter/pos_factor = 0.143
+
+[node name="TitleText" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_fs3xi")
+
+[node name="Label" type="RichTextLabel" parent="."]
+material = SubResource("ShaderMaterial_sen5j")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/default_color = Color(0.705882, 0.564706, 0.85098, 1)
+theme_override_colors/font_outline_color = Color(0.183518, 0.103748, 0.255456, 1)
+theme_override_constants/outline_size = 77
+theme_override_fonts/normal_font = ExtResource("3_pxin7")
+theme_override_font_sizes/normal_font_size = 146
+bbcode_enabled = true
+text = "[tornado radius=5.0 freq=2.0 connected=1]BRB <3"
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 1

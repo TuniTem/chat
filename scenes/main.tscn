@@ -1,13 +1,13 @@
-[gd_scene load_steps=6 format=3 uid="uid://e6smj52fq76u"]
+[gd_scene load_steps=7 format=3 uid="uid://e6smj52fq76u"]
 
 [ext_resource type="Script" uid="uid://bt67igeh5arjf" path="res://scripts/twitch.gd" id="1_0xm2m"]
 [ext_resource type="Script" uid="uid://d0253vbx2k6gk" path="res://scripts/chat.gd" id="1_h2yge"]
 [ext_resource type="PackedScene" uid="uid://tjxc40mmgxnw" path="res://scenes/box.tscn" id="3_h2yge"]
 [ext_resource type="PackedScene" uid="uid://drdfcb02hdnqa" path="res://scenes/notification_manager.tscn" id="4_jyhfs"]
+[ext_resource type="Script" uid="uid://cw7oufo6137br" path="res://scripts/screen_controller.gd" id="5_tipki"]
 
 [sub_resource type="Environment" id="Environment_1bvp3"]
 background_mode = 3
-glow_enabled = true
 glow_intensity = 4.35
 glow_strength = 2.0
 glow_bloom = 0.04
@@ -50,3 +50,6 @@ location = NodePath("Marker2D")
 
 [node name="Marker2D" type="Marker2D" parent="NotificationManager"]
 position = Vector2(1073, 140)
+
+[node name="ScreenController" type="Node2D" parent="."]
+script = ExtResource("5_tipki")
