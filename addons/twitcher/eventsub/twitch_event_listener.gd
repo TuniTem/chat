@@ -59,9 +59,9 @@ func _update_eventsub(val: TwitchEventsub):
 
 
 func _on_received(type: String, data: Dictionary):
-	print("a")
+	#print("a")
 	if type == subscription_definition.value:
-		print("b")
+		#print("b")
 		received.emit(data)
 
 

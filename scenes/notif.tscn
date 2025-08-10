@@ -2,7 +2,7 @@
 
 [ext_resource type="Shader" uid="uid://c5vggi86up736" path="res://scenes/notif.gdshader" id="1_3wlnj"]
 [ext_resource type="Script" uid="uid://cy6hh2uisiguh" path="res://scenes/notificator.gd" id="1_hlwgu"]
-[ext_resource type="AudioStream" uid="uid://g118inso46ev" path="res://audio/follow3.wav" id="2_1v822"]
+[ext_resource type="AudioStream" uid="uid://g118inso46ev" path="res://audio/Borrowed/follow3.wav" id="2_1v822"]
 [ext_resource type="Texture2D" uid="uid://yfglvg1nsqm" path="res://art/Holo/Back2/back20000.png" id="4_4aoc1"]
 [ext_resource type="Texture2D" uid="uid://340dkxsgqu8v" path="res://art/Holo/Back2/back20001.png" id="5_hlwgu"]
 [ext_resource type="Texture2D" uid="uid://dk8r1o0p5o5po" path="res://art/Holo/Back2/back20002.png" id="6_vma27"]

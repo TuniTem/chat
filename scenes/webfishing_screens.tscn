@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://cglduh1wh36h1" path="res://scripts/webfishing_screens.gd" id="2_hccsg"]
 [ext_resource type="PackedScene" uid="uid://cfk34if0a88b0" path="res://scenes/title_text.tscn" id="3_ewia6"]
 [ext_resource type="Texture2D" uid="uid://dc3omxw54sdn4" path="res://art/Webphishing/rope.PNG" id="4_hccsg"]
-[ext_resource type="AudioStream" uid="uid://bodtqyiubsoy1" path="res://audio/[ARGAS] SFX - BoatCollide.wav" id="5_ewia6"]
+[ext_resource type="AudioStream" uid="uid://bodtqyiubsoy1" path="res://audio/Borrowed/[ARGAS] SFX - BoatCollide.wav" id="5_ewia6"]
 [ext_resource type="Script" uid="uid://bk1bq3t0lv3mj" path="res://scripts/facts.gd" id="6_eamyl"]
 [ext_resource type="FontFile" uid="uid://0cmifa12t8eo" path="res://art/Fonts/Comfy Feeling.otf" id="7_c7rx8"]
 [ext_resource type="Texture2D" uid="uid://dwdklvhgy3cn1" path="res://art/Webphishing/webfishfish/ship/Axolotl.png" id="9_i7qro"]
@@ -562,7 +562,7 @@ theme_override_constants/outline_size = 20
 theme_override_fonts/normal_font = ExtResource("7_c7rx8")
 theme_override_font_sizes/normal_font_size = 66
 bbcode_enabled = true
-text = "[tornado radius=5.0 freq=2.0 connected=1]fast fish facts!"
+text = "[tornado radius=5.0 freq=2.0 connected=1]Did u know?"
 fit_content = true
 autowrap_mode = 0
 vertical_alignment = 1

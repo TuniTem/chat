@@ -69,6 +69,10 @@ func _store(db: String, data : Array):
 	file.store_var(data)
 	file.close()
 
+func replace(db: String, data : Array, backup : bool = true):
+	if backup: backup(db)
+	_store(db, data)
+
 func _find_entry_index(data_array : Array, key : Variant):
 	return data_array.find_custom(
 		func find_key(entry): 

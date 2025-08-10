@@ -1,10 +1,8 @@
 extends Node2D
-# you lost the game
-# 
-
 @onready var fact: RichTextLabel = $MarginContainer/VBoxContainer/MarginContainer/Fact
 @onready var texture: TextureRect = $MarginContainer/VBoxContainer/HBoxContainer/Texture
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
+@onready var header: RichTextLabel = $MarginContainer/VBoxContainer/HBoxContainer/Header
 
 const FISHIES : Dictionary = {
 	"Angelfish" : preload("res://art/Webphishing/webfishfish/ship/Angelfish.png"),
@@ -403,11 +401,18 @@ const FACTS : Dictionary[String, Array] = {
 		"The wolf fish has strong, crushing teeth and powerful jaws"
 	],
 }
+
+const HEADER_PREFIX = "[tornado radius=5.0 freq=2.0 connected=1]"
+const HEADER_TEXT_OPTIONS = ["Did u know?", "fast fish fact", "uhhh..."]
+
 const FACT_TIME = 20.0
 
 var avalable_fish := []
+var avalable_facts := FACTS.duplicate(true)
+var avalable_headers := HEADER_TEXT_OPTIONS.duplicate()
 var selected_fish : String
 var selected_fact : String
+var selected_header : String
 
 func choose_new_fish():
 	if avalable_fish.size() == 0:
@@ -415,8 +420,21 @@ func choose_new_fish():
 		avalable_fish.shuffle()
 	
 	selected_fish = avalable_fish.pop_front()
-	selected_fact = FACTS[selected_fish].pick_random()
+	
+	if avalable_facts[selected_fish].size() == 0:
+		avalable_facts[selected_fish] = FACTS[selected_fish].duplicate()
+		avalable_facts[selected_fish].shuffle()
+	
+	selected_fact = avalable_facts[selected_fish].pop_front()
+	
+	if avalable_headers.size() == 0:
+		avalable_headers = HEADER_TEXT_OPTIONS.duplicate()
+		avalable_headers.shuffle()
+	
+	selected_header = avalable_headers.pop_front()
+	
 	fact.text = selected_fact
+	header.text = HEADER_PREFIX + selected_header
 	texture.texture = FISHIES[selected_fish]
 
 func _ready() -> void:

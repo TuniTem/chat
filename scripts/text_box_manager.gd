@@ -58,7 +58,7 @@ func replace_emotes(str : String):
 				big_emote = true
 			else:
 				str = str.replace(word, "[img height=" + str(SMALL_EMOTE_SIZE) + "]" + Global.emotes[word] + "[/img]")
-			print(str)
+			#print(str)
 	
 	return str
 

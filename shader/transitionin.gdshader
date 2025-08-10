@@ -46,7 +46,7 @@ void fragment() {
 			min(1.0, TEXTURE_PIXEL_SIZE.x / TEXTURE_PIXEL_SIZE.y)
 		);
 	}
-	
+
 	// Use that ratio to adjust the UV to one that reflects the UV if the
 	// texture were actually that square. So, if the original texture was, say,
 	// twice as wide as it is tall, the Y coordinate of the UV pair that would
@@ -57,28 +57,28 @@ void fragment() {
 		((UV.x - position_x) * aspect_ratio.x) + 0.5,
 		((UV.y - position_y) * aspect_ratio.y) + 0.5
 	);
-	
+
 	// Transform UV from the range (0.0, 1.0) to the range (-1.0, 1.0)
 	adjusted_uv.x = mix(-1.0, 1.0, adjusted_uv.x);
 	adjusted_uv.y = mix(-1.0, 1.0, adjusted_uv.y);
-	
+
 	// Get the angle of the coordinate from the center and apply the user
 	// provided rotation.
 	float theta = atan(adjusted_uv.y, adjusted_uv.x) + (rotation * PI / 180.0);
-	
+
 	// Compute the inner angle of the requested polygon
 	float angle = TAU / float(sides);
-	
+
 	// For convenience, half of that angle is also really useful.
 	float half_angle = angle / 2.0;
-	
+
 	// Normalize as within half the angle of the corners of the shape.
 	// For sides = 4, this effectively restricts it to one quadrant.
 	// We add half the angle back so that our x axes runs through a point and
 	// not the midpoint of a side. So when sides = 4, the resulting shape is a
 	// diamond.
 	theta = mod(theta, angle) + half_angle;
-	
+
 	// We want a scale of 0.0 to be the entire image. So, the corner of the
 	// image should be on a tangent with a line on the shape. We should just
 	// solve the polar equation for the polygon size given that the line to the
@@ -86,37 +86,37 @@ void fragment() {
 	// center to that corner. Phew.
 	float corner_theta = atan(-aspect_ratio.y, -aspect_ratio.x);
 	corner_theta = mod(corner_theta, angle) + half_angle;
-	
+
 	// Compute the radius of the polygon that fits the original texture.
 	// First, get the distance to the corner.
 	float corner_d = distance(vec2(0.0, 0.0), -aspect_ratio);
-	
+
 	// Then solve for the overall radius of the polygon using the polar
 	// equation for our n-sided polygon given our angle/half-angle, the angle
 	// to the corner, and the expected distance to the edge of the polygon via
 	// the distance to that corner.
 	float max_radius = corner_d * cos(half_angle - abs(half_angle - corner_theta));
-	
+
 	// A scale of [0.0, 1.0] should return the range [full_polygon_radius, 0.0].
 	// Our 'scale' is going to affect the size of the polygon.
 	// If our 'scale' is 1.0, we want the smallest polygon, so invert the scale.
 	// This is, then, the proportion of our largest polygon via 'max_radius'.
 	float scale = size * max_radius;
-	
+
 	// Determine, given our current theta angle, the distance to the edge of the
 	// polygon. This is just computing the hypotenuse of the right triangle that
 	// fills this region of the polygon.
 	float polygon_radius = scale / cos(half_angle - abs(half_angle - theta));
-	
+
 	// Determine the edges of the border
 	float border_scale = (size - border_width) * max_radius;
 	float border_radius = border_scale / cos(half_angle - abs(half_angle - theta));
-	
+
 	// Get the distance from our current UV point to the center (recall that our
 	// UV is perhaps adjusted to reflect the aspect ratio of the texture, so we
 	// use our adjusted_uv, here.)
 	float d = distance(vec2(0.0, 0.0), adjusted_uv);
-	
+
 	// If the distance to the center is greater than the polygon radius, we are
 	// outside the polygon. Void that color's alpha to hide it.
 	if (d > polygon_radius) {
