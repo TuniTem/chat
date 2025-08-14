@@ -1,0 +1,72 @@
+[gd_scene load_steps=7 format=3 uid="uid://cleu37qmg62jx"]
+
+[ext_resource type="SpriteFrames" uid="uid://dnssn6dhefnct" path="res://art/anims/constellation_tres/jules.tres" id="1_usaqv"]
+[ext_resource type="Script" uid="uid://5u1pex7mjnwq" path="res://scripts/floaty_guy.gd" id="2_f6mlj"]
+
+[sub_resource type="Animation" id="Animation_t0svw"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.89, 0.89, 0.89, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_x1vhk"]
+resource_name = "in"
+length = 4.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0.89, 0.89, 0.89, 0), Color(0.89, 0.89, 0.89, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_hhda7"]
+resource_name = "out"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0.89, 0.89, 0.89, 1), Color(0.89, 0.89, 0.89, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_kag5m"]
+_data = {
+&"RESET": SubResource("Animation_t0svw"),
+&"in": SubResource("Animation_x1vhk"),
+&"out": SubResource("Animation_hhda7")
+}
+
+[node name="FloatyGuy" type="AnimatedSprite2D"]
+modulate = Color(0.89, 0.89, 0.89, 1)
+scale = Vector2(0.398438, 0.398438)
+sprite_frames = ExtResource("1_usaqv")
+autoplay = "default"
+frame_progress = 0.539004
+script = ExtResource("2_f6mlj")
+
+[node name="Fade" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_kag5m")
+}
+autoplay = "in"

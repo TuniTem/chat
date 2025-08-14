@@ -1,0 +1,9 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://4g836krgspte"]
+
+[ext_resource type="Shader" uid="uid://b4k8jk7jqpaxo" path="res://shader/WobbleText.gdshader" id="1_frosa"]
+
+[resource]
+shader = ExtResource("1_frosa")
+shader_parameter/time_factor = 2.0
+shader_parameter/amplitude = Vector2(2, 2)
+shader_parameter/pos_factor = 1.0

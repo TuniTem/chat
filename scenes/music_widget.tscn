@@ -1,0 +1,93 @@
+[gd_scene load_steps=15 format=3 uid="uid://cltetaql0d31y"]
+
+[ext_resource type="Script" uid="uid://bc376k13j3hno" path="res://scripts/music_widget.gd" id="1_jecqa"]
+[ext_resource type="Texture2D" uid="uid://b06gau67a4ax5" path="res://art/Tuni/note.png" id="2_nnnd8"]
+[ext_resource type="FontFile" uid="uid://0cmifa12t8eo" path="res://art/Fonts/Comfy Feeling.otf" id="3_2fwkp"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_u4hxv"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qfeta"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_deb0a"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hkogx"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wjtxb"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_bhqpq"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_37lcj"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_t22uh"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_5487d"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tmr11"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_m75t3"]
+
+[node name="MusicWidget" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -1512.0
+offset_bottom = -1021.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_jecqa")
+
+[node name="Button" type="Button" parent="."]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_u4hxv")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_qfeta")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_deb0a")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_hkogx")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_wjtxb")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_bhqpq")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_37lcj")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_t22uh")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_5487d")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_tmr11")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_m75t3")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Button"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 671.0
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="Button/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("2_nnnd8")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="Control" type="Control" parent="Button/HBoxContainer"]
+custom_minimum_size = Vector2(3.42, 0)
+layout_mode = 2
+
+[node name="Label" type="RichTextLabel" parent="Button/HBoxContainer"]
+clip_contents = false
+layout_mode = 2
+theme_override_colors/default_color = Color(0.639561, 0.539683, 0.774369, 1)
+theme_override_colors/font_outline_color = Color(0.141521, 0.0981381, 0.195483, 1)
+theme_override_constants/outline_size = 15
+theme_override_fonts/normal_font = ExtResource("3_2fwkp")
+theme_override_font_sizes/normal_font_size = 31
+bbcode_enabled = true
+text = "[wave]Author - c titdfghdfghl;msdafsdfddfglhkm;ldkmfgh;lkle.mp3"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+vertical_alignment = 1
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

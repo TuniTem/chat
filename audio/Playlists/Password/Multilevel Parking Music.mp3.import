@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://c3vxxfvv1gr0t"
+path="res://.godot/imported/Multilevel Parking Music.mp3-536768c42e819140072176eeed59c641.mp3str"
+
+[deps]
+
+source_file="res://audio/Playlists/Password/Multilevel Parking Music.mp3"
+dest_files=["res://.godot/imported/Multilevel Parking Music.mp3-536768c42e819140072176eeed59c641.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0.0
+bpm=10.0
+beat_count=0
+bar_beats=4

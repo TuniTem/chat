@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://s44gfw8cw437"
+path="res://.godot/imported/Stopmotion Music.mp3-6bc2621a1f5ad3f9e6782b8e3dcb89b5.mp3str"
+
+[deps]
+
+source_file="res://audio/Playlists/Password/Stopmotion Music.mp3"
+dest_files=["res://.godot/imported/Stopmotion Music.mp3-6bc2621a1f5ad3f9e6782b8e3dcb89b5.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0.0
+bpm=19.0
+beat_count=0
+bar_beats=4

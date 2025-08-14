@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://dh7ocfspi6ub7"
+path="res://.godot/imported/Petrol Stain Patterns.mp3-39221efe4667100247a999dbb86916fb.mp3str"
+
+[deps]
+
+source_file="res://audio/Playlists/Password/Petrol Stain Patterns.mp3"
+dest_files=["res://.godot/imported/Petrol Stain Patterns.mp3-39221efe4667100247a999dbb86916fb.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0.0
+bpm=12.0
+beat_count=0
+bar_beats=4

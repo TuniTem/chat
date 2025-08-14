@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://h3vhjc7owfa7"
+path="res://.godot/imported/Taking My Body Elsewhere.mp3-2fab8c6e2e98082ee4f35a07ebc8b4cd.mp3str"
+
+[deps]
+
+source_file="res://audio/Playlists/Password/Taking My Body Elsewhere.mp3"
+dest_files=["res://.godot/imported/Taking My Body Elsewhere.mp3-2fab8c6e2e98082ee4f35a07ebc8b4cd.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0.0
+bpm=21.0
+beat_count=0
+bar_beats=4

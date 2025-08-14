@@ -1,74 +1,11 @@
-[gd_scene load_steps=26 format=3 uid="uid://c6sup8wwebre6"]
+[gd_scene load_steps=15 format=3 uid="uid://c6sup8wwebre6"]
 
 [ext_resource type="Script" uid="uid://ctx7iugx8ap7o" path="res://scripts/stars.gd" id="1_ucpii"]
-[ext_resource type="Shader" uid="uid://cenmr3kg87rnn" path="res://shader/stars.gdshader" id="2_b87vc"]
 [ext_resource type="Texture2D" uid="uid://bdl35fvojbugw" path="res://art/NewStars/Soft Outline/SoftOutline1000.png" id="2_rs5ub"]
 [ext_resource type="Texture2D" uid="uid://dn63d3d85l5il" path="res://art/NewStars/Outline/Outline1000.png" id="2_uxhsd"]
 [ext_resource type="Shader" uid="uid://b4k8jk7jqpaxo" path="res://shader/WobbleText.gdshader" id="3_784ub"]
 [ext_resource type="FontFile" uid="uid://bupu2v14iq1fp" path="res://Pangolin-Regular.ttf" id="3_rkm7s"]
-
-[sub_resource type="Gradient" id="Gradient_uxhsd"]
-offsets = PackedFloat32Array(0, 0.492754, 0.820755)
-colors = PackedColorArray(0, 0, 0, 1, 0.91222, 0.698218, 0, 1, 0.647352, 0.402889, 0.809842, 1)
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_qov51"]
-gradient = SubResource("Gradient_uxhsd")
-
-[sub_resource type="Gradient" id="Gradient_qov51"]
-interpolation_mode = 2
-offsets = PackedFloat32Array(0.641822, 1)
-colors = PackedColorArray(0, 0, 0, 1, 0.888525, 0.535105, 0.839616, 1)
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_nwprx"]
-gradient = SubResource("Gradient_qov51")
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_nwprx"]
-shader = ExtResource("2_b87vc")
-shader_parameter/scale = 1.0
-shader_parameter/offset = Vector2(0, 0)
-shader_parameter/gradientA = SubResource("GradientTexture1D_qov51")
-shader_parameter/horizontalMovement = 2.98024e-08
-shader_parameter/verticalMovement = 2.98024e-08
-shader_parameter/frequencyStar = 0.08
-shader_parameter/sizeStar = 200.0
-shader_parameter/brightnessStar = 3.0
-shader_parameter/shineFrequencyStar = 3.0
-shader_parameter/transparencyStar = 0.63
-shader_parameter/starIterations = 5
-shader_parameter/gradientB = SubResource("GradientTexture1D_nwprx")
-shader_parameter/frequencyBgStar = 0.996
-shader_parameter/shineFrequencyBgStar = 1.0
-shader_parameter/transparencyBgStar = 0.0
-shader_parameter/colorBackground = Color(0.616517, 0.408346, 0.617479, 1)
-shader_parameter/transparencyBackground = 1.0
-shader_parameter/seed = 0.0
-
-[sub_resource type="Gradient" id="Gradient_b87vc"]
-offsets = PackedFloat32Array(0.612836, 0.983437)
-colors = PackedColorArray(0, 0, 0, 1, 0.647352, 0.402889, 0.809842, 1)
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_uxhsd"]
-gradient = SubResource("Gradient_b87vc")
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_qov51"]
-shader = ExtResource("2_b87vc")
-shader_parameter/scale = 1.0
-shader_parameter/offset = Vector2(0, 0)
-shader_parameter/gradientA = SubResource("GradientTexture1D_uxhsd")
-shader_parameter/horizontalMovement = 0.1
-shader_parameter/verticalMovement = 0.1
-shader_parameter/frequencyStar = 0.1
-shader_parameter/sizeStar = 100.0
-shader_parameter/brightnessStar = 3.0
-shader_parameter/shineFrequencyStar = 8.0
-shader_parameter/transparencyStar = 0.0
-shader_parameter/starIterations = 3
-shader_parameter/frequencyBgStar = 0.999
-shader_parameter/shineFrequencyBgStar = 0.0
-shader_parameter/transparencyBgStar = 0.0
-shader_parameter/colorBackground = Color(0, 0, 0, 1)
-shader_parameter/transparencyBackground = 1.0
-shader_parameter/seed = 2.0
+[ext_resource type="Environment" uid="uid://ims8y6jjl1h5" path="res://tres/stars_enviroment.tres" id="6_uxhsd"]
 
 [sub_resource type="Curve" id="Curve_qov51"]
 _data = [Vector2(0, 0.629214), 0.0, 0.0, 0, 0, Vector2(0.0756302, 0.988764), 0.0, 0.0, 0, 0, Vector2(0.218487, 0.516854), 0.0, 0.0, 0, 0, Vector2(0.327731, 0.876405), 0.0, 0.0, 0, 0, Vector2(0.441176, 0.516854), 0.0, 0.0, 0, 0, Vector2(0.529412, 1), 0.0, 0.0, 0, 0, Vector2(0.680672, 0.550562), 0.0, 0.0, 0, 0, Vector2(0.764706, 1), 0.0, 0.0, 0, 0, Vector2(0.861344, 0.494382), 0.0, 0.0, 0, 0, Vector2(0.978992, 1), 0.0, 0.0, 0, 0]
@@ -168,73 +105,8 @@ shader_parameter/pos_factor = 1.0
 base_font = ExtResource("3_rkm7s")
 variation_transform = Transform2D(1, 0.271, 0, 1, 0, 0)
 
-[sub_resource type="Gradient" id="Gradient_8olaw"]
-offsets = PackedFloat32Array(0.211864, 0.364407, 0.525424, 0.720339, 0.881356)
-colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0.764706, 1, 0.5207, 0.00160564, 0.71836, 1, 0.897937, 0.803953, 0, 1, 0, 0, 0, 1)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_jlhay"]
-gradient = SubResource("Gradient_8olaw")
-width = 256
-height = 256
-use_hdr = true
-fill = 1
-fill_from = Vector2(0.472527, 0.494505)
-
-[sub_resource type="Environment" id="Environment_nwprx"]
-background_mode = 3
-background_energy_multiplier = 0.0
-glow_enabled = true
-glow_levels/1 = 0.62
-glow_levels/3 = 2.08
-glow_levels/5 = 16.0
-glow_intensity = 0.1
-glow_strength = 1.1
-glow_bloom = 1.0
-glow_blend_mode = 0
-glow_hdr_threshold = 0.0
-glow_hdr_scale = 4.0
-glow_map_strength = 0.52
-glow_map = SubResource("GradientTexture2D_jlhay")
-
 [node name="Stars" type="Node2D"]
 script = ExtResource("1_ucpii")
-
-[node name="SubViewport" type="SubViewport" parent="."]
-size = Vector2i(200, 200)
-
-[node name="BGStarHolder" type="Control" parent="SubViewport"]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -960.0
-offset_top = -540.0
-offset_right = 960.0
-offset_bottom = 540.0
-grow_horizontal = 2
-grow_vertical = 2
-pivot_offset = Vector2(960, 540)
-
-[node name="BGStars" type="ColorRect" parent="SubViewport/BGStarHolder"]
-z_index = -10
-material = SubResource("ShaderMaterial_nwprx")
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="BGStars2" type="ColorRect" parent="SubViewport/BGStarHolder"]
-visible = false
-z_index = 40
-material = SubResource("ShaderMaterial_qov51")
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
 
 [node name="Camera2D" type="Camera2D" parent="."]
 
@@ -283,4 +155,10 @@ scroll_active = false
 horizontal_alignment = 1
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_nwprx")
+environment = ExtResource("6_uxhsd")
+
+[node name="FloatyGuyTimer" type="Timer" parent="."]
+wait_time = 10.0
+autostart = true
+
+[connection signal="timeout" from="FloatyGuyTimer" to="." method="_on_floaty_guy_timer_timeout"]

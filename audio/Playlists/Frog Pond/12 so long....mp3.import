@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://qay5t6eg31vs"
+path="res://.godot/imported/12 so long....mp3-6b7c3f9a8a5906fd766a7bfaaa0fc414.mp3str"
+
+[deps]
+
+source_file="res://audio/Playlists/Frog Pond/12 so long....mp3"
+dest_files=["res://.godot/imported/12 so long....mp3-6b7c3f9a8a5906fd766a7bfaaa0fc414.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

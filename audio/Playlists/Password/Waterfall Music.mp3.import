@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://b3j0no0ul8ru2"
+path="res://.godot/imported/Waterfall Music.mp3-0012ad431dd28b58629a14f6a7221a76.mp3str"
+
+[deps]
+
+source_file="res://audio/Playlists/Password/Waterfall Music.mp3"
+dest_files=["res://.godot/imported/Waterfall Music.mp3-0012ad431dd28b58629a14f6a7221a76.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0.0
+bpm=26.0
+beat_count=0
+bar_beats=4

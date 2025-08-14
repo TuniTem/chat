@@ -1,3 +1,232 @@
-[gd_scene format=3 uid="uid://d2von1ywft2ce"]
+[gd_scene load_steps=44 format=3 uid="uid://d2von1ywft2ce"]
+
+[ext_resource type="Script" uid="uid://6p163cqqblhx" path="res://scripts/music_controller.gd" id="1_86cwe"]
+[ext_resource type="AudioStream" uid="uid://cj5cbk8ckwaix" path="res://audio/Playlists/Password/Access Denied.mp3" id="3_e7i2o"]
+[ext_resource type="AudioStream" uid="uid://b5jyxkime36vq" path="res://audio/Playlists/Password/A⧸D Converted Thoughts.mp3" id="4_ahst4"]
+[ext_resource type="AudioStream" uid="uid://be8x0k50ancyr" path="res://audio/Playlists/Password/Non-static.mp3" id="5_nfhje"]
+[ext_resource type="AudioStream" uid="uid://dh7ocfspi6ub7" path="res://audio/Playlists/Password/Petrol Stain Patterns.mp3" id="6_tb2ka"]
+[ext_resource type="AudioStream" uid="uid://fgqkm68bws54" path="res://audio/Playlists/Password/Plug Me in, Reconnect.mp3" id="7_siexo"]
+[ext_resource type="AudioStream" uid="uid://66ith40dsvh3" path="res://audio/Playlists/Password/Recycle Bin Music.mp3" id="8_e4vd5"]
+[ext_resource type="AudioStream" uid="uid://lbiw1xp73nxo" path="res://audio/Playlists/Password/Scatter Me, Rearrange.mp3" id="9_wp7pl"]
+[ext_resource type="AudioStream" uid="uid://3sxc786q05f3" path="res://audio/Playlists/Password/Shutdown Music.mp3" id="10_lkqpe"]
+[ext_resource type="AudioStream" uid="uid://bqiynirablay3" path="res://audio/Playlists/Password/Silent Mode.mp3" id="11_ltxdl"]
+[ext_resource type="AudioStream" uid="uid://s44gfw8cw437" path="res://audio/Playlists/Password/Stopmotion Music.mp3" id="12_50hvu"]
+[ext_resource type="AudioStream" uid="uid://dmeody0vik50m" path="res://audio/Playlists/Password/Stuck in the Clipboard.mp3" id="13_jeqhr"]
+[ext_resource type="AudioStream" uid="uid://h3vhjc7owfa7" path="res://audio/Playlists/Password/Taking My Body Elsewhere.mp3" id="14_lbnb4"]
+[ext_resource type="AudioStream" uid="uid://cire6u7qm3j8b" path="res://audio/Playlists/Password/Cloud Music.mp3" id="15_0uf3u"]
+[ext_resource type="AudioStream" uid="uid://bq0qdjnhl767k" path="res://audio/Playlists/Password/Tetsudou no Uta.mp3" id="16_xixhs"]
+[ext_resource type="AudioStream" uid="uid://cvvhu4gwa8dwo" path="res://audio/Playlists/Password/Thank You for Always Being With Me.mp3" id="17_on0y7"]
+[ext_resource type="AudioStream" uid="uid://clpk0ffokhvse" path="res://audio/Playlists/Password/Third Death.mp3" id="18_wssqn"]
+[ext_resource type="AudioStream" uid="uid://dxsxwaa0ito2b" path="res://audio/Playlists/Password/Update Music.mp3" id="19_o7l30"]
+[ext_resource type="AudioStream" uid="uid://b3j0no0ul8ru2" path="res://audio/Playlists/Password/Waterfall Music.mp3" id="20_6u5q5"]
+[ext_resource type="AudioStream" uid="uid://1hv2yw0stjgu" path="res://audio/Playlists/Password/Command Line.mp3" id="21_i8vni"]
+[ext_resource type="AudioStream" uid="uid://xfhnv2ivvrdu" path="res://audio/Playlists/Password/Decrypted Decepted.mp3" id="22_c5jyd"]
+[ext_resource type="AudioStream" uid="uid://sx06yam4eamr" path="res://audio/Playlists/Password/Fumei.mp3" id="23_16uxb"]
+[ext_resource type="AudioStream" uid="uid://cdbqqoqdm0wti" path="res://audio/Playlists/Password/I Am Okay.mp3" id="24_q2sh1"]
+[ext_resource type="AudioStream" uid="uid://dj47psl55c4gm" path="res://audio/Playlists/Password/I Never Left.mp3" id="25_ahgh0"]
+[ext_resource type="AudioStream" uid="uid://dxct5klbl2wxn" path="res://audio/Playlists/Password/I was Here, Now I'm Gone.mp3" id="26_5r23j"]
+[ext_resource type="AudioStream" uid="uid://c3vxxfvv1gr0t" path="res://audio/Playlists/Password/Multilevel Parking Music.mp3" id="27_eits5"]
+[ext_resource type="AudioStream" uid="uid://b1ae3el3jur1r" path="res://audio/SFX/OVERLAY-SFX-boot_full.wav" id="27_nfhje"]
+[ext_resource type="AudioStream" uid="uid://cmpmwep22plfq" path="res://audio/Playlists/Frog Pond/1 morning dew.mp3" id="27_on0y7"]
+[ext_resource type="AudioStream" uid="uid://2l7impbyspv4" path="res://audio/SFX/OVERLAY-SFX-beeps1.wav" id="28_tb2ka"]
+[ext_resource type="AudioStream" uid="uid://bjbxa4a6qaggh" path="res://audio/Playlists/Frog Pond/2 lilypad.mp3" id="28_wssqn"]
+[ext_resource type="AudioStream" uid="uid://ch74daasapa5f" path="res://audio/Playlists/Frog Pond/3 comfort zone.mp3" id="29_o7l30"]
+[ext_resource type="AudioStream" uid="uid://c2x2aixbg1hl1" path="res://audio/SFX/OVERLAY-SFX-beeps2.wav" id="29_siexo"]
+[ext_resource type="AudioStream" uid="uid://hui38uygisjg" path="res://audio/Playlists/Frog Pond/4 serenity.mp3" id="30_6u5q5"]
+[ext_resource type="AudioStream" uid="uid://ynshtg6wcuck" path="res://audio/SFX/OVERLAY-SFX-beeps3.wav" id="30_e4vd5"]
+[ext_resource type="AudioStream" uid="uid://dfhl8jugi3wg6" path="res://audio/Playlists/Frog Pond/5 foggy froggy.mp3" id="31_i8vni"]
+[ext_resource type="AudioStream" uid="uid://dybobk6mdcdsq" path="res://audio/Playlists/Frog Pond/6 for the better.mp3" id="32_c5jyd"]
+[ext_resource type="AudioStream" uid="uid://bpx3cvfpkgjo3" path="res://audio/Playlists/Frog Pond/7 ponderer.mp3" id="33_16uxb"]
+[ext_resource type="AudioStream" uid="uid://dnvr0pnde5fkq" path="res://audio/Playlists/Frog Pond/8 wanderer.mp3" id="34_q2sh1"]
+[ext_resource type="AudioStream" uid="uid://cfu7biufimbf" path="res://audio/Playlists/Frog Pond/9 unknown waters.mp3" id="35_ahgh0"]
+[ext_resource type="AudioStream" uid="uid://6v2i8us0r51t" path="res://audio/Playlists/Frog Pond/10 beyond the pond.mp3" id="36_5r23j"]
+[ext_resource type="AudioStream" uid="uid://d0ipiqeumx1mq" path="res://audio/Playlists/Frog Pond/11 wetlands.mp3" id="37_eits5"]
+[ext_resource type="AudioStream" uid="uid://qay5t6eg31vs" path="res://audio/Playlists/Frog Pond/12 so long....mp3" id="38_uynxi"]
+[ext_resource type="AudioStream" uid="uid://imr2ivfv5g48" path="res://audio/Music/OVERLAY-MUS-FinalConstellation.wav" id="43_wssqn"]
 
 [node name="MusicController" type="Node"]
+script = ExtResource("1_86cwe")
+
+[node name="Playlists" type="Node" parent="."]
+unique_name_in_owner = true
+
+[node name="password" type="Node" parent="Playlists"]
+
+[node name="Nikita Kryukov—access_denied·mp3" type="AudioStreamPlayer" parent="Playlists/password"]
+stream = ExtResource("3_e7i2o")
+bus = &"Playlists"
+
+[node name="Nikita Kryukov—A-D_converted_thoughts·mp3" type="AudioStreamPlayer" parent="Playlists/password"]
+stream = ExtResource("4_ahst4")
+bus = &"Playlists"
+
+[node name="Nikita Kryukov—cloud_music·mp3" type="AudioStreamPlayer" parent="Playlists/password"]
+stream = ExtResource("15_0uf3u")
+bus = &"Playlists"
+
+[node name="Nikita Kryukov—command_line·mp3" type="AudioStreamPlayer" parent="Playlists/password"]
+stream = ExtResource("21_i8vni")
+bus = &"Playlists"
+
+[node name="Nikita Kryukov—decrypted_decepted·mp3" type="AudioStreamPlayer" parent="Playlists/password"]
+stream = ExtResource("22_c5jyd")
+bus = &"Playlists"
+
+[node name="Nikita Kryukov—fumei·mp3" type="AudioStreamPlayer" parent="Playlists/password"]
+stream = ExtResource("23_16uxb")
+bus = &"Playlists"
+
+[node name="Nikita Kryukov—I_am_okay·mp3" type="AudioStreamPlayer" parent="Playlists/password"]
+stream = ExtResource("24_q2sh1")
+bus = &"Playlists"
+
+[node name="Nikita Kryukov—I_never_left·mp3" type="AudioStreamPlayer" parent="Playlists/password"]
+stream = ExtResource("25_ahgh0")
+bus = &"Playlists"
+
+[node name="Nikita Kryukov—I_was_here_now_im_gone·mp3" type="AudioStreamPlayer" parent="Playlists/password"]
+stream = ExtResource("26_5r23j")
+bus = &"Playlists"
+
+[node name="Nikita Kryukov—multilevel_parking_music·mp3" type="AudioStreamPlayer" parent="Playlists/password"]
+stream = ExtResource("27_eits5")
+bus = &"Playlists"
+
+[node name="Nikita Kryukov—non-static·mp3" type="AudioStreamPlayer" parent="Playlists/password"]
+stream = ExtResource("5_nfhje")
+bus = &"Playlists"
+
+[node name="Nikita Kryukov—petrol_stain_patterns·mp3" type="AudioStreamPlayer" parent="Playlists/password"]
+stream = ExtResource("6_tb2ka")
+bus = &"Playlists"
+
+[node name="Nikita Kryukov—plug_me_in_reconnect·mp3" type="AudioStreamPlayer" parent="Playlists/password"]
+stream = ExtResource("7_siexo")
+bus = &"Playlists"
+
+[node name="Nikita Kryukov—recycle_bin_music·mp3" type="AudioStreamPlayer" parent="Playlists/password"]
+stream = ExtResource("8_e4vd5")
+bus = &"Playlists"
+
+[node name="Nikita Kryukov—scatter_me_rearrange·mp3" type="AudioStreamPlayer" parent="Playlists/password"]
+stream = ExtResource("9_wp7pl")
+bus = &"Playlists"
+
+[node name="Nikita Kryukov—shutdown_music·mp3" type="AudioStreamPlayer" parent="Playlists/password"]
+stream = ExtResource("10_lkqpe")
+bus = &"Playlists"
+
+[node name="Nikita Kryukov—silent_mode·mp3" type="AudioStreamPlayer" parent="Playlists/password"]
+stream = ExtResource("11_ltxdl")
+bus = &"Playlists"
+
+[node name="Nikita Kryukov—stopmotion_music·mp3" type="AudioStreamPlayer" parent="Playlists/password"]
+stream = ExtResource("12_50hvu")
+bus = &"Playlists"
+
+[node name="Nikita Kryukov—stuck_in_the_clipboard·mp3" type="AudioStreamPlayer" parent="Playlists/password"]
+stream = ExtResource("13_jeqhr")
+bus = &"Playlists"
+
+[node name="Nikita Kryukov—taking_my_body_elsewhere·mp3" type="AudioStreamPlayer" parent="Playlists/password"]
+stream = ExtResource("14_lbnb4")
+bus = &"Playlists"
+
+[node name="Nikita Kryukov—tetsudou_no_uta·mp3" type="AudioStreamPlayer" parent="Playlists/password"]
+stream = ExtResource("16_xixhs")
+bus = &"Playlists"
+
+[node name="Nikita Kryukov—thank_you_for_always_being_with_me·mp3" type="AudioStreamPlayer" parent="Playlists/password"]
+stream = ExtResource("17_on0y7")
+bus = &"Playlists"
+
+[node name="Nikita Kryukov—third_death·mp3" type="AudioStreamPlayer" parent="Playlists/password"]
+stream = ExtResource("18_wssqn")
+bus = &"Playlists"
+
+[node name="Nikita Kryukov—update_music·mp3" type="AudioStreamPlayer" parent="Playlists/password"]
+stream = ExtResource("19_o7l30")
+bus = &"Playlists"
+
+[node name="Nikita Kryukov—waterfall_music·mp3" type="AudioStreamPlayer" parent="Playlists/password"]
+stream = ExtResource("20_6u5q5")
+bus = &"Playlists"
+
+[node name="frog" type="Node" parent="Playlists"]
+
+[node name="Tanger—Morning Dew" type="AudioStreamPlayer" parent="Playlists/frog"]
+stream = ExtResource("27_on0y7")
+bus = &"Playlists"
+
+[node name="Tanger—Lilypad" type="AudioStreamPlayer" parent="Playlists/frog"]
+stream = ExtResource("28_wssqn")
+bus = &"Playlists"
+
+[node name="Tanger—Comfort Zone" type="AudioStreamPlayer" parent="Playlists/frog"]
+stream = ExtResource("29_o7l30")
+bus = &"Playlists"
+
+[node name="Tanger—Serenity" type="AudioStreamPlayer" parent="Playlists/frog"]
+stream = ExtResource("30_6u5q5")
+bus = &"Playlists"
+
+[node name="Tanger—Foggy Froggy" type="AudioStreamPlayer" parent="Playlists/frog"]
+stream = ExtResource("31_i8vni")
+bus = &"Playlists"
+
+[node name="Tanger—For the Better" type="AudioStreamPlayer" parent="Playlists/frog"]
+stream = ExtResource("32_c5jyd")
+bus = &"Playlists"
+
+[node name="Tanger—Ponderer" type="AudioStreamPlayer" parent="Playlists/frog"]
+stream = ExtResource("33_16uxb")
+bus = &"Playlists"
+
+[node name="Tanger—Wanderer" type="AudioStreamPlayer" parent="Playlists/frog"]
+stream = ExtResource("34_q2sh1")
+bus = &"Playlists"
+
+[node name="Tanger—Unknown Waters" type="AudioStreamPlayer" parent="Playlists/frog"]
+stream = ExtResource("35_ahgh0")
+bus = &"Playlists"
+
+[node name="Tanger—Beyond the Pond" type="AudioStreamPlayer" parent="Playlists/frog"]
+stream = ExtResource("36_5r23j")
+bus = &"Playlists"
+
+[node name="Tanger—Wetlands" type="AudioStreamPlayer" parent="Playlists/frog"]
+stream = ExtResource("37_eits5")
+bus = &"Playlists"
+
+[node name="Tanger—So Long···" type="AudioStreamPlayer" parent="Playlists/frog"]
+stream = ExtResource("38_uynxi")
+bus = &"Playlists"
+
+[node name="test" type="Node" parent="Playlists"]
+
+[node name="Nikita Kryukov—bootupfull" type="AudioStreamPlayer" parent="Playlists/test"]
+stream = ExtResource("27_nfhje")
+volume_db = 21.9375
+pitch_scale = 0.25
+
+[node name="Wommer—beep1" type="AudioStreamPlayer" parent="Playlists/test"]
+stream = ExtResource("28_tb2ka")
+volume_db = 9.75
+pitch_scale = 0.25
+
+[node name="Tuner—beep2" type="AudioStreamPlayer" parent="Playlists/test"]
+stream = ExtResource("29_siexo")
+volume_db = 13.0
+pitch_scale = 0.25
+
+[node name="Ladders—beep3" type="AudioStreamPlayer" parent="Playlists/test"]
+stream = ExtResource("30_e4vd5")
+volume_db = 24.0
+pitch_scale = 0.25
+
+[node name="Music" type="Node" parent="."]
+unique_name_in_owner = true
+
+[node name="constellation" type="AudioStreamPlayer" parent="Music"]
+stream = ExtResource("43_wssqn")
+bus = &"Music"

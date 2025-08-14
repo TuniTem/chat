@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://1hv2yw0stjgu"
+path="res://.godot/imported/Command Line.mp3-e231f5227863b2d00c81a9db3de6d8ab.mp3str"
+
+[deps]
+
+source_file="res://audio/Playlists/Password/Command Line.mp3"
+dest_files=["res://.godot/imported/Command Line.mp3-e231f5227863b2d00c81a9db3de6d8ab.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0.0
+bpm=4.0
+beat_count=0
+bar_beats=4

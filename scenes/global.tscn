@@ -177,7 +177,16 @@ description = "How much time is left"
 eventsub = NodePath("../../EventSub")
 metadata/_custom_type_script = "uid://bmluckfvgm1c2"
 
+[node name="music" type="Node" parent="TwitchService/Commands" node_paths=PackedStringArray("eventsub")]
+script = ExtResource("18_korfd")
+command = "music"
+aliases = Array[String](["m", "song"])
+description = "See what music is currently playing"
+eventsub = NodePath("../../EventSub")
+metadata/_custom_type_script = "uid://bmluckfvgm1c2"
+
 [connection signal="received" from="TwitchService/Follow" to="." method="_on_follow_received"]
 [connection signal="command_received" from="TwitchService/Commands/Discord" to="." method="_on_discord_command_received"]
 [connection signal="command_received" from="TwitchService/Commands/Lurk" to="." method="_on_lurk_command_received"]
 [connection signal="command_received" from="TwitchService/Commands/Timeleft" to="." method="_on_timeleft_command_received"]
+[connection signal="command_received" from="TwitchService/Commands/music" to="." method="_on_music_command_received"]

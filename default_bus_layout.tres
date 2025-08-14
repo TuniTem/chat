@@ -1,4 +1,10 @@
-[gd_resource type="AudioBusLayout" load_steps=3 format=3 uid="uid://bt5awit0ffdea"]
+[gd_resource type="AudioBusLayout" load_steps=5 format=3 uid="uid://bt5awit0ffdea"]
+
+[ext_resource type="AudioEffectLowPassFilter" uid="uid://jay6mg1pa7n7" path="res://audio/FX/music_lowpass.tres" id="1_g28q7"]
+
+[sub_resource type="AudioEffectLimiter" id="AudioEffectLimiter_n8wo2"]
+resource_name = "Limiter"
+ceiling_db = -2.2
 
 [sub_resource type="AudioEffectDelay" id="AudioEffectDelay_j3pel"]
 resource_name = "Delay"
@@ -7,6 +13,8 @@ resource_name = "Delay"
 resource_name = "Reverb"
 
 [resource]
+bus/0/effect/0/effect = SubResource("AudioEffectLimiter_n8wo2")
+bus/0/effect/0/enabled = true
 bus/1/name = &"rev"
 bus/1/solo = false
 bus/1/mute = false
@@ -17,3 +25,29 @@ bus/1/effect/0/effect = SubResource("AudioEffectDelay_j3pel")
 bus/1/effect/0/enabled = false
 bus/1/effect/1/effect = SubResource("AudioEffectReverb_j3pel")
 bus/1/effect/1/enabled = true
+bus/2/name = &"SFX"
+bus/2/solo = false
+bus/2/mute = false
+bus/2/bypass_fx = false
+bus/2/volume_db = 0.0
+bus/2/send = &"Master"
+bus/3/name = &"Playlists"
+bus/3/solo = false
+bus/3/mute = false
+bus/3/bypass_fx = false
+bus/3/volume_db = -0.130497
+bus/3/send = &"Master"
+bus/3/effect/0/effect = ExtResource("1_g28q7")
+bus/3/effect/0/enabled = true
+bus/4/name = &"Music"
+bus/4/solo = false
+bus/4/mute = true
+bus/4/bypass_fx = false
+bus/4/volume_db = -10.0741
+bus/4/send = &"Master"
+bus/5/name = &"RevSFX"
+bus/5/solo = false
+bus/5/mute = false
+bus/5/bypass_fx = false
+bus/5/volume_db = 0.0
+bus/5/send = &"SFX"

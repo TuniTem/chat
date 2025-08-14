@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://hui38uygisjg"
+path="res://.godot/imported/4 serenity.mp3-531a5dcbc9e756f5f2cc5439bc35e57a.mp3str"
+
+[deps]
+
+source_file="res://audio/Playlists/Frog Pond/4 serenity.mp3"
+dest_files=["res://.godot/imported/4 serenity.mp3-531a5dcbc9e756f5f2cc5439bc35e57a.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

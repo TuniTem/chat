@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://fgqkm68bws54"
+path="res://.godot/imported/Plug Me in, Reconnect.mp3-48b7d77d3f233d536051c6651b7c64c3.mp3str"
+
+[deps]
+
+source_file="res://audio/Playlists/Password/Plug Me in, Reconnect.mp3"
+dest_files=["res://.godot/imported/Plug Me in, Reconnect.mp3-48b7d77d3f233d536051c6651b7c64c3.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0.0
+bpm=13.0
+beat_count=0
+bar_beats=4

@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://d0ipiqeumx1mq"
+path="res://.godot/imported/11 wetlands.mp3-4734164f95da6832662a0105e8c12f47.mp3str"
+
+[deps]
+
+source_file="res://audio/Playlists/Frog Pond/11 wetlands.mp3"
+dest_files=["res://.godot/imported/11 wetlands.mp3-4734164f95da6832662a0105e8c12f47.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

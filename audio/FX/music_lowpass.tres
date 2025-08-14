@@ -1,0 +1,7 @@
+[gd_resource type="AudioEffectLowPassFilter" format=3 uid="uid://jay6mg1pa7n7"]
+
+[resource]
+resource_name = "LowPassFilter"
+cutoff_hz = 20500.0
+resonance = 0.06
+db = 3

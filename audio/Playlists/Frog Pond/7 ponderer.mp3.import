@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://bpx3cvfpkgjo3"
+path="res://.godot/imported/7 ponderer.mp3-f44e2cf9fb2ba9251d623d7602b01c9e.mp3str"
+
+[deps]
+
+source_file="res://audio/Playlists/Frog Pond/7 ponderer.mp3"
+dest_files=["res://.godot/imported/7 ponderer.mp3-f44e2cf9fb2ba9251d623d7602b01c9e.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

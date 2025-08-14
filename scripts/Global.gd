@@ -1,6 +1,6 @@
 extends Node
  # General
-const DEBUG = false
+const DEBUG = true
 var dummy_usernames = [
 	"pixelNomad",
 	"lunar_kicks",
@@ -169,7 +169,7 @@ const CONSTELLATION_SPAWN_DISTANCE = 2000
 const NEW_CONSTELLATION_MATCH_THRESH = 6
 const GLITCHED_STAR_POSITION_VARIATION = Vector2.ONE * 2000
 const BASE_CONSTELLATION_MAX_CHILDREN : int = 7
-const GEN_STARS = true
+const GEN_STARS = false
 
 var constellations : Array[Constellation] = []
 var glitched_stars : Array[Star]
@@ -192,9 +192,12 @@ const FINE_EPSILON = 0.00001
 
 var screen_id : String = ""
 var debug_draw_pos : Vector2
+var music_widget : Control
 
 func _ready():
+	DisplayServer.window_set_title("Overlay")
 	chat.message_received.connect(_on_chat_message_received)
+	
 	cashe_emotes()
 	active_ids = DB.list("UID")
 	
@@ -490,7 +493,9 @@ func _on_timeleft_command_received(from_username: String, info: TwitchCommandInf
 	var days_left : int = (seconds_total / 86400)
 	send_message(str(days_left) + " days, " + str(hours_left) + " hours, " + str(minutes_left) + " minutes, " + str(seconds_left) + " seconds.")
 
-
+func _on_music_command_received(from_username: String, info: TwitchCommandInfo, args: PackedStringArray) -> void:
+	send_message("Currently playing . . . . . " + Music.get_current_song_as_string() + " " + Music.get_current_song_link())
+	music_widget.visiblity = 10.0
 
 
 

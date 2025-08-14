@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://cvvhu4gwa8dwo"
+path="res://.godot/imported/Thank You for Always Being With Me.mp3-68e94dc5f886402f327d792e32527e56.mp3str"
+
+[deps]
+
+source_file="res://audio/Playlists/Password/Thank You for Always Being With Me.mp3"
+dest_files=["res://.godot/imported/Thank You for Always Being With Me.mp3-68e94dc5f886402f327d792e32527e56.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0.0
+bpm=23.0
+beat_count=0
+bar_beats=4

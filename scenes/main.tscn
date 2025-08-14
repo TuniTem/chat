@@ -1,11 +1,12 @@
-[gd_scene load_steps=8 format=3 uid="uid://e6smj52fq76u"]
+[gd_scene load_steps=9 format=3 uid="uid://e6smj52fq76u"]
 
 [ext_resource type="Script" uid="uid://bt67igeh5arjf" path="res://scripts/twitch.gd" id="1_0xm2m"]
 [ext_resource type="Script" uid="uid://d0253vbx2k6gk" path="res://scripts/chat.gd" id="1_h2yge"]
-[ext_resource type="PackedScene" uid="uid://c6sup8wwebre6" path="res://scenes/stars.tscn" id="2_tefeu"]
 [ext_resource type="PackedScene" uid="uid://tjxc40mmgxnw" path="res://scenes/box.tscn" id="3_h2yge"]
 [ext_resource type="PackedScene" uid="uid://drdfcb02hdnqa" path="res://scenes/notification_manager.tscn" id="4_jyhfs"]
 [ext_resource type="Script" uid="uid://cw7oufo6137br" path="res://scripts/screen_controller.gd" id="5_tipki"]
+[ext_resource type="PackedScene" uid="uid://cltetaql0d31y" path="res://scenes/music_widget.tscn" id="7_o6xl0"]
+[ext_resource type="PackedScene" uid="uid://dymru5aukpxr8" path="res://scenes/telescope.tscn" id="7_tipki"]
 
 [sub_resource type="Environment" id="Environment_1bvp3"]
 background_mode = 3
@@ -24,9 +25,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_0xm2m")
-
-[node name="Stars" parent="." instance=ExtResource("2_tefeu")]
-position = Vector2(957, 539)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_1bvp3")
@@ -57,3 +55,13 @@ position = Vector2(1073, 140)
 
 [node name="ScreenController" type="Node2D" parent="."]
 script = ExtResource("5_tipki")
+
+[node name="Music" type="Node2D" parent="."]
+position = Vector2(8, 38)
+
+[node name="MusicWidget" parent="Music" instance=ExtResource("7_o6xl0")]
+offset_right = 0.0
+offset_bottom = 0.0
+
+[node name="Telescope" parent="." instance=ExtResource("7_tipki")]
+position = Vector2(960, 540)

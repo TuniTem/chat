@@ -1,0 +1,311 @@
+[gd_scene load_steps=24 format=3 uid="uid://dymru5aukpxr8"]
+
+[ext_resource type="Texture2D" uid="uid://dquia02ck72hq" path="res://art/2D/Scope.png" id="1_6gvpi"]
+[ext_resource type="FontFile" uid="uid://cbq1gf0dbdqu5" path="res://art/Fonts/Elronmonospace.ttf" id="1_hhyg3"]
+[ext_resource type="Script" uid="uid://dtgw716kdxuex" path="res://scripts/input_viewport_holder.gd" id="2_4unxv"]
+[ext_resource type="PackedScene" uid="uid://c6sup8wwebre6" path="res://scenes/stars.tscn" id="2_cmv3v"]
+[ext_resource type="Environment" uid="uid://ims8y6jjl1h5" path="res://tres/stars_enviroment.tres" id="3_httpj"]
+[ext_resource type="Texture2D" uid="uid://441ulqqgg7mf" path="res://art/2D/CircleLAYER9.png" id="4_30p4u"]
+[ext_resource type="Texture2D" uid="uid://oa2ef8ma5lj6" path="res://art/2D/CircleLAYER3v2.png" id="4_lrhwg"]
+[ext_resource type="Texture2D" uid="uid://c3evm4dtqt6jg" path="res://art/2D/Slide.png" id="4_raf56"]
+[ext_resource type="Texture2D" uid="uid://d0lfyxtol03ys" path="res://art/2D/CircleLAYER8.png" id="5_hhyg3"]
+[ext_resource type="AudioStream" uid="uid://72xed1wp1vrf" path="res://audio/Borrowed/ABS-SFX-door-lock6(unlock).wav" id="5_httpj"]
+[ext_resource type="AudioStream" uid="uid://v8p1c6a2t2u0" path="res://audio/Borrowed/ABS-SFX-door-lock6(unlock)v2.wav" id="6_mqdwd"]
+[ext_resource type="AudioStream" uid="uid://cv0d0hs3svbkk" path="res://audio/SFX/click.wav" id="7_lrhwg"]
+[ext_resource type="Texture2D" uid="uid://cpau4grltftg" path="res://art/2D/CircleLAYER1.png" id="9_mqdwd"]
+
+[sub_resource type="FontVariation" id="FontVariation_v3bok"]
+base_font = ExtResource("1_hhyg3")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_4unxv"]
+viewport_path = NodePath("Stars/StarsView")
+
+[sub_resource type="World3D" id="World3D_mqdwd"]
+environment = ExtResource("3_httpj")
+
+[sub_resource type="Animation" id="Animation_30p4u"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Scope/Slide:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [-2.54294]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Scope:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("SlideAudio:playing")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_f767e"]
+resource_name = "slide"
+length = 0.5
+step = 0.025
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Scope/Slide:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.35, 0.466667),
+"transitions": PackedFloat32Array(3.24902, 1, 0.241484, 1),
+"update": 0,
+"values": [-2.54294, 0.0, 0.0, -2.54294]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Scope:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.1, 0.15, 0.375, 0.425),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(0, 0, 0, 1), Color(0, 0, 0, 1), Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("SlideAudio:playing")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.125),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Stars/StarsView/Stars")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.475),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [false],
+"method": &"set_can_scope"
+}, {
+"args": [true],
+"method": &"set_can_scope"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_hhyg3"]
+_data = {
+&"RESET": SubResource("Animation_30p4u"),
+&"slide": SubResource("Animation_f767e")
+}
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_v3bok"]
+random_pitch = 1.1
+streams_count = 2
+stream_0/stream = ExtResource("5_httpj")
+stream_1/stream = ExtResource("6_mqdwd")
+
+[sub_resource type="Animation" id="Animation_lrhwg"]
+resource_name = "idle"
+length = 60.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Scope/Outer:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 60),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 3.14159]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Scope/Inner:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 60),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, -6.28319]
+}
+
+[sub_resource type="Animation" id="Animation_hhyg3"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Scope/Outer:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Scope/Inner:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_v3bok"]
+_data = {
+&"RESET": SubResource("Animation_hhyg3"),
+&"idle": SubResource("Animation_lrhwg")
+}
+
+[node name="Telescope" type="Node2D"]
+
+[node name="Label" type="Label" parent="."]
+offset_left = -437.0
+offset_top = -3.0
+offset_right = -138.0
+offset_bottom = 20.0
+theme_override_fonts/font = SubResource("FontVariation_v3bok")
+text = "10x"
+
+[node name="Scope" type="Sprite2D" parent="."]
+z_index = -5
+scale = Vector2(1.4, 1.4)
+texture = ExtResource("1_6gvpi")
+
+[node name="Slide" type="Sprite2D" parent="Scope"]
+z_index = 1
+position = Vector2(0, -540)
+rotation = -2.54294
+scale = Vector2(1.2145, 1.2145)
+texture = ExtResource("4_raf56")
+offset = Vector2(0, 540)
+
+[node name="Outer" type="Sprite2D" parent="Scope"]
+z_index = -5
+z_as_relative = false
+scale = Vector2(1.1308, 1.1308)
+texture = ExtResource("9_mqdwd")
+
+[node name="ticks" type="Sprite2D" parent="Scope"]
+modulate = Color(1, 1, 1, 0.0470588)
+position = Vector2(-0.0147401, 2.57723e-09)
+rotation = -0.0226893
+scale = Vector2(0.129322, 0.129322)
+texture = ExtResource("4_30p4u")
+
+[node name="Inner2" type="Sprite2D" parent="Scope"]
+modulate = Color(1, 1, 1, 0.0470588)
+z_index = -5
+z_as_relative = false
+scale = Vector2(0.075013, 0.075013)
+texture = ExtResource("5_hhyg3")
+
+[node name="AttatchPoint" type="Marker2D" parent="Scope/Inner2"]
+position = Vector2(-637.984, -0.000111549)
+
+[node name="Inner" type="Sprite2D" parent="Scope"]
+modulate = Color(1, 1, 1, 0.239216)
+z_index = -5
+z_as_relative = false
+scale = Vector2(0.2513, 0.2513)
+texture = ExtResource("4_lrhwg")
+
+[node name="Stars" type="Sprite2D" parent="." node_paths=PackedStringArray("viewport")]
+z_index = -6
+texture = SubResource("ViewportTexture_4unxv")
+script = ExtResource("2_4unxv")
+viewport = NodePath("StarsView")
+
+[node name="StarsView" type="SubViewport" parent="Stars"]
+own_world_3d = true
+world_3d = SubResource("World3D_mqdwd")
+size = Vector2i(1920, 1080)
+
+[node name="Stars" parent="Stars/StarsView" node_paths=PackedStringArray("animations", "move_click", "zoom_click", "scope", "zoom_scale", "zoom_scale2", "zoom_scale3") instance=ExtResource("2_cmv3v")]
+animations = NodePath("../../../Animations")
+move_click = NodePath("../../../MoveClick")
+zoom_click = NodePath("../../../ZoomClick")
+scope = NodePath("../../../Scope")
+zoom_scale = NodePath("../../../Scope/Inner")
+zoom_scale2 = NodePath("../../../Scope/Inner2")
+zoom_scale3 = NodePath("../../../Scope/ticks")
+
+[node name="ColorRect" type="ColorRect" parent="Stars/StarsView"]
+z_index = -9
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -960000.0
+offset_top = -540000.0
+offset_right = -960000.0
+offset_bottom = -540000.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1000, 1000)
+color = Color(0, 0, 0, 1)
+
+[node name="Animations" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_hhyg3")
+}
+
+[node name="SlideAudio" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamRandomizer_v3bok")
+volume_db = -4.6287
+pitch_scale = 1.28
+bus = &"RevSFX"
+
+[node name="MoveClick" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_lrhwg")
+volume_db = 10.5864
+pitch_scale = 1.58
+bus = &"SFX"
+
+[node name="ZoomClick" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_lrhwg")
+volume_db = 4.6435
+pitch_scale = 2.62
+bus = &"SFX"
+
+[node name="Idle" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_v3bok")
+}
+autoplay = "idle"

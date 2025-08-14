@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://xfhnv2ivvrdu"
+path="res://.godot/imported/Decrypted Decepted.mp3-bbfeab1638208e15df57cea399b8ccc9.mp3str"
+
+[deps]
+
+source_file="res://audio/Playlists/Password/Decrypted Decepted.mp3"
+dest_files=["res://.godot/imported/Decrypted Decepted.mp3-bbfeab1638208e15df57cea399b8ccc9.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0.0
+bpm=5.0
+beat_count=0
+bar_beats=4
