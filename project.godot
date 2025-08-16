@@ -24,6 +24,7 @@ Global="*res://scenes/global.tscn"
 DB="*res://scripts/db.gd"
 Music="*res://scenes/music_controller.tscn"
 ControlPanel="*res://scenes/control_panel.tscn"
+Util="*res://scripts/util.gd"
 
 [display]
 
@@ -35,7 +36,7 @@ window/per_pixel_transparency/allowed=true
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/SphynxMotionBlurToolkit/plugin.cfg", "res://addons/twitcher/plugin.cfg")
+enabled=PackedStringArray("res://addons/twitcher/plugin.cfg")
 
 [input]
 

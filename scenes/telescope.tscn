@@ -1,21 +1,19 @@
 [gd_scene load_steps=24 format=3 uid="uid://dymru5aukpxr8"]
 
 [ext_resource type="Texture2D" uid="uid://dquia02ck72hq" path="res://art/2D/Scope.png" id="1_6gvpi"]
-[ext_resource type="FontFile" uid="uid://cbq1gf0dbdqu5" path="res://art/Fonts/Elronmonospace.ttf" id="1_hhyg3"]
+[ext_resource type="FontFile" uid="uid://lud2b8n4baea" path="res://art/Fonts/CodeSaver-Regular.otf" id="1_v3bok"]
 [ext_resource type="Script" uid="uid://dtgw716kdxuex" path="res://scripts/input_viewport_holder.gd" id="2_4unxv"]
 [ext_resource type="PackedScene" uid="uid://c6sup8wwebre6" path="res://scenes/stars.tscn" id="2_cmv3v"]
 [ext_resource type="Environment" uid="uid://ims8y6jjl1h5" path="res://tres/stars_enviroment.tres" id="3_httpj"]
-[ext_resource type="Texture2D" uid="uid://441ulqqgg7mf" path="res://art/2D/CircleLAYER9.png" id="4_30p4u"]
 [ext_resource type="Texture2D" uid="uid://oa2ef8ma5lj6" path="res://art/2D/CircleLAYER3v2.png" id="4_lrhwg"]
 [ext_resource type="Texture2D" uid="uid://c3evm4dtqt6jg" path="res://art/2D/Slide.png" id="4_raf56"]
 [ext_resource type="Texture2D" uid="uid://d0lfyxtol03ys" path="res://art/2D/CircleLAYER8.png" id="5_hhyg3"]
 [ext_resource type="AudioStream" uid="uid://72xed1wp1vrf" path="res://audio/Borrowed/ABS-SFX-door-lock6(unlock).wav" id="5_httpj"]
 [ext_resource type="AudioStream" uid="uid://v8p1c6a2t2u0" path="res://audio/Borrowed/ABS-SFX-door-lock6(unlock)v2.wav" id="6_mqdwd"]
+[ext_resource type="Script" uid="uid://cllbigaoa60ri" path="res://scripts/draw_ticks.gd" id="6_w5ufb"]
 [ext_resource type="AudioStream" uid="uid://cv0d0hs3svbkk" path="res://audio/SFX/click.wav" id="7_lrhwg"]
+[ext_resource type="Script" uid="uid://bth3ml63q4pva" path="res://scripts/attatch_point.gd" id="7_v3bok"]
 [ext_resource type="Texture2D" uid="uid://cpau4grltftg" path="res://art/2D/CircleLAYER1.png" id="9_mqdwd"]
-
-[sub_resource type="FontVariation" id="FontVariation_v3bok"]
-base_font = ExtResource("1_hhyg3")
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_4unxv"]
 viewport_path = NodePath("Stars/StarsView")
@@ -60,6 +58,18 @@ tracks/2/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Scope/Slide:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, -540)]
 }
 
 [sub_resource type="Animation" id="Animation_f767e"]
@@ -119,6 +129,18 @@ tracks/3/keys = {
 "method": &"set_can_scope"
 }]
 }
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Scope/Slide:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.35, 0.45),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, -540), Vector2(0, -670), Vector2(0, -670), Vector2(0, -540)]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_hhyg3"]
 _data = {
@@ -131,6 +153,33 @@ random_pitch = 1.1
 streams_count = 2
 stream_0/stream = ExtResource("5_httpj")
 stream_1/stream = ExtResource("6_mqdwd")
+
+[sub_resource type="Animation" id="Animation_hhyg3"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Scope/Outer:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Scope/Inner:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
 
 [sub_resource type="Animation" id="Animation_lrhwg"]
 resource_name = "idle"
@@ -161,33 +210,6 @@ tracks/1/keys = {
 "values": [0.0, -6.28319]
 }
 
-[sub_resource type="Animation" id="Animation_hhyg3"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Scope/Outer:rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.0]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Scope/Inner:rotation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.0]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_v3bok"]
 _data = {
 &"RESET": SubResource("Animation_hhyg3"),
@@ -196,13 +218,25 @@ _data = {
 
 [node name="Telescope" type="Node2D"]
 
-[node name="Label" type="Label" parent="."]
+[node name="Mag" type="Label" parent="."]
+z_index = -5
 offset_left = -437.0
 offset_top = -3.0
-offset_right = -138.0
+offset_right = -401.0
 offset_bottom = 20.0
-theme_override_fonts/font = SubResource("FontVariation_v3bok")
-text = "10x"
+theme_override_fonts/font = ExtResource("1_v3bok")
+text = "10x
+mag"
+
+[node name="Location" type="Label" parent="."]
+z_index = -5
+offset_left = 493.0
+offset_top = -2.0
+offset_right = 529.0
+offset_bottom = 43.0
+theme_override_fonts/font = ExtResource("1_v3bok")
+text = "10x
+mag"
 
 [node name="Scope" type="Sprite2D" parent="."]
 z_index = -5
@@ -213,7 +247,7 @@ texture = ExtResource("1_6gvpi")
 z_index = 1
 position = Vector2(0, -540)
 rotation = -2.54294
-scale = Vector2(1.2145, 1.2145)
+scale = Vector2(1.293, 1.293)
 texture = ExtResource("4_raf56")
 offset = Vector2(0, 540)
 
@@ -224,24 +258,39 @@ scale = Vector2(1.1308, 1.1308)
 texture = ExtResource("9_mqdwd")
 
 [node name="ticks" type="Sprite2D" parent="Scope"]
-modulate = Color(1, 1, 1, 0.0470588)
+modulate = Color(2, 2, 2, 1)
 position = Vector2(-0.0147401, 2.57723e-09)
 rotation = -0.0226893
 scale = Vector2(0.129322, 0.129322)
-texture = ExtResource("4_30p4u")
+script = ExtResource("6_w5ufb")
+RADIUS = 330.0
+MAX_LENGTH = -17.0
+ARC = [3.1581, 4.71239]
+NUM_LARGE_TICKS = 3
+
+[node name="MagAttatch" type="Marker2D" parent="Scope/ticks" node_paths=PackedStringArray("hooked_node")]
+position = Vector2(-529.987, -12.0271)
+rotation = 0.0226893
+scale = Vector2(0.580048, 0.580048)
+script = ExtResource("7_v3bok")
+hooked_node = NodePath("../../../Mag")
+
+[node name="LocationAttach" type="Marker2D" parent="Scope/ticks" node_paths=PackedStringArray("hooked_node")]
+position = Vector2(391.926, 263.032)
+rotation = 0.0226893
+scale = Vector2(0.580048, 0.580048)
+script = ExtResource("7_v3bok")
+hooked_node = NodePath("../../../Location")
 
 [node name="Inner2" type="Sprite2D" parent="Scope"]
-modulate = Color(1, 1, 1, 0.0470588)
+modulate = Color(2, 2, 2, 0.299)
 z_index = -5
 z_as_relative = false
 scale = Vector2(0.075013, 0.075013)
 texture = ExtResource("5_hhyg3")
 
-[node name="AttatchPoint" type="Marker2D" parent="Scope/Inner2"]
-position = Vector2(-637.984, -0.000111549)
-
 [node name="Inner" type="Sprite2D" parent="Scope"]
-modulate = Color(1, 1, 1, 0.239216)
+modulate = Color(1, 1, 1, 0.731)
 z_index = -5
 z_as_relative = false
 scale = Vector2(0.2513, 0.2513)
@@ -258,7 +307,7 @@ own_world_3d = true
 world_3d = SubResource("World3D_mqdwd")
 size = Vector2i(1920, 1080)
 
-[node name="Stars" parent="Stars/StarsView" node_paths=PackedStringArray("animations", "move_click", "zoom_click", "scope", "zoom_scale", "zoom_scale2", "zoom_scale3") instance=ExtResource("2_cmv3v")]
+[node name="Stars" parent="Stars/StarsView" node_paths=PackedStringArray("animations", "move_click", "zoom_click", "scope", "zoom_scale", "zoom_scale2", "zoom_scale3", "zoom_label", "location_label") instance=ExtResource("2_cmv3v")]
 animations = NodePath("../../../Animations")
 move_click = NodePath("../../../MoveClick")
 zoom_click = NodePath("../../../ZoomClick")
@@ -266,6 +315,8 @@ scope = NodePath("../../../Scope")
 zoom_scale = NodePath("../../../Scope/Inner")
 zoom_scale2 = NodePath("../../../Scope/Inner2")
 zoom_scale3 = NodePath("../../../Scope/ticks")
+zoom_label = NodePath("../../../Mag")
+location_label = NodePath("../../../Location")
 
 [node name="ColorRect" type="ColorRect" parent="Stars/StarsView"]
 z_index = -9

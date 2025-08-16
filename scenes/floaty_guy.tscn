@@ -59,7 +59,8 @@ _data = {
 
 [node name="FloatyGuy" type="AnimatedSprite2D"]
 modulate = Color(0.89, 0.89, 0.89, 1)
-scale = Vector2(0.398438, 0.398438)
+z_index = -6
+scale = Vector2(0.15, 0.15)
 sprite_frames = ExtResource("1_usaqv")
 autoplay = "default"
 frame_progress = 0.539004

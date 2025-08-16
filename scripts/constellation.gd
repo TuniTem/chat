@@ -1,13 +1,71 @@
 class_name Constellation
 
+const BOX_BUFFER : int = 100
+const ZOOM_RANGE : Array[float] = [0.15, 0.7]
+
+
 var owner_username : String = "Unknown"
 var owner_user_id : String = "Unknown"
 var name : String = "Unknown Constellation"
 var origin_position : Vector2 = Vector2.ZERO
 var id : int = -1
+var POI_id : int = 0
 var max_stars : int = 2
 var stars : Array[Star] = []
 var neighbors : Array[int]
+var creation_unix_time : int  = 0
+
+func add_to_POI():
+	var status : String = ""
+	var time_alive : int = floor(Time.get_unix_time_from_system()) - creation_unix_time
+	
+	if time_alive < 7344000: # <90 days
+		status = "newborn"
+	elif time_alive < 31104000: # <1 year
+		status = "mature"
+	elif time_alive < 93312000: # < 3 years
+		status = "remembered"
+	else: # > 3 years
+		status = "ancient"
+	
+	var average_position : Vector2 = Vector2.ZERO
+	var star_count : float = stars.size()
+	for star : Star in stars:
+		average_position += star.position[0] / star_count
+	
+	var extents : Vector2 = Vector2.ZERO
+	for star : Star in stars:
+		var pos : Array = star.position.duplicate()
+		for position : Vector2 in pos:
+			position -= average_position
+			if abs(position.x) > extents.x:
+				extents.x = abs(position.x)
+			if abs(position.y) > extents.y:
+				extents.y = abs(position.y)
+	
+	POI_id = Global.add_POI(
+		"Constellation",
+		name,
+		status + " " + ("(searching)" if star_count == 0 else ("(growing)" if star_count < max_stars else "(dorment)")),
+		{
+			"newborn" : "A young constellation, I wonder what the future will hold for this one?",
+			"mature" : "A blossoming flower, full of potential",
+			"remembered" : "A well-set fragment in dreamspace, its story is often told",
+			"ancient" : "A relic of times now forgotten"
+		}[status],
+		average_position + origin_position,
+		ZOOM_RANGE,
+		extents * 2.0 + Vector2.ONE * BOX_BUFFER,
+		[
+			["owner", owner_username], 
+			["found", Time.get_datetime_string_from_unix_time(creation_unix_time)], 
+			["identifier", id], 
+			["num_stars", stars.size()], 
+			["lat", average_position.y * Global.LOCATION_MULTIPLIER], 
+			["lng", average_position.x * Global.LOCATION_MULTIPLIER]
+		],
+		id
+	)
 
 func get_star_from_id(id : int) -> Star:
 	for star : Star in stars:
@@ -83,6 +141,7 @@ func attempt_add_star(star : Star) -> bool:
 		star.children = 0
 		selected.children += 1
 		stars.append(star)
+		star.add_to_POI()
 		#print("e")
 		return true
 		
@@ -150,12 +209,14 @@ func setup(base_star : Star, origin : Vector2, init_id : int, maximum_stars : in
 	base_star.distance = 0
 	base_star.is_constellation_base = true
 	base_star.parent_constellation = self
+	base_star.add_to_POI()
 	
 	max_stars = maximum_stars
 	owner_username = base_star.username
 	owner_user_id = base_star.user_id
 	id = init_id
 	origin_position = origin
+	creation_unix_time = Time.get_unix_time_from_system()
 	stars.append(base_star)
 	
 
@@ -164,7 +225,7 @@ func deconstruct() -> Array:
 	for star : Star in stars:
 		deconstructed_stars.append(star.deconstruct())
 	
-	return [name, owner_user_id, owner_username, origin_position, id, max_stars, deconstructed_stars, neighbors]
+	return [name, owner_user_id, owner_username, origin_position, id, max_stars, deconstructed_stars, neighbors, creation_unix_time]
 
 func construct(data : Array):
 	name = data[0]
@@ -180,6 +241,8 @@ func construct(data : Array):
 		stars.append(star)
 	
 	neighbors = data[7]
+	creation_unix_time = data[8]
+	add_to_POI()
 
 func _to_string() -> String:
 	return str(deconstruct())

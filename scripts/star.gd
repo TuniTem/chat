@@ -10,6 +10,8 @@ enum Colors {
 const DIST_BUFFER = 100
 const ANGLE_BUFFER = 10
 
+const STAR_ZOOM_RANGE : Array[float] = [0.9, INF]
+const SIZE : float = 72
 
 var username : String = "Unknown"
 var user_id : String = "Unknown"
@@ -24,6 +26,8 @@ var distance : float = 0:
 		update_position()
 
 var id : int = -1
+var POI_id : int
+
 var parent_id : int = 0:
 	set(val):
 		parent_id = val
@@ -40,6 +44,48 @@ var global_position : Array[Vector2]:
 	get():
 		return [position[0] + parent_constellation.origin_position, position[1] + parent_constellation.origin_position]
 var parent_constellation : Constellation
+
+func add_to_POI():
+	var status : String
+	var time_alive : int = floor(Time.get_unix_time_from_system()) - Global.get_follower_data(user_id, "time")
+	
+	if time_alive < 604800: # < 1 week
+		status = "newborn shimmer"
+	elif time_alive < 2592000: # < 1 month
+		status = "blooming glimmer"
+	elif time_alive < 7776000: # < 3 months
+		status = "mature dreamling"
+	elif time_alive < 31536000: # < 1 year
+		status = "elder fragment"
+	elif time_alive < 94608000: # < 3 years
+		status = "dreamweaver"
+	else: # > 3 years
+		status = "eversleep"
+	
+	POI_id = Global.add_POI(
+		"Star",
+		username + "'s Star",
+		status + " " + ("(searching)" if children == 0 else ("(growing)" if children < max_children else "(dorment)")),
+		{
+			"newborn shimmer": "A new shimmer spotted in dreamspace",
+			"blooming glimmer" : "A fresh glimmer, drifting through fragments",
+			"mature dreamling" : "A star that's made a home here",
+			"elder fragment" : "An ancient shard of light, shining between fragments",
+			"dreamweaver" : "A luminous beacon that spins the fabric of dreams",
+			"eversleep" : "A silent light, curled up in eternal slumber"
+		}[status],
+		global_position[1],
+		STAR_ZOOM_RANGE,
+		Vector2.ONE * SIZE,
+		[
+			["followed", Time.get_datetime_string_from_unix_time(Global.get_follower_data(user_id, "time"))], 
+			["constellation", parent_constellation.name], 
+			["color", Colors.keys()[int(color)].capitalize()],
+			["lat", global_position[1].y * Global.LOCATION_MULTIPLIER], 
+			["lng", global_position[1].x * Global.LOCATION_MULTIPLIER]
+		],
+		id
+	)
 
 func is_angle_outside_exclusion(angle) -> bool:
 	var angle_excl_radians : float = deg_to_rad(Global.STAR_ANGLE_EXCLUSION) 
@@ -88,6 +134,8 @@ func construct(data : Array):
 	is_constellation_base = data[9]
 	color = Colors.get(data[10])
 	position = data[11]
+	
+	add_to_POI()
 
 func duplicate() -> Star:
 	var star : Star = Star.new()

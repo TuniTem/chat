@@ -21,6 +21,8 @@ const ZOOM_SCALER_RANGE2 = [0.04, 0.35]
 @export var zoom_scale : Sprite2D
 @export var zoom_scale2 : Sprite2D
 @export var zoom_scale3 : Sprite2D
+@export var zoom_label : Label
+@export var location_label : Label
 
 var using_scope_move : bool = true
 var can_scope : bool = true
@@ -46,7 +48,6 @@ var last_selected_star : Star
 var mouse_position : Vector2:
 	get():
 		return get_global_mouse_position() #- get_viewport().size * 0.5
-
 
 
 
@@ -117,6 +118,7 @@ func _process(delta: float) -> void:
 		
 		
 		camera.position += velocity
+		location_label.text = "Viewfinder \nLat: " + str(snapped(camera.position.y * Global.LOCATION_MULTIPLIER, 0.0001)) + "\nLgt: " + str(snapped(camera.position.x * Global.LOCATION_MULTIPLIER, 0.0001))
 		
 		var scope_dir : float = Input.get_action_strength("scope_zoom_in") - Input.get_action_strength("scope_zoom_out")
 		if abs(scope_dir) > Global.EPSILON and can_scope:
@@ -126,6 +128,8 @@ func _process(delta: float) -> void:
 					attempt_switch_scope(false)
 				elif abs(zoom - SCOPE_INTERVALS[current_scope_interval][1]) < Global.FINE_EPSILON:
 					attempt_switch_scope(true)
+		
+		zoom_label.text = str(int(round(499 - pow(1.0/zoom, 0.25) * 200.0))) + "x\n Mag"
 		
 		if abs(prev_click_pos.x - camera.position.x) > MOVE_CLICK_RADIUS * (1.0/zoom) or abs(prev_click_pos.y - camera.position.y) > MOVE_CLICK_RADIUS * (1.0/zoom):
 			move_click.play()
@@ -140,7 +144,7 @@ func _process(delta: float) -> void:
 		zoom_scale.scale = Vector2.ONE * remap(pow(zoom, 0.125), pow(SCOPE_INTERVALS[-1][1], 0.125), pow(SCOPE_INTERVALS[0][0], 0.25), ZOOM_SCALER_RANGE[1], ZOOM_SCALER_RANGE[0])
 		zoom_scale2.position = -velocity * SCOPE_TRAIL_MULT * zoom * 2.0
 		zoom_scale2.scale = Vector2.ONE * remap(pow(zoom, 0.125), pow(SCOPE_INTERVALS[-1][1], 0.125), pow(SCOPE_INTERVALS[0][0], 0.25), ZOOM_SCALER_RANGE2[1], ZOOM_SCALER_RANGE2[0])
-		zoom_scale2.rotation = remap(pow(zoom, 0.125), pow(SCOPE_INTERVALS[-1][1], 0.125), pow(SCOPE_INTERVALS[0][0], 0.25), PI - 0.14, 0.2) + PI
+		zoom_scale2.rotation = remap(pow(zoom, 0.125), pow(SCOPE_INTERVALS[-1][1], 0.125), pow(SCOPE_INTERVALS[0][0], 0.25), PI - 0.14, 0.1) + PI
 		zoom_scale3.position = zoom_scale2.position
 		zoom_scale3.scale = zoom_scale2.scale *1.4
 		
@@ -220,30 +224,30 @@ func _draw() -> void:
 		#prints(star.position[0],constellation_origin)
 		var progress : float = clamp((constellation_dist - CONSTELLATION_VIGNETTE_INNER) / CONSTELLATION_VIGNETTE_FALLOFF, 0.0, 1.0)
 		#draw_dashed_line(star.position[0] + constellation_origin, star.position[1] + constellation_origin, COLOR * Color(1.0, 1.0, 1.0, progress), draw_scale, 20.0, true)
-		draw_line(star.position[0] + constellation_origin, star.position[1] + constellation_origin, COLOR * Color(1.0, 1.0, 1.0, 0.06 + 0.5 * (1.0 - progress)), draw_scale)
+		draw_line(star.position[0] + constellation_origin, star.position[1] + constellation_origin, COLOR * Color(1.0, 1.0, 1.0, 0.2 + 0.4 * (1.0 - progress)), draw_scale)
 		
 		
 	
 	
 	
-	if min_dist < SELECT_DIST:
-		if last_selected_star != min_dist_star: 
-			select_radius = 0.0
-			label_node.hide()
-			animation_player.stop()
-			animation_player.play("ShowLabel")
-			label_node.position = min_dist_star.position[1] + min_dist_star.parent_constellation.origin_position
-			rich_text_label.text = USERNAME_TEXT_PREFIX + min_dist_star.username
-			
-			
-		draw_circle(min_dist_star.position[1] + min_dist_star.parent_constellation.origin_position, select_radius, COLOR * Color(1.0, 1.0, 1.0, 0.3), false, draw_scale)
-	
-		last_selected_star = min_dist_star
-	else:
-		var temp = last_selected_star
-		last_selected_star = null
-		if last_selected_star != temp: 
-			animation_player.play("HideLabel", 0.5)
+	#if min_dist < SELECT_DIST:
+		#if last_selected_star != min_dist_star: 
+			#select_radius = 0.0
+			#label_node.hide()
+			#animation_player.stop()
+			#animation_player.play("ShowLabel")
+			#label_node.position = min_dist_star.position[1] + min_dist_star.parent_constellation.origin_position
+			#rich_text_label.text = USERNAME_TEXT_PREFIX + min_dist_star.username
+			#
+			#
+		#draw_circle(min_dist_star.position[1] + min_dist_star.parent_constellation.origin_position, select_radius, COLOR * Color(1.0, 1.0, 1.0, 0.3), false, draw_scale)
+	#
+		#last_selected_star = min_dist_star
+	#else:
+		#var temp = last_selected_star
+		#last_selected_star = null
+		#if last_selected_star != temp: 
+			#animation_player.play("HideLabel", 0.5)
 	
 	
 	for star : Star in Global.get_stars():
@@ -303,7 +307,7 @@ func _input(event: InputEvent) -> void:
 
 
 func _on_floaty_guy_timer_timeout() -> void:
-	if randi_range(1, 100) <= FLOATY_GUY_CHANCE:
+	if randi_range(1, 100) <= 1:
 		print("floaty guy")
 		var inst = FLOATY_GUY.instantiate()
 		var dir_vec : Vector2 = Vector2(randi_range(0,1) * 2 - 1, randi_range(0,1) * 2 - 1)

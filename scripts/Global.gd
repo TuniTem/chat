@@ -106,6 +106,7 @@ var dummy_usernames = [
 
 const MAX_ID_GENERATION_ATTEMPTS = 1000
 var active_ids : Array = []
+var active_temp_ids : Array = []
 
 # Commands
 const DISCORD_LINK = "https://discord.gg/ZSsZxYhRRt"
@@ -169,12 +170,18 @@ const CONSTELLATION_SPAWN_DISTANCE = 2000
 const NEW_CONSTELLATION_MATCH_THRESH = 6
 const GLITCHED_STAR_POSITION_VARIATION = Vector2.ONE * 2000
 const BASE_CONSTELLATION_MAX_CHILDREN : int = 7
-const GEN_STARS = false
+const GEN_STARS = true
 
 var constellations : Array[Constellation] = []
 var glitched_stars : Array[Star]
 
+# POI
+const POI_DISTANCE : float = 100
+const POI_DRAW_DISTANCE : float = 300
+const LOCATION_MULTIPLIER : float = 0.0015
 
+var POIs : Array[Dictionary]
+var closest_POI : Dictionary = {}
 
 # Twitch 
 @onready var chat : TwitchChat = %Chat
@@ -200,6 +207,9 @@ func _ready():
 	
 	cashe_emotes()
 	active_ids = DB.list("UID")
+	followers = DB.list("followers")
+	
+	print(followers)
 	
 	if GEN_TREE:
 		DB.delete_DB("followers")
@@ -214,11 +224,83 @@ func _ready():
 		verify_branches()
 	
 	if GEN_STARS:
-		followers = DB.list("followers")
+		
 		DB.delete_DB("constellations")
 		load_constellations()
-		
 
+
+func get_nearby_POIs(position : Vector2, zoom : float, zoom_dependent_distance : bool = true) -> Array:
+	var closest_POI_dist : float = INF
+	closest_POI = {}
+	#if closest_POI != {}: 
+		#if position.distance_to(closest_POI["location"]) > POI_DRAW_DISTANCE:
+			#closest_POI = {}
+		#else:
+			#closest_POI_dist = position.distance_to(closest_POI["location"])
+	#else:
+		#closest_POI_dist = INF
+	
+	var nearby_POIs : Array[Dictionary] = []
+	
+	for POI : Dictionary in POIs:
+		if POI["zoom_range"][0] < zoom and zoom < POI["zoom_range"][1]:
+			var distance : float = position.distance_to(POI["location"]) * (zoom if zoom_dependent_distance else 1.0)
+			if distance < POI_DISTANCE and distance < closest_POI_dist:
+				closest_POI = POI
+				closest_POI_dist = distance
+			
+			elif distance < POI_DRAW_DISTANCE:
+				nearby_POIs.append(POI)
+	
+	return [closest_POI, nearby_POIs]
+
+func add_POI(type : String, object_name : String, object_status : String, description : String, location : Vector2, zoom_range : Array[float], bounding_box : Vector2, extra_info : Array = [], dupe_verify : int  = -2) -> int: 
+	if dupe_verify != -2:
+		for POI in POIs:
+			if POI["dupe_verify"]  == dupe_verify:
+				return -1
+	
+	var id : int = create_temp_unique_id()
+	
+	POIs.append({
+		"id" : id,
+		"location" : location,
+		"zoom_range" : zoom_range,
+		"bounding_box" : bounding_box,
+		"type" : type,
+		"name" : object_name,
+		"status" : object_status,
+		"description" : description,
+		"extra_info" : extra_info,
+		"dupe_verify": dupe_verify
+	})
+	
+	return id
+	
+
+func update_POI(id : int, entry : String, new_value : Variant):
+	var selected : Dictionary = _find_POI(id)
+	if selected != {}:
+		selected[entry] = new_value
+			 
+	
+
+func remove_POI(id : int):
+	POIs.erase(_find_POI(id))
+
+func _find_POI(id : int) -> Dictionary:
+	var selected_POI : Dictionary = {}
+	for POI : Dictionary in POIs:
+		if POI["id"] == id:
+			return POI
+	
+	printerr("Could not find POI ", id, " avalable POIs printed")
+	prints("POIs:", POIs)
+	return {} 
+
+func get_follower_data(id : String, key : String = ""):
+	return Util.search(followers, 0, id, true, [], {"id" : 0, "name" : 1, "time" : 2, "" : -1}[key])
+	
 func create_unique_id() -> int:
 	for i in MAX_ID_GENERATION_ATTEMPTS:
 		var test_id : int = randi()
@@ -230,6 +312,16 @@ func create_unique_id() -> int:
 	printerr("MAX UID GENERATION ATTEMPTS EXCEEDED, THIS REALLY SHOULD NOT HAPPEN!! CONTINUING GRACEFULLY AND YOU WILL NOT NOTICE ANYTHING BREAK UNLESS UR REALLY UNLUCKY BUT LIKE TOTTALLY FIX THIS COS THE UID SYSTEM JUST ISNT WORKING")
 	return randi()
 
+func create_temp_unique_id() -> int:
+	for i in MAX_ID_GENERATION_ATTEMPTS:
+		var test_id : int = randi()
+		if not active_temp_ids.has(test_id):
+			active_temp_ids.append(test_id)
+			return test_id
+	
+	printerr("MAX TUID GENERATION ATTEMPTS EXCEEDED, THIS REALLY SHOULD NOT HAPPEN!! CONTINUING GRACEFULLY AND YOU WILL NOT NOTICE ANYTHING BREAK UNLESS UR REALLY UNLUCKY BUT LIKE TOTTALLY FIX THIS COS THE UID SYSTEM JUST ISNT WORKING")
+	return randi()
+
 func get_stars() -> Array[Star]:
 	var out : Array[Star] = []
 	for constellation : Constellation in constellations:
@@ -238,6 +330,7 @@ func get_stars() -> Array[Star]:
 	return out 
 
 func load_constellations():
+	# TODO Fix constellation loading
 	var db_constellations : Array = DB.list("constellations")
 	constellations = []
 	for constellation : Array in db_constellations:
@@ -259,6 +352,9 @@ func load_constellations():
 		for follower : Array in new_followers:
 			generate_star(follower[1], follower[0])
 		save_constellation(true)
+	
+	for constellation : Constellation in constellations:
+		constellation.add_to_POI()
 
 func save_constellation(backup : bool):
 	var data : Array[Array] = []
@@ -272,8 +368,6 @@ func add_glitched_star(star : Star):
 	var glitch_pos : Vector2 = GLITCHED_STAR_POSITION_VARIATION * randf_range(-1.0, 1.0)
 	star.position = [glitch_pos, glitch_pos]
 	glitched_stars.append(star)
-
-
 
 func generate_constellation(base_star : Star) -> bool:
 	#print("a")
@@ -398,8 +492,6 @@ func generate_star(source : String, id : String, trigger_anim : bool = false) ->
 	print("generated star ", star)
 	return star
 	
-	
-	
 
 
 func emote_exists(emote : String):
@@ -447,7 +539,6 @@ func send_message(message : String):
 	else:
 		printerr("Failed to send " + message + ". Reason: ", response_data[0].drop_reason if not response_data.is_empty() else "Unknown")
 
-# Callback function for new messages
 func _on_chat_message_received(chat_message: TwitchChatMessage):
 	print("[%s] %s: %s" % [chat_message.broadcaster_user_name, chat_message.chatter_user_name, chat_message.message.text])
 	#notification_manager.send_notification(NotificationManager.NotificationType.FOLLOW, Time.get_unix_time_from_system(), chat_message.chatter_user_name)
@@ -459,8 +550,8 @@ func _on_chat_message_received(chat_message: TwitchChatMessage):
 		#else:
 			#printerr("Failed to send reply. Reason: ", response_data[0].drop_reason if not response_data.is_empty() else "Unknown")
 
-
 func _on_follow_received(data: Dictionary) -> void:
+	# TODO add ppl to stars
 	prints("follow: " + str(data))
 	DB.update("followers", data["user_id"], [data["user_id"], data["user_name"], Time.get_unix_time_from_datetime_string(data["followed_at"]), true])
 	notification_manager.send_notification(NotificationManager.NotificationType.FOLLOW, Time.get_unix_time_from_datetime_string(data["followed_at"]), data["user_name"])
@@ -473,16 +564,13 @@ func _on_follow_received(data: Dictionary) -> void:
 		
 		if GEN_STARS:
 			generate_branch(data["user_name"], data["user_id"], true)
-	
 
 func _on_discord_command_received(from_username: String, info: TwitchCommandInfo, args: PackedStringArray) -> void:
 	send_message("Dream with me <3 " + DISCORD_LINK)
 
-
 func _on_lurk_command_received(from_username: String, info: TwitchCommandInfo, args: PackedStringArray) -> void:
 	if lurk_messages_buffer.size() == 0 : lurk_messages_buffer = LURK_MESSAGES.duplicate()
 	send_message(lurk_messages_buffer.pop_at(randi_range(0, lurk_messages_buffer.size() - 1)).replace("[user]", from_username))
-
 
 func _on_timeleft_command_received(from_username: String, info: TwitchCommandInfo, args: PackedStringArray) -> void:
 	var seconds_total : int = TIME_OF_ARRIVAL - Time.get_unix_time_from_system()
@@ -496,6 +584,7 @@ func _on_timeleft_command_received(from_username: String, info: TwitchCommandInf
 func _on_music_command_received(from_username: String, info: TwitchCommandInfo, args: PackedStringArray) -> void:
 	send_message("Currently playing . . . . . " + Music.get_current_song_as_string() + " " + Music.get_current_song_link())
 	music_widget.visiblity = 10.0
+
 
 
 
