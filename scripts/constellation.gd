@@ -64,7 +64,8 @@ func add_to_POI():
 			["lat", average_position.y * Global.LOCATION_MULTIPLIER], 
 			["lng", average_position.x * Global.LOCATION_MULTIPLIER]
 		],
-		id
+		id,
+		true
 	)
 
 func get_star_from_id(id : int) -> Star:
@@ -217,6 +218,7 @@ func setup(base_star : Star, origin : Vector2, init_id : int, maximum_stars : in
 	id = init_id
 	origin_position = origin
 	creation_unix_time = Time.get_unix_time_from_system()
+	name = Global.dummy_constellation_names.pick_random()
 	stars.append(base_star)
 	
 

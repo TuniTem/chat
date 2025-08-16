@@ -25,3 +25,6 @@ func search(array : Array, index : Variant, key : Variant, duplicate : bool = fa
 	print_stack()
 	print(array)
 	return on_fail
+
+func between(value : Variant, lower : Variant, upper : Variant) -> bool:
+	return value > lower and value < upper

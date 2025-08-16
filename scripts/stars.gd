@@ -24,6 +24,7 @@ const ZOOM_SCALER_RANGE2 = [0.04, 0.35]
 @export var zoom_label : Label
 @export var location_label : Label
 
+
 var using_scope_move : bool = true
 var can_scope : bool = true
 var current_scope_interval : int = 3
@@ -80,6 +81,8 @@ var texture_scale : float = 48.0
 const ZOOM_CLAMP : Array[float] = [1/40.0, 40.0]
 const ZOOM_MULT : float = 1.1
 const ZOOM_WEIGHT : float = 10.0
+
+@export var twinkle : GPUParticles2D
  
 var dragging : bool = false
 var zoom : float = 0.35
@@ -87,12 +90,15 @@ var zoom_pos_offset : Vector2 = Vector2.ZERO
 var zoom_pos_offset_targ : Vector2 = Vector2.ZERO
 var camera_position : Vector2 = Vector2.ZERO
 
+
 # background
 const FLOATY_GUY = preload("res://scenes/floaty_guy.tscn")
 const FLOATY_GUY_CHANCE = 1 # percent every 10 seconds
 const FLOATY_GUY_BUFFER = 400
 
 #@onready var bg_star_holder: Control = $Camera2D/BGStarHolder
+
+
 
 
 func _ready() -> void:
@@ -153,6 +159,11 @@ func _process(delta: float) -> void:
 		camera.position = camera_position + zoom_pos_offset
 		
 	camera.zoom = Vector2.ONE * lerpf(camera.zoom.x, zoom, delta * ZOOM_WEIGHT)
+	
+	twinkle.position = -camera.position / 1.2
+	#twinkle.scale = Vector2.ONE * 1.0/ pow(zoom, 0.25)
+	var curve : Curve = twinkle.process_material.scale_curve.curve
+	curve.set_point_value(1, 1.0/ pow(zoom, 0.25))
 	
 	if select_radius < MAX_SELECT_RADIUS - Global.EPSILON:
 		select_radius = lerpf(select_radius, MAX_SELECT_RADIUS, delta * SELECT_SHOW_SPEED)

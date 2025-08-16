@@ -103,6 +103,108 @@ var dummy_usernames = [
 	"minidusk",
 	"tunnelmouse"
 ]
+var dummy_constellation_names = [
+	"Androsia",
+	"Perseus",
+	"Vulpecula",
+	"Drakona",
+	"Phoenix",
+	"Serpentis",
+	"Corvus",
+	"Aquilara",
+	"Lyra",
+	"Telescopium",
+	"Chironis",
+	"Ophiuchus",
+	"Carinax",
+	"Scutum",
+	"Antlia",
+	"Hyronis",
+	"Cetus",
+	"Monoceros",
+	"Eridanus",
+	"Felora",
+	"Orion",
+	"Sagitta",
+	"Volans",
+	"Deltora",
+	"Indus",
+	"Fornax",
+	"Triangulum",
+	"Asterion",
+	"Mensa",
+	"Capricornus",
+	"Sceptrum",
+	"Equuleus",
+	"Aranea",
+	"Columba",
+	"Aquila",
+	"Lupora",
+	"Pyxis",
+	"Piscis Austrinus",
+	"Caelus",
+	"Taurus",
+	"Dorado",
+	"Leonis Minoris",
+	"Lacerta",
+	"Vespera",
+	"Chamaeleon",
+	"Centaurus",
+	"Sagittarii",
+	"Arboris",
+	"Horologium",
+	"Hydrus",
+	"Cassiopeia",
+	"Auriga",
+	"Tenebris",
+	"Canes Venatici",
+	"Microscopium",
+	"Vela",
+	"Reticulum",
+	"Lupus",
+	"Geminor",
+	"Corvus Major",
+	"Pavo",
+	"Umbra Serpentis",
+	"Canis Major",
+	"Crux",
+	"Noctua",
+	"Pyrrhus",
+	"Pegasus",
+	"Sculptor",
+	"Lacrimosa",
+	"Leo",
+	"Delphinus",
+	"Arbor Vitae",
+	"Triangulum Australe",
+	"Circinus",
+	"Hydrus Minor",
+	"Serpens",
+	"Altaris",
+	"Persephonis",
+	"Musca",
+	"Cygnus",
+	"Vespertilio",
+	"Phocis",
+	"Hercules",
+	"Argo Navis",
+	"Umbrae",
+	"Crater",
+	"Corona Borealis",
+	"Octans",
+	"Nereis",
+	"Volucra",
+	"Draco",
+	"Ankaa",
+	"Ursa Major",
+	"Umbellia",
+	"Canis Minor",
+	"Piscis Borealis",
+	"Corona Australis",
+	"Cetula",
+	"Sagittarius",
+	"Lyranthes"
+]
 
 const MAX_ID_GENERATION_ATTEMPTS = 1000
 var active_ids : Array = []
@@ -177,7 +279,7 @@ var glitched_stars : Array[Star]
 
 # POI
 const POI_DISTANCE : float = 100
-const POI_DRAW_DISTANCE : float = 300
+const POI_DRAW_DISTANCE : float = 500
 const LOCATION_MULTIPLIER : float = 0.0015
 
 var POIs : Array[Dictionary]
@@ -254,7 +356,7 @@ func get_nearby_POIs(position : Vector2, zoom : float, zoom_dependent_distance :
 	
 	return [closest_POI, nearby_POIs]
 
-func add_POI(type : String, object_name : String, object_status : String, description : String, location : Vector2, zoom_range : Array[float], bounding_box : Vector2, extra_info : Array = [], dupe_verify : int  = -2) -> int: 
+func add_POI(type : String, object_name : String, object_status : String, description : String, location : Vector2, zoom_range : Array[float], bounding_box : Vector2, extra_info : Array = [], dupe_verify : int  = -2, draw_name : bool = false) -> int: 
 	if dupe_verify != -2:
 		for POI in POIs:
 			if POI["dupe_verify"]  == dupe_verify:
@@ -272,6 +374,8 @@ func add_POI(type : String, object_name : String, object_status : String, descri
 		"status" : object_status,
 		"description" : description,
 		"extra_info" : extra_info,
+		"draw_name" : draw_name,
+		"drawing_name" : false,
 		"dupe_verify": dupe_verify
 	})
 	
