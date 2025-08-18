@@ -1,0 +1,16 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://cef08km7be85s"]
+
+[ext_resource type="Shader" uid="uid://23d0o76yapj1" path="res://shader/2ndwaurp.gdshader" id="1_w2n13"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_ysfd5"]
+width = 1536
+height = 1536
+
+[resource]
+shader = ExtResource("1_w2n13")
+shader_parameter/wave_count = 16.0
+shader_parameter/speed = 1.7
+shader_parameter/height = 0.024
+shader_parameter/falloff = 0.292
+shader_parameter/invert = true
+shader_parameter/noise = SubResource("NoiseTexture2D_ysfd5")

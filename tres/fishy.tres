@@ -1,0 +1,12 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://bvpjrn25ugeuf"]
+
+[ext_resource type="Shader" uid="uid://bawjwyrartuhu" path="res://shader/fishy.gdshader" id="1_u1jml"]
+
+[resource]
+shader = ExtResource("1_u1jml")
+shader_parameter/aspect = 1.7777
+shader_parameter/distortion = 0.0
+shader_parameter/radius = 1.4385
+shader_parameter/alpha = 1.0
+shader_parameter/crop = 1.305
+shader_parameter/crop_color = Color(0.507717, 0.384289, 0.563661, 1)

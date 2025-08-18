@@ -44,6 +44,8 @@ const USERNAME_TEXT_PREFIX : String = "[pulse freq=1.25 color=#808080 ease=-2.0]
 @onready var rich_text_label: RichTextLabel = $Label/RichTextLabel
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 
+@export var info_label : Label
+
 var select_radius = 0.0
 var last_selected_star : Star
 var mouse_position : Vector2:
@@ -98,7 +100,8 @@ const FLOATY_GUY_BUFFER = 400
 
 #@onready var bg_star_holder: Control = $Camera2D/BGStarHolder
 
-
+# Shaders
+@export var warp_shader : ColorRect
 
 
 func _ready() -> void:
@@ -124,7 +127,7 @@ func _process(delta: float) -> void:
 		
 		
 		camera.position += velocity
-		location_label.text = "Viewfinder \nLat: " + str(snapped(camera.position.y * Global.LOCATION_MULTIPLIER, 0.0001)) + "\nLgt: " + str(snapped(camera.position.x * Global.LOCATION_MULTIPLIER, 0.0001))
+		location_label.text = "Viewfinder\nLat: " + str(snapped(camera.position.y * Global.LOCATION_MULTIPLIER, 0.0001)) + "\nLgt: " + str(snapped(camera.position.x * Global.LOCATION_MULTIPLIER, 0.0001))
 		
 		var scope_dir : float = Input.get_action_strength("scope_zoom_in") - Input.get_action_strength("scope_zoom_out")
 		if abs(scope_dir) > Global.EPSILON and can_scope:
@@ -135,7 +138,7 @@ func _process(delta: float) -> void:
 				elif abs(zoom - SCOPE_INTERVALS[current_scope_interval][1]) < Global.FINE_EPSILON:
 					attempt_switch_scope(true)
 		
-		zoom_label.text = str(int(round(499 - pow(1.0/zoom, 0.25) * 200.0))) + "x\n Mag"
+		zoom_label.text = str(int(round(499 - pow(1.0/zoom, 0.25) * 200.0))) + "x\nMag"
 		
 		if abs(prev_click_pos.x - camera.position.x) > MOVE_CLICK_RADIUS * (1.0/zoom) or abs(prev_click_pos.y - camera.position.y) > MOVE_CLICK_RADIUS * (1.0/zoom):
 			move_click.play()
@@ -153,6 +156,8 @@ func _process(delta: float) -> void:
 		zoom_scale2.rotation = remap(pow(zoom, 0.125), pow(SCOPE_INTERVALS[-1][1], 0.125), pow(SCOPE_INTERVALS[0][0], 0.25), PI - 0.14, 0.1) + PI
 		zoom_scale3.position = zoom_scale2.position
 		zoom_scale3.scale = zoom_scale2.scale *1.4
+		
+		warp_shader.scale = Vector2.ONE * (1.0 / zoom) 
 		
 	else:
 		zoom_pos_offset = zoom_pos_offset.lerp(zoom_pos_offset_targ, delta * ZOOM_WEIGHT)

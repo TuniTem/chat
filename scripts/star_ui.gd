@@ -30,16 +30,17 @@ var POI : Dictionary = {}
 	#"extra_info" : Array[Array[String]] [["title1", value1 (variant)], "title2", value2 (variant)]]
 	#"dupe_verify": int
 
-const CONFIRM_DELAY : float = 5.0
-const CONFIRM_SPEED : float = 1.3
 
 var prev_poi_id : int = 0
 var nearby_POIs : Array[Dictionary] = []
-var confirm_amount : float = 0.0
+
 var delay_timer : float = 0.0
 var frame_draw_pass : bool = false
 
 # confirm and draw nearby
+const CONFIRM_DELAY : float = 1.0
+const CONFIRM_SPEED : float = 1.4
+
 var has_poi : bool:
 	get():
 		return POI != {}
@@ -48,8 +49,10 @@ var has_nearby_pois : bool:
 	get():
 		return nearby_POIs.size() > 0
 
+var confirm_amount : float = 0.0
 var counter : int = 0
 var prev_cam_pos : Vector2 = Vector2.ZERO
+var confirmed_POI : Dictionary
 
 # connect line animation
 const CONNECT_LINE_SPEED = 0.3
@@ -71,19 +74,26 @@ var connect_lines : Dictionary[int, Array]
 var connected_lines_lookup : Dictionary[Array, Array] = {}
 var connect_points : Dictionary[Array, Vector2] = {}
 
+# info
+var info_label : Label
+var info_base_point : Vector2
+var info_line_end : Vector2 = Vector2.ZERO
+
+func _ready() -> void:
+	info_label = stars_viewer.info_label
+
 func send_ping(reversed : bool):
 	ping_pos = position
 	ping_reversed = reversed
 	ping_completion = 1.0 if reversed else 0.0
 	for set_POI : Dictionary in Global.POIs:
 		set_POI["drawing_name"] = false
-	
 
 func create_connect_line(start : Vector2, end : Vector2, opacity : float, speed_mult : float = 1.0) -> int:
 	var id : int = randi() # this doesnt need to succeed in making a unique one every time, so id rather not waste memory
 	_connect_line(id, start, end, opacity, speed_mult)
 	return id
-	
+
 func _connect_line(id : int, start : Vector2, end : Vector2, opacity : float, speed_mult : float = 1.0):
 	var start_tween : Tween = create_tween()
 	var end_tween : Tween = create_tween()
@@ -136,7 +146,15 @@ func _process(delta: float) -> void:
 			delay_timer += delta
 			if delay_timer > CONFIRM_DELAY:
 				confirm_amount = clamp(lerp(confirm_amount, 1.0, delta * CONFIRM_SPEED) + CONFIRM_SPEED / 60.0 * delta, 0.1, 1.0)
-				confirm_amount = clamp(confirm_amount - abs(position.length() - prev_cam_pos.length()) / 300.0, 0.0, 1.0)
+				
+				
+				if confirm_amount >= 1.0 - Global.EPSILON:
+					var prev = confirmed_POI
+					confirmed_POI = POI
+					if prev != confirmed_POI:
+						play_confirm_anim()
+				else:
+					confirm_amount = clamp(confirm_amount - abs(position.length() - prev_cam_pos.length()) / 300.0, 0.0, 1.0)
 		
 		
 		prev_poi_id = POI["id"]
@@ -173,23 +191,40 @@ func _process(delta: float) -> void:
 					connected_lines_lookup[[selected_id, targ]] = [line_id, false]
 					Util.search(nearby_POIs, "id", key[0], false, {"drawing_name" : true})["drawing_name"] = true
 					Util.search(nearby_POIs, "id", selected_id, false, {"drawing_name" : true})["drawing_name"] = true
-		
-		
+
+
+func play_confirm_anim():
+	$Confirm.play()
+	create_connect_line(to_global(info_base_point), to_global(info_base_point) + Vector2(1000, 700.0) * (1.0 / stars_viewer.zoom), 0.3, 1.0)
+	info_label.display_POI_data(confirmed_POI)
 	
+	#info_label.line_offset
+	#info_line_end = info_base_point
+	#var tween : Tween = create_tween()
+	#tween.tween_property(self, "info_line_end", info_label.line_offset, 0.25).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
+	
+
 
 func reset_confirm_progress():
 	confirm_amount = 0.0
 	delay_timer = 0.0
+	confirmed_POI = {}
+	info_label.hide_node()
 	
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("call"):
 		$Call.play(1.1)
 		send_ping(false)
+		if has_poi:
+			confirm_amount = 1.0
+			delay_timer = CONFIRM_DELAY + Global.EPSILON
+			
+			
 
 func _draw() -> void:
-	
 	connect_points = {}
+	info_base_point = Vector2.ZERO
 	for nearby_poi in nearby_POIs:
 		var drift : Vector2 = Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0)) * SHAKE_INTENSITY * abs(position.length() - prev_cam_pos.length())
 		if randi_range(1, 100) <= GLITCH_CHANCE: drift += Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0)) * 100.0 * (1.0 / zoom.x)
@@ -241,6 +276,13 @@ func _draw() -> void:
 			
 		]
 		
+		var line_offset : Vector2 = to_local(POI["location"])
+		
+		if confirmed_POI != {}:
+			var effect : float = (sin(Util.TIME) + 1.0) * 0.025 + (sin(Util.TIME) + 1.0) * 0.02 * stars_viewer.zoom + 1 + 0.5 * stars_viewer.zoom
+			for line : Array in lines:
+				draw_line(line[0] * effect + line_offset + drift, line[1] * effect + line_offset + drift, UI_COLOR, -2.0, false)
+		
 		if confirm_amount > Global.FINE_EPSILON:
 			lines.append_array([
 				# this took so much brainwpoer to write
@@ -249,21 +291,25 @@ func _draw() -> void:
 				[bb * Vector2(-1.0, -1.0), bb * Vector2(-1.0, -1.0+confirm_amount)], [bb * Vector2(-1.0, -1.0), bb * Vector2(-1.0+confirm_amount, -1.0)],
 				[bb * Vector2(1.0, -1.0), bb * Vector2(1.0, -1.0+confirm_amount)], [bb * Vector2(1.0, -1.0), bb * Vector2(1.0-confirm_amount, -1.0)]
 			])
-		var line_offset : Vector2 = to_local(POI["location"])
 		
+		
+		
+		info_base_point = bb * Vector2(1.0, -1.0) + line_offset + drift
 		var name_text : String = POI["name"] + " " + str(clamp(snappedf(100.0 - drift.length() * pow(1.0 / zoom.x, 0.25) * 0.2, 0.1), 11.3, 100.0)) + "%"
 		draw_string_outline(FONT, bb * Vector2(-1, -1) + pow(1 / zoom.x, 0.75) * TEXT_OFFSET + line_offset + drift, name_text, HORIZONTAL_ALIGNMENT_LEFT, -1, max(1 / zoom.x * FULL_TEXT_SIZE, 11.0), 30, Color.BLACK)
 		draw_string(FONT, bb * Vector2(-1, -1) + pow(1 / zoom.x, 0.75) * TEXT_OFFSET + line_offset + drift, name_text, HORIZONTAL_ALIGNMENT_LEFT, -1, max(1 / zoom.x * FULL_TEXT_SIZE, 11.0), UI_COLOR)
-
+	
 		
 		for line : Array in lines:
 			draw_line(line[0] + line_offset + drift, line[1] + line_offset + drift, UI_COLOR, -2.0, false)
+		
+		
 	
 	
+		
 	
 	
 	prev_cam_pos = position
-	
 
 func canvas2_draw():
 	for connect_line : int in connect_lines.keys():
@@ -272,3 +318,6 @@ func canvas2_draw():
 		canvas2.draw_line(to_local(connect_lines[connect_line][0]) + start_offset, to_local(connect_lines[connect_line][1]) + end_offest, Color(UI_COLOR, connect_lines[connect_line][2]), -1, false)
 	
 	canvas2.draw_circle(to_local(ping_pos), ping_completion * ping_max_len * 2.0, Color(UI_COLOR, 0.5-ping_completion * 0.5), false, -1)
+	
+	#if confirmed_POI != {} and info_base_point != Vector2.ZERO:
+		#canvas2.draw_line(info_base_point, info_label.line_offset + position * (1.0 / zoom.x), UI_COLOR)

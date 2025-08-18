@@ -1,0 +1,19 @@
+[gd_resource type="ShaderMaterial" load_steps=4 format=3 uid="uid://jjirvic4un74"]
+
+[ext_resource type="Shader" uid="uid://b6dne1l1he620" path="res://shader/warp.gdshader" id="1_27iqe"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_ck6na"]
+frequency = 0.0254
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_ysfd5"]
+noise = SubResource("FastNoiseLite_ck6na")
+
+[resource]
+shader = ExtResource("1_27iqe")
+shader_parameter/max_blend = 0.0
+shader_parameter/rotation_offset = 0.0
+shader_parameter/intensity = 3.06
+shader_parameter/invert = false
+shader_parameter/rel_rect_size = Vector2(100, 20000)
+shader_parameter/safe = 0.0
+shader_parameter/noise = SubResource("NoiseTexture2D_ysfd5")

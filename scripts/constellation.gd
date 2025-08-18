@@ -1,6 +1,6 @@
 class_name Constellation
 
-const BOX_BUFFER : int = 100
+const BOX_BUFFER : int = 200
 const ZOOM_RANGE : Array[float] = [0.15, 0.7]
 
 
@@ -33,15 +33,24 @@ func add_to_POI():
 	for star : Star in stars:
 		average_position += star.position[0] / star_count
 	
-	var extents : Vector2 = Vector2.ZERO
+	var highest : Vector2 = average_position
+	var lowest : Vector2 = average_position
 	for star : Star in stars:
 		var pos : Array = star.position.duplicate()
 		for position : Vector2 in pos:
-			position -= average_position
-			if abs(position.x) > extents.x:
-				extents.x = abs(position.x)
-			if abs(position.y) > extents.y:
-				extents.y = abs(position.y)
+			if position.y > highest.y:
+				highest.y = position.y
+			
+			if position.x > highest.x:
+				highest.x = position.x
+			
+			if position.y < lowest.y:
+				lowest.y = position.y
+			
+			if position.x < lowest.x:
+				lowest.x = position.x
+	
+	average_position = Vector2((highest.x + lowest.x) * 0.5, (highest.y + lowest.y) * 0.5)
 	
 	POI_id = Global.add_POI(
 		"Constellation",
@@ -55,14 +64,14 @@ func add_to_POI():
 		}[status],
 		average_position + origin_position,
 		ZOOM_RANGE,
-		extents * 2.0 + Vector2.ONE * BOX_BUFFER,
+		highest - lowest + Vector2.ONE * BOX_BUFFER,
 		[
 			["owner", owner_username], 
 			["found", Time.get_datetime_string_from_unix_time(creation_unix_time)], 
 			["identifier", id], 
 			["num_stars", stars.size()], 
-			["lat", average_position.y * Global.LOCATION_MULTIPLIER], 
-			["lng", average_position.x * Global.LOCATION_MULTIPLIER]
+			["lat", (average_position.y + origin_position.y) * Global.LOCATION_MULTIPLIER], 
+			["lng", (average_position.x + origin_position.x) * Global.LOCATION_MULTIPLIER]
 		],
 		id,
 		true

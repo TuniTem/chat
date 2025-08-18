@@ -1,5 +1,10 @@
 extends Node
 
+var TIME : float = 0.0
+
+func _process(delta: float) -> void:
+	TIME += delta
+
 func rect_from_center(position : Vector2, size : Vector2) -> Rect2:
 	return Rect2(
 		position + size / 2.0,

@@ -1,9 +1,10 @@
-[gd_scene load_steps=24 format=3 uid="uid://dymru5aukpxr8"]
+[gd_scene load_steps=31 format=3 uid="uid://dymru5aukpxr8"]
 
 [ext_resource type="Texture2D" uid="uid://dquia02ck72hq" path="res://art/2D/Scope.png" id="1_6gvpi"]
 [ext_resource type="FontFile" uid="uid://lud2b8n4baea" path="res://art/Fonts/CodeSaver-Regular.otf" id="1_v3bok"]
 [ext_resource type="Script" uid="uid://dtgw716kdxuex" path="res://scripts/input_viewport_holder.gd" id="2_4unxv"]
 [ext_resource type="PackedScene" uid="uid://c6sup8wwebre6" path="res://scenes/stars.tscn" id="2_cmv3v"]
+[ext_resource type="Script" uid="uid://piwpqdabssqt" path="res://scripts/info.gd" id="2_w5ufb"]
 [ext_resource type="Environment" uid="uid://ims8y6jjl1h5" path="res://tres/stars_enviroment.tres" id="3_httpj"]
 [ext_resource type="Texture2D" uid="uid://oa2ef8ma5lj6" path="res://art/2D/CircleLAYER3v2.png" id="4_lrhwg"]
 [ext_resource type="Texture2D" uid="uid://c3evm4dtqt6jg" path="res://art/2D/Slide.png" id="4_raf56"]
@@ -13,7 +14,320 @@
 [ext_resource type="Script" uid="uid://cllbigaoa60ri" path="res://scripts/draw_ticks.gd" id="6_w5ufb"]
 [ext_resource type="AudioStream" uid="uid://cv0d0hs3svbkk" path="res://audio/SFX/click.wav" id="7_lrhwg"]
 [ext_resource type="Script" uid="uid://bth3ml63q4pva" path="res://scripts/attatch_point.gd" id="7_v3bok"]
+[ext_resource type="Script" uid="uid://bqpwfdygabccu" path="res://scripts/draw_scope.gd" id="8_73m8w"]
 [ext_resource type="Texture2D" uid="uid://cpau4grltftg" path="res://art/2D/CircleLAYER1.png" id="9_mqdwd"]
+
+[sub_resource type="FontVariation" id="FontVariation_v3bok"]
+base_font = ExtResource("1_v3bok")
+variation_embolden = 0.97
+
+[sub_resource type="Animation" id="Animation_73m8w"]
+resource_name = "InfoHide"
+length = 0.7667
+step = 0.0333
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MarginContainer:anchor_right")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.633333, 0.666667, 0.7, 0.733333, 0.766667),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [1.0, 1.0, 0.75, 0.5, 0.25, 0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("MarginContainer:anchor_bottom")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.466667, 0.5, 0.533333, 0.566667, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [1.0, 1.0, 0.75, 0.5, 0.25, 0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:max_lines_visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.0333333, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [-1, 15, 0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("MarginContainer:custom_minimum_size")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.633333, 0.666667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(300, 0), Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_w5ufb"]
+resource_name = "InfoShow"
+length = 0.7775
+step = 0.0333
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:max_lines_visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = false
+tracks/0/keys = {
+"times": PackedFloat32Array(0.0666667, 0.133333, 0.166667, 0.2, 0.233333, 0.266667, 0.3, 0.333333, 0.366667, 0.4, 0.433333, 0.466667, 0.5, 0.533333, 0.566667, 0.6, 0.633333, 0.666667, 0.7, 0.733333, 0.766667),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 0, 2, 1, 3, 2, 4, 3, 5, 4, 6, 5, 7, 1, 8, 7, 9, 8, 10, 9, -1]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("MarginContainer:anchor_bottom")
+tracks/1/interp = 1
+tracks/1/loop_wrap = false
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.0333333, 0.0666667, 0.1, 0.133333),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [0.0, 0.25, 0.5, 0.75, 1.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("MarginContainer:custom_minimum_size")
+tracks/2/interp = 1
+tracks/2/loop_wrap = false
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.133333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(300, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("MarginContainer:anchor_right")
+tracks/3/interp = 1
+tracks/3/loop_wrap = false
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.0333333, 0.0666667, 0.1, 0.133333),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [0.0, 0.25, 0.5, 0.75, 1.0]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath(".:lines_skipped")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.766667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [12, 0]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath(".:theme_override_fonts/font:spacing_bottom")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0.3, 0.566667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 0]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath(".:theme_override_fonts/font:spacing_space")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0.166667, 0.266667, 0.3, 0.4, 0.5, 0.566667),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, -205, 0, 20, -30, 0]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath(".:theme_override_fonts/font:spacing_glyph")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0.1, 0.133333, 0.233333, 0.3, 0.333333, 0.366667, 0.466667, 0.566667),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [-6, 0, -21, 0, -6, 0, 0, 0]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath(".:theme_override_fonts/font:variation_transform")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0.0666667, 0.633333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [Transform2D(-1.341, 0, 0, 1, 0, 0), Transform2D(1, 0, 0, 1, 0, 0)]
+}
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath(".:visible_ratio")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(0.766667),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+
+[sub_resource type="Animation" id="Animation_v3bok"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:max_lines_visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [-1]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("MarginContainer:anchor_bottom")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("MarginContainer:custom_minimum_size")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(300, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("MarginContainer:anchor_right")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath(".:lines_skipped")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath(".:theme_override_fonts/font:spacing_bottom")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath(".:theme_override_fonts/font:spacing_space")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath(".:theme_override_fonts/font:spacing_glyph")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath(".:theme_override_fonts/font:variation_transform")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Transform2D(1, 0, 0, 1, 0, 0)]
+}
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath(".:visible_ratio")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_73m8w"]
+_data = {
+&"InfoHide": SubResource("Animation_73m8w"),
+&"InfoShow": SubResource("Animation_w5ufb"),
+&"RESET": SubResource("Animation_v3bok")
+}
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_4unxv"]
 viewport_path = NodePath("Stars/StarsView")
@@ -227,6 +541,7 @@ offset_bottom = 20.0
 theme_override_fonts/font = ExtResource("1_v3bok")
 text = "10x
 mag"
+horizontal_alignment = 1
 
 [node name="Location" type="Label" parent="."]
 z_index = -5
@@ -237,6 +552,54 @@ offset_bottom = 43.0
 theme_override_fonts/font = ExtResource("1_v3bok")
 text = "10x
 mag"
+horizontal_alignment = 1
+
+[node name="Info" type="Label" parent="." node_paths=PackedStringArray("attach_point")]
+offset_left = 308.0
+offset_top = -162.0
+offset_right = 608.0
+offset_bottom = -69.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = SubResource("FontVariation_v3bok")
+theme_override_font_sizes/font_size = 13
+text = "NAME: UNKNOWN CONSTELLATION asdasd 
+STATUS: SING"
+autowrap_mode = 2
+script = ExtResource("2_w5ufb")
+attach_point = NodePath("../Scope/ticks/InfoAttach")
+
+[node name="MarginContainer" type="MarginContainer" parent="Info"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+theme_override_constants/margin_left = -6
+theme_override_constants/margin_top = -5
+theme_override_constants/margin_right = -6
+theme_override_constants/margin_bottom = -3
+
+[node name="Infobox" type="ReferenceRect" parent="Info/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+border_color = Color(1, 1, 1, 1)
+editor_only = false
+
+[node name="ColorRect" type="ColorRect" parent="Info/MarginContainer/Infobox"]
+z_index = -4
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.8)
+
+[node name="InfoAnims" type="AnimationPlayer" parent="Info"]
+libraries = {
+&"": SubResource("AnimationLibrary_73m8w")
+}
 
 [node name="Scope" type="Sprite2D" parent="."]
 z_index = -5
@@ -269,18 +632,33 @@ ARC = [3.1581, 4.71239]
 NUM_LARGE_TICKS = 3
 
 [node name="MagAttatch" type="Marker2D" parent="Scope/ticks" node_paths=PackedStringArray("hooked_node")]
-position = Vector2(-529.987, -12.0271)
+position = Vector2(-506.772, -61.2229)
 rotation = 0.0226893
 scale = Vector2(0.580048, 0.580048)
 script = ExtResource("7_v3bok")
 hooked_node = NodePath("../../../Mag")
 
 [node name="LocationAttach" type="Marker2D" parent="Scope/ticks" node_paths=PackedStringArray("hooked_node")]
-position = Vector2(391.926, 263.032)
+position = Vector2(-70.1835, -554.066)
 rotation = 0.0226893
 scale = Vector2(0.580048, 0.580048)
 script = ExtResource("7_v3bok")
 hooked_node = NodePath("../../../Location")
+
+[node name="InfoAttach" type="Marker2D" parent="Scope/ticks" node_paths=PackedStringArray("hooked_node")]
+position = Vector2(443.62, -67.2791)
+rotation = 0.0226893
+scale = Vector2(0.580048, 0.580048)
+script = ExtResource("7_v3bok")
+hooked_node = NodePath("../../../Info")
+
+[node name="Scope" type="Node2D" parent="Scope/ticks"]
+rotation = 0.0226893
+script = ExtResource("8_73m8w")
+COLOR = Color(0.37, 0.2775, 0.331458, 1)
+RADIUS = 50.0
+MAX_LENGTH = 25.0
+LINE_MULT = Array[float]([0.3095, 1.296, 0.3095])
 
 [node name="Inner2" type="Sprite2D" parent="Scope"]
 modulate = Color(2, 2, 2, 0.299)
@@ -307,7 +685,7 @@ own_world_3d = true
 world_3d = SubResource("World3D_mqdwd")
 size = Vector2i(1920, 1080)
 
-[node name="Stars" parent="Stars/StarsView" node_paths=PackedStringArray("animations", "move_click", "zoom_click", "scope", "zoom_scale", "zoom_scale2", "zoom_scale3", "zoom_label", "location_label") instance=ExtResource("2_cmv3v")]
+[node name="Stars" parent="Stars/StarsView" node_paths=PackedStringArray("animations", "move_click", "zoom_click", "scope", "zoom_scale", "zoom_scale2", "zoom_scale3", "zoom_label", "location_label", "info_label") instance=ExtResource("2_cmv3v")]
 animations = NodePath("../../../Animations")
 move_click = NodePath("../../../MoveClick")
 zoom_click = NodePath("../../../ZoomClick")
@@ -317,6 +695,7 @@ zoom_scale2 = NodePath("../../../Scope/Inner2")
 zoom_scale3 = NodePath("../../../Scope/ticks")
 zoom_label = NodePath("../../../Mag")
 location_label = NodePath("../../../Location")
+info_label = NodePath("../../../Info")
 
 [node name="ColorRect" type="ColorRect" parent="Stars/StarsView"]
 z_index = -9
