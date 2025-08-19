@@ -323,7 +323,7 @@ func _input(event: InputEvent) -> void:
 
 
 func _on_floaty_guy_timer_timeout() -> void:
-	if randi_range(1, 100) <= 1:
+	if randi_range(1, 100) <= 100:
 		print("floaty guy")
 		var inst = FLOATY_GUY.instantiate()
 		var dir_vec : Vector2 = Vector2(randi_range(0,1) * 2 - 1, randi_range(0,1) * 2 - 1)

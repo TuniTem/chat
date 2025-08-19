@@ -45,6 +45,8 @@ var has_poi : bool:
 	get():
 		return POI != {}
 
+var prev_had_poi : bool = false
+
 var has_nearby_pois : bool:
 	get():
 		return nearby_POIs.size() > 0
@@ -86,6 +88,7 @@ func send_ping(reversed : bool):
 	ping_pos = position
 	ping_reversed = reversed
 	ping_completion = 1.0 if reversed else 0.0
+	Global.crosshair.flash(0.4)
 	for set_POI : Dictionary in Global.POIs:
 		set_POI["drawing_name"] = false
 
@@ -135,10 +138,22 @@ func _process(delta: float) -> void:
 	#else: 
 		#frame_draw_pass = false
 	
+	if has_poi != prev_had_poi:
+		if has_poi:
+			Global.crosshair.switch_anim("focus")
+		else:
+			Global.crosshair.switch_anim("idle")
+	prev_had_poi = has_poi
+	
 	
 	if has_poi:
+		if confirmed_POI != {} and confirmed_POI["dynamic"]:
+			info_label.display_POI_data(confirmed_POI, true)
+			
+		
+		
 		if not (Input.is_action_pressed("up") or Input.is_action_pressed("down") or Input.is_action_pressed("left") or Input.is_action_pressed("right") or Input.is_action_pressed("scope_zoom_in") or Input.is_action_pressed("scope_zoom_out")):
-			global_position = lerp(global_position, POI["location"], delta * 0.8)
+			global_position = lerp(global_position, POI["location"], delta * 0.8 if not POI["dynamic"] else delta * 2.0)
 		
 		if POI["id"] != prev_poi_id:
 			reset_confirm_progress()
@@ -153,7 +168,7 @@ func _process(delta: float) -> void:
 					confirmed_POI = POI
 					if prev != confirmed_POI:
 						play_confirm_anim()
-				else:
+				elif not POI["dynamic"]:
 					confirm_amount = clamp(confirm_amount - abs(position.length() - prev_cam_pos.length()) / 300.0, 0.0, 1.0)
 		
 		
@@ -197,6 +212,7 @@ func play_confirm_anim():
 	$Confirm.play()
 	create_connect_line(to_global(info_base_point), to_global(info_base_point) + Vector2(1000, 700.0) * (1.0 / stars_viewer.zoom), 0.3, 1.0)
 	info_label.display_POI_data(confirmed_POI)
+	Global.crosshair.switch_anim("select")
 	
 	#info_label.line_offset
 	#info_line_end = info_base_point
@@ -206,6 +222,8 @@ func play_confirm_anim():
 
 
 func reset_confirm_progress():
+	if confirmed_POI != {}:
+		Global.crosshair.switch_anim("idle", 0.5)
 	confirm_amount = 0.0
 	delay_timer = 0.0
 	confirmed_POI = {}

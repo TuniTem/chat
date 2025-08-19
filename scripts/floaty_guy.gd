@@ -1,9 +1,9 @@
 extends AnimatedSprite2D
 
-const SPEED_VARIATION = [30.0, 60.0]
-const ZOOM_RANGE : Array[float] = [2.2, INF]
-const BOX_SIZE : float = 100
-const BOX_OFFSET : Vector2 = Vector2(-30, 0)
+const SPEED_VARIATION = [10.0, 20.0]
+const ZOOM_RANGE : Array[float] = [1.1, 10.0]
+const BOX_SIZE : float = 32
+const BOX_OFFSET : Vector2 = Vector2(0.0, 0)
 
 const ANIMATIONS : Dictionary[String, SpriteFrames] = {
 	"jules" : preload("res://art/anims/constellation_tres/jules.tres")
@@ -32,29 +32,31 @@ func _ready() -> void:
 				"unknown_object." + str(randi_range(100, 999)),
 				"Jules",
 				"lost",
-				"A fellow dreamer, found his way here... somehow? He looks lost.",
+				"A fellow dreamer, they found their way here... somehow? They look lost.",
 				position + BOX_OFFSET,
 				ZOOM_RANGE,
 				Vector2.ONE * BOX_SIZE,
 				[
 					["abstracted", "true"], 
 					["lat", position.y * Global.LOCATION_MULTIPLIER], 
-					["lng", position.x * Global.LOCATION_MULTIPLIER]
-				]
+					["lgt", position.x * Global.LOCATION_MULTIPLIER]
+				], 
+				-2, false, true
 			)
+	
 	
 
 var prev_distance : float = INF
 func _process(delta: float) -> void:
-	##position += dir * speed * delta
-	#if position.distance_to(end_pos) > prev_distance and not fade_triggered:
-		#fade_triggered = true
-		#fade.play("out")
-		#await fade.animation_finished
-		#Global.remove_POI(POI_id)
-		#queue_free()
-	#
-	#prev_distance = position.distance_to(end_pos)
+	position += dir * speed * delta
+	if position.distance_to(end_pos) > prev_distance and not fade_triggered:
+		fade_triggered = true
+		fade.play("out")
+		await fade.animation_finished
+		Global.remove_POI(POI_id)
+		queue_free()
+	
+	prev_distance = position.distance_to(end_pos)
 	
 	Global.update_POI(POI_id, "location", position + BOX_OFFSET)
-	Global.update_POI(POI_id, "extra_info", [["abstracted", "true"], ["lat", position.y * Global.LOCATION_MULTIPLIER], ["lng", position.x * Global.LOCATION_MULTIPLIER]])
+	Global.update_POI(POI_id, "extra_info", [["abstracted", "true"], ["lat", position.y * Global.LOCATION_MULTIPLIER], ["lgt", position.x * Global.LOCATION_MULTIPLIER]])

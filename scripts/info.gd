@@ -24,7 +24,7 @@ func hide_node():
 	await anims.animation_finished
 	hide()
 
-func display_POI_data(POI : Dictionary):
+func display_POI_data(POI : Dictionary, update : bool = false):
 	show()
 	var info : Array[Array] = [["type", POI["type"]], ["name", POI["name"]], ["status", POI["status"]]]
 	info.append_array(POI["extra_info"])
@@ -36,4 +36,4 @@ func display_POI_data(POI : Dictionary):
 			text += entry[0].to_upper() + " : " + str(entry[1]).to_upper() + ("\n" if entry != info[-1] else "")
 		else : text += "\n"
 	
-	anims.play("InfoShow")
+	if not update: anims.play("InfoShow")

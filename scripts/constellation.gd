@@ -71,7 +71,7 @@ func add_to_POI():
 			["identifier", id], 
 			["num_stars", stars.size()], 
 			["lat", (average_position.y + origin_position.y) * Global.LOCATION_MULTIPLIER], 
-			["lng", (average_position.x + origin_position.x) * Global.LOCATION_MULTIPLIER]
+			["lgt", (average_position.x + origin_position.x) * Global.LOCATION_MULTIPLIER]
 		],
 		id,
 		true
@@ -219,7 +219,6 @@ func setup(base_star : Star, origin : Vector2, init_id : int, maximum_stars : in
 	base_star.distance = 0
 	base_star.is_constellation_base = true
 	base_star.parent_constellation = self
-	base_star.add_to_POI()
 	
 	max_stars = maximum_stars
 	owner_username = base_star.username
@@ -228,6 +227,7 @@ func setup(base_star : Star, origin : Vector2, init_id : int, maximum_stars : in
 	origin_position = origin
 	creation_unix_time = Time.get_unix_time_from_system()
 	name = Global.dummy_constellation_names.pick_random()
+	base_star.add_to_POI()
 	stars.append(base_star)
 	
 

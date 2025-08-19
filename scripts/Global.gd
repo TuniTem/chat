@@ -302,6 +302,7 @@ const FINE_EPSILON = 0.00001
 var screen_id : String = ""
 var debug_draw_pos : Vector2
 var music_widget : Control
+var crosshair : DrawCrosshair
 
 func _ready():
 	DisplayServer.window_set_title("Overlay")
@@ -356,7 +357,7 @@ func get_nearby_POIs(position : Vector2, zoom : float, zoom_dependent_distance :
 	
 	return [closest_POI, nearby_POIs]
 
-func add_POI(type : String, object_name : String, object_status : String, description : String, location : Vector2, zoom_range : Array[float], bounding_box : Vector2, extra_info : Array = [], dupe_verify : int  = -2, draw_name : bool = false) -> int: 
+func add_POI(type : String, object_name : String, object_status : String, description : String, location : Vector2, zoom_range : Array[float], bounding_box : Vector2, extra_info : Array = [], dupe_verify : int  = -2, draw_name : bool = false, is_dynamic : bool = false) -> int: 
 	if dupe_verify != -2:
 		for POI in POIs:
 			if POI["dupe_verify"]  == dupe_verify:
@@ -376,7 +377,8 @@ func add_POI(type : String, object_name : String, object_status : String, descri
 		"extra_info" : extra_info,
 		"draw_name" : draw_name,
 		"drawing_name" : false,
-		"dupe_verify": dupe_verify
+		"dupe_verify": dupe_verify,
+		"dynamic" : is_dynamic
 	})
 	
 	return id

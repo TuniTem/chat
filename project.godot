@@ -24,7 +24,7 @@ Global="*res://scenes/global.tscn"
 DB="*res://scripts/db.gd"
 Music="*res://scenes/music_controller.tscn"
 ControlPanel="*res://scenes/control_panel.tscn"
-Util="*res://scripts/util.gd"
+Util="*res://scripts/util/util.gd"
 
 [display]
 

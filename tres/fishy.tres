@@ -6,7 +6,7 @@
 shader = ExtResource("1_u1jml")
 shader_parameter/aspect = 1.7777
 shader_parameter/distortion = 0.0
-shader_parameter/radius = 1.4385
+shader_parameter/radius = 4.159
 shader_parameter/alpha = 1.0
-shader_parameter/crop = 1.305
+shader_parameter/crop = 1.539
 shader_parameter/crop_color = Color(0.507717, 0.384289, 0.563661, 1)

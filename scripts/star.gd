@@ -82,7 +82,7 @@ func add_to_POI():
 			["constellation", parent_constellation.name], 
 			["color", Colors.keys()[int(color)].capitalize()],
 			["lat", global_position[1].y * Global.LOCATION_MULTIPLIER], 
-			["lng", global_position[1].x * Global.LOCATION_MULTIPLIER]
+			["lgt", global_position[1].x * Global.LOCATION_MULTIPLIER]
 		],
 		id
 	)
