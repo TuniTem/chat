@@ -1,7 +1,7 @@
 @tool
 class_name DrawCrosshair extends Node2D
 
-const DEFAULT_ROTATION = 1.3
+const SIMPLIFY_THICKNESS = 4.0
 @onready var crosshair_anims: AnimationPlayer = $CrosshairAnims
 
 @export_category("toggle")
@@ -43,9 +43,11 @@ const DEFAULT_ROTATION = 1.3
 @export var LINE_THICKNESS : int = -1
 @export var TRANSITION_SPEED : float = 1.0
 @export var TRANSITION_CURVE : Curve
+@export var DEFAULT_ROTATION : float = 1.3
+@export var run_anims : bool = true
 
 @export_category("crosshair")
-@export_range(0.0, 400.0) var CROSS_RADIUS : float = 400
+@export var CROSS_RADIUS : float = 400
 @export_range(0.0, 200.0) var CROSS_MAX_LENGTH : float = 20
 @export var CROSS_ALL_MAX : bool = false
 @export var CROSS_LINE_MULT : Array[float] = [1.0, 0.75, 0.3]
@@ -82,9 +84,11 @@ var transitions : Dictionary = {
 }
 
 var curr_color : Color = Color.WHITE
+var simplify : bool = false
 
 func _ready() -> void:
-	Global.crosshair = self
+	simplify = Global.simplify_constellations
+	if run_anims: Global.crosshair = self
 
 func _process(delta: float) -> void:
 	for key in transitions.keys():
@@ -104,7 +108,7 @@ func _draw() -> void:
 		
 		for i in range(num_lines):
 			var theta : float = delta_angle * i
-			draw_line(Vector2.from_angle(theta) * CROSS_RADIUS, Vector2.from_angle(theta) * (CROSS_RADIUS - CROSS_MAX_LENGTH * (CROSS_LINE_MULT[idx[i]] if not CROSS_ALL_MAX else 1.0) * transitions["crosshair"]), COLOR if CROSS_IGNORE_FLASH else curr_color, LINE_THICKNESS, false)
+			draw_line(Vector2.from_angle(theta) * CROSS_RADIUS, Vector2.from_angle(theta) * (CROSS_RADIUS - CROSS_MAX_LENGTH * (CROSS_LINE_MULT[idx[i]] if not CROSS_ALL_MAX else 1.0) * transitions["crosshair"]), COLOR if CROSS_IGNORE_FLASH else curr_color, LINE_THICKNESS if not simplify else SIMPLIFY_THICKNESS, false)
 	
 	if transitions["square"] != 0.0:
 		if SQUARE_SEPERATED:
@@ -124,10 +128,10 @@ func _draw() -> void:
 				var trans_curve_adjusted : float = clamp(remap(transitions["square"], start, end, 0.0, 1.0), 0.0, 1.0)
 				#var trans_adjusted : float = remap(pow(trans_curve_adjusted, SQUARE_TRANS_EASE_AMMOUNT), 0.0, 1.0, trans_dist_ratio, 1.0)
 				if SQUARE_DASHED:
-					draw_dashed_line(line[0] * (1.25 - 0.25 * transitions["square"]), line[1] * (1.25 - 0.25 * transitions["square"]), (COLOR * transitions["square"]) if SQUARE_IGNORE_FLASH else (curr_color * transitions["square"]), LINE_THICKNESS, SQUARE_DASHED_AMOUNT)
+					draw_dashed_line(line[0] * (1.25 - 0.25 * transitions["square"]), line[1] * (1.25 - 0.25 * transitions["square"]), (COLOR * transitions["square"]) if SQUARE_IGNORE_FLASH else (curr_color * transitions["square"]), LINE_THICKNESS if not simplify else SIMPLIFY_THICKNESS, SQUARE_DASHED_AMOUNT)
 				
 				else:
-					draw_line(line[0] * (1.25 - 0.25 * transitions["square"]), line[1] * (1.25 - 0.25 * transitions["square"]), (COLOR * transitions["square"]) if SQUARE_IGNORE_FLASH else (curr_color * transitions["square"]), LINE_THICKNESS)
+					draw_line(line[0] * (1.25 - 0.25 * transitions["square"]), line[1] * (1.25 - 0.25 * transitions["square"]), (COLOR * transitions["square"]) if SQUARE_IGNORE_FLASH else (curr_color * transitions["square"]), LINE_THICKNESS if not simplify else SIMPLIFY_THICKNESS)
 				
 		
 		else:
@@ -141,10 +145,10 @@ func _draw() -> void:
 			for line : Array in lines:
 				var trans_adjusted : float = clamp(remap(pow(transitions["square"], SQUARE_TRANS_EASE_AMMOUNT), 0.0, 1.0, trans_dist_ratio, 1.0), trans_dist_ratio, 1.0)
 				if SQUARE_DASHED:
-					draw_dashed_line(line[0] * trans_adjusted, line[1] * trans_adjusted, (COLOR * TRANSITION_CURVE.sample(transitions["square"])) if SQUARE_IGNORE_FLASH else (curr_color * TRANSITION_CURVE.sample(transitions["square"])), LINE_THICKNESS, SQUARE_DASHED_AMOUNT)
+					draw_dashed_line(line[0] * trans_adjusted, line[1] * trans_adjusted, (COLOR * TRANSITION_CURVE.sample(transitions["square"])) if SQUARE_IGNORE_FLASH else (curr_color * TRANSITION_CURVE.sample(transitions["square"])), LINE_THICKNESS if not simplify else SIMPLIFY_THICKNESS, SQUARE_DASHED_AMOUNT)
 				
 				else:
-					draw_line(line[0] * trans_adjusted, line[1] * trans_adjusted, (COLOR * TRANSITION_CURVE.sample(transitions["square"])) if SQUARE_IGNORE_FLASH else (curr_color * TRANSITION_CURVE.sample(transitions["square"])), LINE_THICKNESS)
+					draw_line(line[0] * trans_adjusted, line[1] * trans_adjusted, (COLOR * TRANSITION_CURVE.sample(transitions["square"])) if SQUARE_IGNORE_FLASH else (curr_color * TRANSITION_CURVE.sample(transitions["square"])), LINE_THICKNESS if not simplify else SIMPLIFY_THICKNESS)
 				
 			
 			
@@ -154,7 +158,7 @@ func _draw() -> void:
 		var curr_clr : Color = COLOR if SQUARE_IGNORE_FLASH else curr_color
 		var curr_rad : float = CIRCLE_RADIUS
 		for i in range(CIRCLE_ITERATIONS):
-			draw_circle(Vector2.ZERO, curr_rad * transitions["circle"], curr_clr * transitions["circle"], false, LINE_THICKNESS)
+			draw_circle(Vector2.ZERO, curr_rad * transitions["circle"], curr_clr * transitions["circle"], false, LINE_THICKNESS if not simplify else SIMPLIFY_THICKNESS)
 			curr_clr *= CIRCLE_ITERATION_COLOR_MULT
 			curr_rad *= CIRCLE_ITERATION_OFFSET
 	

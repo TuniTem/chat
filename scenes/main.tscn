@@ -1,10 +1,12 @@
-[gd_scene load_steps=9 format=3 uid="uid://e6smj52fq76u"]
+[gd_scene load_steps=13 format=3 uid="uid://e6smj52fq76u"]
 
 [ext_resource type="Script" uid="uid://bt67igeh5arjf" path="res://scripts/twitch.gd" id="1_0xm2m"]
 [ext_resource type="Script" uid="uid://d0253vbx2k6gk" path="res://scripts/chat.gd" id="1_h2yge"]
 [ext_resource type="PackedScene" uid="uid://tjxc40mmgxnw" path="res://scenes/box.tscn" id="3_h2yge"]
 [ext_resource type="PackedScene" uid="uid://drdfcb02hdnqa" path="res://scenes/notification_manager.tscn" id="4_jyhfs"]
 [ext_resource type="Script" uid="uid://cw7oufo6137br" path="res://scripts/screen_controller.gd" id="5_tipki"]
+[ext_resource type="Script" uid="uid://cft8h5tsgesgg" path="res://scenes/constellation_controller.gd" id="7_85g3d"]
+[ext_resource type="Shader" uid="uid://bq43mxo7qukb7" path="res://shader/edge_fade.gdshader" id="7_choun"]
 [ext_resource type="PackedScene" uid="uid://cltetaql0d31y" path="res://scenes/music_widget.tscn" id="7_o6xl0"]
 [ext_resource type="PackedScene" uid="uid://dymru5aukpxr8" path="res://scenes/telescope.tscn" id="7_tipki"]
 
@@ -16,6 +18,18 @@ glow_bloom = 0.04
 glow_hdr_threshold = 2.46
 glow_hdr_scale = 0.0
 glow_hdr_luminance_cap = 165.6
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ya4ey"]
+shader = ExtResource("7_choun")
+shader_parameter/radial_cut = true
+shader_parameter/screen_size = Vector2(1920, 1920)
+shader_parameter/amount = 0.73
+shader_parameter/feather = 0.106
+shader_parameter/xoffset = 0.0
+shader_parameter/yoffset = 0.0
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_tipki"]
+viewport_path = NodePath("Constellations/SubViewport")
 
 [node name="Main" type="Control"]
 layout_mode = 3
@@ -63,5 +77,44 @@ position = Vector2(8, 38)
 offset_right = 0.0
 offset_bottom = 0.0
 
-[node name="Telescope" parent="." instance=ExtResource("7_tipki")]
+[node name="Constellations" type="Sprite2D" parent="." node_paths=PackedStringArray("viewport")]
+material = SubResource("ShaderMaterial_ya4ey")
+position = Vector2(296, 344)
+scale = Vector2(0.308333, 0.308333)
+texture = SubResource("ViewportTexture_tipki")
+script = ExtResource("7_85g3d")
+viewport = NodePath("SubViewport")
+
+[node name="SubViewport" type="SubViewport" parent="Constellations"]
+use_hdr_2d = true
+size = Vector2i(1920, 1080)
+
+[node name="Telescope" parent="Constellations/SubViewport" instance=ExtResource("7_tipki")]
 position = Vector2(960, 540)
+
+[node name="Control" type="Control" parent="Constellations"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -960.0
+offset_top = -540.0
+offset_right = -960.0
+offset_bottom = -540.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Constellations/Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "New Star Fund"

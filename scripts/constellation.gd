@@ -95,7 +95,6 @@ func verify_star(verify_id : int) -> bool:
 			Geometry2D.segment_intersects_segment(test_star.position[0], test_star.position[1], star.position[0], star.test_positions[1])
 		]
 		
-		prints(tests[0] != null, tests[1] != null, tests[2] != null)
 		print("star id ", test_star.id)
 		if tests[0] != null or tests[1] != null or tests[2] != null:
 			#print("c.5")
@@ -248,6 +247,7 @@ func construct(data : Array):
 	stars = []
 	for star_data : Array in data[6]:
 		var star : Star = Star.new()
+		star.parent_constellation = self
 		star.construct(star_data)
 		stars.append(star)
 	

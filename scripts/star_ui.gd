@@ -1,5 +1,6 @@
 extends Camera2D
 
+const SIMPLIFY_THICKNESS = 3
 const DRAW_DIST : float = 0.3
 const SHAKE_INTENSITY : float = 1.0
 const GLITCH_CHANCE : int = 1
@@ -81,6 +82,7 @@ var info_label : Label
 var info_base_point : Vector2
 var info_line_end : Vector2 = Vector2.ZERO
 
+
 func _ready() -> void:
 	info_label = stars_viewer.info_label
 
@@ -145,8 +147,7 @@ func _process(delta: float) -> void:
 			Global.crosshair.switch_anim("idle")
 	prev_had_poi = has_poi
 	
-	
-	if has_poi:
+	if has_poi and not Global.simplify_constellations:
 		if confirmed_POI != {} and confirmed_POI["dynamic"]:
 			info_label.display_POI_data(confirmed_POI, true)
 			
@@ -258,13 +259,14 @@ func _draw() -> void:
 		
 		var line_offset : Vector2 = to_local(nearby_poi["location"])
 		
-		var name_text : String = nearby_poi["name"] + " " + str(clamp(snappedf(99.9 - drift.length() * pow(1.0 / zoom.x, 0.25) * 0.2, 0.1), 11.3, 99.9)) + "%"
-		if nearby_poi["draw_name"]:
-			draw_string_outline(FONT,  bb * Vector2(-1, -1) + pow(1 / zoom.x, 0.75) * TEXT_OFFSET + line_offset + drift, name_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 1 / zoom.x * FULL_TEXT_SIZE, 30, Color.BLACK)
-			draw_string(FONT, bb * Vector2(-1, -1) + pow(1 / zoom.x, 0.75) * TEXT_OFFSET + line_offset + drift, name_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 1 / zoom.x * FULL_TEXT_SIZE, NEARBY_COLOR)
-		elif nearby_poi["drawing_name"]:
-			draw_string_outline(FONT,  bb * Vector2(-1, -1) + pow(1 / zoom.x, 0.75) * TEXT_OFFSET + line_offset + drift, name_text, HORIZONTAL_ALIGNMENT_LEFT, -1, max(1 / zoom.x * SMALL_TEXT_SIZE, 7.0), 15, Color.BLACK)
-			draw_string(FONT, bb * Vector2(-1, -1) + pow(1 / zoom.x, 0.75) * TEXT_OFFSET + line_offset + drift, name_text, HORIZONTAL_ALIGNMENT_LEFT, -1, max(1 / zoom.x * SMALL_TEXT_SIZE, 7.0), NEARBY_COLOR)
+		if not Global.simplify_constellations:
+			var name_text : String = nearby_poi["name"] + " " + str(clamp(snappedf(99.9 - drift.length() * pow(1.0 / zoom.x, 0.25) * 0.2, 0.1), 11.3, 99.9)) + "%"
+			if nearby_poi["draw_name"]:
+				draw_string_outline(FONT,  bb * Vector2(-1, -1) + pow(1 / zoom.x, 0.75) * TEXT_OFFSET + line_offset + drift, name_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 1 / zoom.x * FULL_TEXT_SIZE, 30, Color.BLACK)
+				draw_string(FONT, bb * Vector2(-1, -1) + pow(1 / zoom.x, 0.75) * TEXT_OFFSET + line_offset + drift, name_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 1 / zoom.x * FULL_TEXT_SIZE, NEARBY_COLOR)
+			elif nearby_poi["drawing_name"]:
+				draw_string_outline(FONT,  bb * Vector2(-1, -1) + pow(1 / zoom.x, 0.75) * TEXT_OFFSET + line_offset + drift, name_text, HORIZONTAL_ALIGNMENT_LEFT, -1, max(1 / zoom.x * SMALL_TEXT_SIZE, 7.0), 15, Color.BLACK)
+				draw_string(FONT, bb * Vector2(-1, -1) + pow(1 / zoom.x, 0.75) * TEXT_OFFSET + line_offset + drift, name_text, HORIZONTAL_ALIGNMENT_LEFT, -1, max(1 / zoom.x * SMALL_TEXT_SIZE, 7.0), NEARBY_COLOR)
 		
 		var prev_line_pos : Vector2
 		for line : Array in lines:
@@ -278,7 +280,7 @@ func _draw() -> void:
 			
 			
 			prev_line_pos = line[0]
-			draw_line(line[0] + line_offset + drift, line[1] + line_offset + drift, NEARBY_COLOR, -2.0, false)
+			draw_line(line[0] + line_offset + drift, line[1] + line_offset + drift, NEARBY_COLOR, -2.0 if not Global.simplify_constellations else SIMPLIFY_THICKNESS, false)
 	
 	if has_poi:
 		var drift : Vector2 = Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0)) * SHAKE_INTENSITY * abs(position.length() - prev_cam_pos.length())
@@ -299,7 +301,7 @@ func _draw() -> void:
 		if confirmed_POI != {}:
 			var effect : float = (sin(Util.TIME) + 1.0) * 0.025 + (sin(Util.TIME) + 1.0) * 0.02 * stars_viewer.zoom + 1 + 0.5 * stars_viewer.zoom
 			for line : Array in lines:
-				draw_line(line[0] * effect + line_offset + drift, line[1] * effect + line_offset + drift, UI_COLOR, -2.0, false)
+				draw_line(line[0] * effect + line_offset + drift, line[1] * effect + line_offset + drift, UI_COLOR, -2.0 if not Global.simplify_constellations else SIMPLIFY_THICKNESS, false)
 		
 		if confirm_amount > Global.FINE_EPSILON:
 			lines.append_array([
@@ -313,13 +315,14 @@ func _draw() -> void:
 		
 		
 		info_base_point = bb * Vector2(1.0, -1.0) + line_offset + drift
-		var name_text : String = POI["name"] + " " + str(clamp(snappedf(100.0 - drift.length() * pow(1.0 / zoom.x, 0.25) * 0.2, 0.1), 11.3, 100.0)) + "%"
-		draw_string_outline(FONT, bb * Vector2(-1, -1) + pow(1 / zoom.x, 0.75) * TEXT_OFFSET + line_offset + drift, name_text, HORIZONTAL_ALIGNMENT_LEFT, -1, max(1 / zoom.x * FULL_TEXT_SIZE, 11.0), 30, Color.BLACK)
-		draw_string(FONT, bb * Vector2(-1, -1) + pow(1 / zoom.x, 0.75) * TEXT_OFFSET + line_offset + drift, name_text, HORIZONTAL_ALIGNMENT_LEFT, -1, max(1 / zoom.x * FULL_TEXT_SIZE, 11.0), UI_COLOR)
+		if not Global.simplify_constellations:
+			var name_text : String = POI["name"] + " " + str(clamp(snappedf(100.0 - drift.length() * pow(1.0 / zoom.x, 0.25) * 0.2, 0.1), 11.3, 100.0)) + "%"
+			draw_string_outline(FONT, bb * Vector2(-1, -1) + pow(1 / zoom.x, 0.75) * TEXT_OFFSET + line_offset + drift, name_text, HORIZONTAL_ALIGNMENT_LEFT, -1, max(1 / zoom.x * FULL_TEXT_SIZE, 11.0), 30, Color.BLACK)
+			draw_string(FONT, bb * Vector2(-1, -1) + pow(1 / zoom.x, 0.75) * TEXT_OFFSET + line_offset + drift, name_text, HORIZONTAL_ALIGNMENT_LEFT, -1, max(1 / zoom.x * FULL_TEXT_SIZE, 11.0), UI_COLOR)
 	
 		
 		for line : Array in lines:
-			draw_line(line[0] + line_offset + drift, line[1] + line_offset + drift, UI_COLOR, -2.0, false)
+			draw_line(line[0] + line_offset + drift, line[1] + line_offset + drift, UI_COLOR, -2.0 if not Global.simplify_constellations else SIMPLIFY_THICKNESS, false)
 		
 		
 	

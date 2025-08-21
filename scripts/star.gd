@@ -44,6 +44,7 @@ var global_position : Array[Vector2]:
 	get():
 		return [position[0] + parent_constellation.origin_position, position[1] + parent_constellation.origin_position]
 var parent_constellation : Constellation
+var draw_amount : float = 1.0
 
 func add_to_POI():
 	var status : String

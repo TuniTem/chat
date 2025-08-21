@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://c6sup8wwebre6"]
+[gd_scene load_steps=31 format=3 uid="uid://c6sup8wwebre6"]
 
 [ext_resource type="Script" uid="uid://ctx7iugx8ap7o" path="res://scripts/stars.gd" id="1_ucpii"]
 [ext_resource type="Script" uid="uid://bbpn8nctt3seq" path="res://scripts/star_ui.gd" id="2_nwprx"]
@@ -13,6 +13,9 @@
 [ext_resource type="AudioStream" uid="uid://c2x2aixbg1hl1" path="res://audio/SFX/OVERLAY-SFX-beeps2.wav" id="7_1sanf"]
 [ext_resource type="Material" uid="uid://bvpjrn25ugeuf" path="res://tres/fishy.tres" id="8_ck6na"]
 [ext_resource type="Material" uid="uid://jjirvic4un74" path="res://tres/warpshader.tres" id="9_ysfd5"]
+[ext_resource type="AudioStream" uid="uid://b2lq5ych8bye5" path="res://audio/Music/OVERLAY-MUS-FinalConstellation.mp3" id="14_yrfgp"]
+[ext_resource type="AudioStream" uid="uid://b1ae3el3jur1r" path="res://audio/SFX/OVERLAY-SFX-boot_full.wav" id="15_qc5w6"]
+[ext_resource type="AudioStream" uid="uid://beq46d8d42vn6" path="res://audio/SFX/OVERLAY-SFX-boot_full2.wav" id="15_yrfgp"]
 
 [sub_resource type="Curve" id="Curve_qov51"]
 _data = [Vector2(0, 0), 0.0, 2.49026, 0, 0, Vector2(0.529412, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -3.71531, 0.0, 0, 0]
@@ -141,12 +144,84 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [0.0]
+"values": [0.0025]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("BGM:pitch_scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("BGM:playing")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Boot:playing")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Boot2:playing")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Boot:volume_db")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [-4.4973]
 }
 
 [sub_resource type="Animation" id="Animation_ck6na"]
 resource_name = "intro"
-length = 3.0
+length = 8.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -154,10 +229,82 @@ tracks/0/path = NodePath("Camera2D/Warp:material:shader_parameter/distortion")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(1, 3),
+"times": PackedFloat32Array(5, 7.53333),
 "transitions": PackedFloat32Array(0.517633, 1),
 "update": 0,
-"values": [0.0, 0.433]
+"values": [0.0025, 0.433]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(5.06667, 5.26667),
+"transitions": PackedFloat32Array(0.5, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 0), Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("BGM:pitch_scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(5.06667, 5.96667),
+"transitions": PackedFloat32Array(0.450625, 1),
+"update": 0,
+"values": [2.0, 1.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("BGM:playing")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Boot:playing")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Boot2:playing")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Boot:volume_db")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(5.33, 8),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [-4.4973, -22.6161]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_rerl2"]
@@ -203,7 +350,7 @@ process_material = SubResource("ParticleProcessMaterial_jlhay")
 
 [node name="Call" type="AudioStreamPlayer" parent="Camera2D"]
 stream = ExtResource("6_jlhay")
-volume_db = 24.0
+volume_db = -14.341
 pitch_scale = 1.38
 
 [node name="Confirm" type="AudioStreamPlayer" parent="Camera2D"]
@@ -277,10 +424,26 @@ environment = ExtResource("6_uxhsd")
 wait_time = 10.0
 autostart = true
 
-[node name="AnimationPlayer2" type="AnimationPlayer" parent="."]
+[node name="Intro" type="AnimationPlayer" parent="."]
 libraries = {
 &"": SubResource("AnimationLibrary_rerl2")
 }
 autoplay = "intro"
+
+[node name="BGM" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("14_yrfgp")
+volume_db = -7.6138
+autoplay = true
+bus = &"Music"
+
+[node name="Boot" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("15_yrfgp")
+volume_db = -4.4973
+bus = &"SFX"
+
+[node name="Boot2" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("15_qc5w6")
+volume_db = 24.0
+bus = &"SFX"
 
 [connection signal="timeout" from="FloatyGuyTimer" to="." method="_on_floaty_guy_timer_timeout"]

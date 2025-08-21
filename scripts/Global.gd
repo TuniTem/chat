@@ -285,6 +285,8 @@ const LOCATION_MULTIPLIER : float = 0.0015
 var POIs : Array[Dictionary]
 var closest_POI : Dictionary = {}
 
+var simplify_constellations : bool = true
+
 # Twitch 
 @onready var chat : TwitchChat = %Chat
 @onready var twitch: TwitchService = %TwitchService
@@ -312,8 +314,6 @@ func _ready():
 	active_ids = DB.list("UID")
 	followers = DB.list("followers")
 	
-	print(followers)
-	
 	if GEN_TREE:
 		DB.delete_DB("followers")
 		DB.delete_DB("branches")
@@ -328,7 +328,7 @@ func _ready():
 	
 	if GEN_STARS:
 		
-		DB.delete_DB("constellations")
+		#DB.delete_DB("constellations")
 		load_constellations()
 
 
@@ -401,7 +401,6 @@ func _find_POI(id : int) -> Dictionary:
 			return POI
 	
 	printerr("Could not find POI ", id, " avalable POIs printed")
-	prints("POIs:", POIs)
 	return {} 
 
 func get_follower_data(id : String, key : String = ""):

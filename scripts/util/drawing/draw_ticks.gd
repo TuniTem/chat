@@ -8,6 +8,11 @@ extends Node2D
 @export var ARC : Array = [PI, PI + PI / 2.0]
 @export var NUM_LARGE_TICKS : int = 5
 
+var simplify : bool = false
+
+func _ready() -> void:
+	simplify = Global.simplify_constellations
+
 func _process(delta: float) -> void:
 	queue_redraw()
 
@@ -17,7 +22,7 @@ func _draw() -> void:
 	var count : int = 0
 	for i in range(NUM_LARGE_TICKS * 10 + 1):
 		var theta : float = ARC[0] + delta_angle * i
-		draw_line(Vector2.from_angle(theta) * RADIUS, Vector2.from_angle(theta) * (RADIUS - MAX_LENGTH * LINE_MULT[0 if count % 10 == 0 else (1 if count % 5 == 0 else 2)]), COLOR, -3, true)
+		draw_line(Vector2.from_angle(theta) * RADIUS, Vector2.from_angle(theta) * (RADIUS - MAX_LENGTH * LINE_MULT[0 if count % 10 == 0 else (1 if count % 5 == 0 else 2)]), COLOR, -3 if not simplify else 2, true)
 		count += 1
 	
 	

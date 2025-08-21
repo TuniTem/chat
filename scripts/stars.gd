@@ -11,6 +11,11 @@ const ZOOM_CLICK_DISTANCE = 1.07
 const SCOPE_TRAIL_MULT = 3.0
 const PRECISION_SPEED_MULTIPLIER = 3.5
 
+const DEFAULT_AUTO_MOVE_TIME_MULT : float = 1.0
+const AUTO_MOVE_STATIC_MULT : float = 0.1
+const AUTO_MOVE_ZOOM_OUT : float = 0.5
+const AUTO_MOVE_DIST_POW : float = 0.5
+
 const ZOOM_SCALER_RANGE = [0.25, 0.5528]
 const ZOOM_SCALER_RANGE2 = [0.04, 0.35]
 
@@ -175,6 +180,19 @@ func _process(delta: float) -> void:
 	#print(get_global_mouse_position())
 	queue_redraw()
 
+func move_to_location(location : Vector2, end_zoom : float, time_mult : float = DEFAULT_AUTO_MOVE_TIME_MULT):
+	var time : float = pow(location.distance_to(camera.position), AUTO_MOVE_DIST_POW) * time_mult * AUTO_MOVE_STATIC_MULT
+	var zoom_tween : Tween = create_tween()
+	var pos_tween : Tween = create_tween()
+	
+	pos_tween.tween_property(camera, "position", location, time).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE)
+	zoom_tween.tween_property(self, "zoom", 1.0 / (time * AUTO_MOVE_ZOOM_OUT), time / 2.0).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE)
+	zoom_tween.tween_property(self, "zoom", end_zoom, time / 2.0).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE)
+	
+	for scope_interval : int in range(SCOPE_INTERVALS.size()):
+		if Util.between(end_zoom, SCOPE_INTERVALS[scope_interval][0], SCOPE_INTERVALS[scope_interval][1]):
+			current_scope_interval = scope_interval
+
 func set_can_scope(on : bool): can_scope = on
 
 func attempt_switch_scope(higher: bool, is_manual : bool = false):
@@ -190,7 +208,6 @@ func attempt_switch_scope(higher: bool, is_manual : bool = false):
 		if higher:
 			current_scope_interval += 1
 			if not is_manual: 
-				print("waugh")
 				await get_tree().create_timer(0.25).timeout
 				zoom = SCOPE_INTERVALS[current_scope_interval][0]
 				camera.zoom = Vector2.ONE * zoom
@@ -240,7 +257,7 @@ func _draw() -> void:
 		#prints(star.position[0],constellation_origin)
 		var progress : float = clamp((constellation_dist - CONSTELLATION_VIGNETTE_INNER) / CONSTELLATION_VIGNETTE_FALLOFF, 0.0, 1.0)
 		#draw_dashed_line(star.position[0] + constellation_origin, star.position[1] + constellation_origin, COLOR * Color(1.0, 1.0, 1.0, progress), draw_scale, 20.0, true)
-		draw_line(star.position[0] + constellation_origin, star.position[1] + constellation_origin, COLOR * Color(1.0, 1.0, 1.0, 0.2 + 0.4 * (1.0 - progress)), draw_scale)
+		draw_line(star.position[0] + constellation_origin, star.position[1] + constellation_origin, COLOR * Color(1.0, 1.0, 1.0, 0.2 + 0.4 * (1.0 - progress) * (1.0 if not Global.simplify_constellations else 0.0)), draw_scale if not Global.simplify_constellations else 4.0 * (1.0/zoom))
 		
 		
 	
@@ -268,7 +285,8 @@ func _draw() -> void:
 	
 	for star : Star in Global.get_stars():
 		var constellation_origin : Vector2 = star.parent_constellation.origin_position
-		draw_texture_rect(star_texures[star.color], Rect2(star.position[1] + constellation_origin - Vector2.ONE * texture_scale / 2.0, Vector2.ONE * texture_scale), false)
+		var tex_scale : float = texture_scale if not Global.simplify_constellations else max(texture_scale * (1.0/zoom) * 0.25, texture_scale * 1.5)
+		draw_texture_rect(star_texures[star.color], Rect2(star.position[1] + constellation_origin - Vector2.ONE * tex_scale / 2.0, Vector2.ONE * tex_scale), false)
 	
 	if Global.debug_draw_pos:
 		draw_circle(Global.debug_draw_pos, 16.0, Color.RED, false, 4.0)
@@ -323,8 +341,7 @@ func _input(event: InputEvent) -> void:
 
 
 func _on_floaty_guy_timer_timeout() -> void:
-	if randi_range(1, 100) <= 100:
-		print("floaty guy")
+	if randi_range(1, 100) <= 1:
 		var inst = FLOATY_GUY.instantiate()
 		var dir_vec : Vector2 = Vector2(randi_range(0,1) * 2 - 1, randi_range(0,1) * 2 - 1)
 		inst.position = camera.position + ((DisplayServer.window_get_size() / 2.0 + Vector2.ONE * FLOATY_GUY_BUFFER) / zoom) * dir_vec + Vector2.from_angle(randf_range(0.0, TAU)) * FLOATY_GUY_BUFFER / 2.0
