@@ -13,7 +13,6 @@ resource_name = "Delay"
 resource_name = "Reverb"
 
 [resource]
-bus/0/mute = true
 bus/0/effect/0/effect = SubResource("AudioEffectLimiter_n8wo2")
 bus/0/effect/0/enabled = true
 bus/1/name = &"rev"
@@ -40,7 +39,7 @@ bus/3/volume_db = -0.130497
 bus/3/send = &"Master"
 bus/3/effect/0/effect = ExtResource("1_g28q7")
 bus/3/effect/0/enabled = true
-bus/4/name = &"Music"
+bus/4/name = &"Constellation"
 bus/4/solo = false
 bus/4/mute = false
 bus/4/bypass_fx = false

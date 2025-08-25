@@ -1,6 +1,6 @@
 extends Node
  # General
-const DEBUG = true
+const DEBUG = true 
 var dummy_usernames = [
 	"pixelNomad",
 	"lunar_kicks",
@@ -260,6 +260,7 @@ var avalable_branches : Array[Branch] = []
 var max_branch_id : int = 0
 
 # Star
+const STARS_OPENING_ANIMATION_LENGTH : float = 8.0
 #const STAR_ANGLE_CLAMP : int = 160
 const STAR_ANGLE_EXCLUSION : float = 20.0
 const STAR_DIST_MULT : float = 15.0
@@ -295,7 +296,10 @@ var followers : Array = []
 
 # Nodes
 var sparkle_holder : Node2D
+
 var notification_manager : NotificationManager
+
+var constellation_manager : Node2D
 
 # Util
 const EPSILON = 0.001
@@ -305,6 +309,7 @@ var screen_id : String = ""
 var debug_draw_pos : Vector2
 var music_widget : Control
 var crosshair : DrawCrosshair
+
 
 func _ready():
 	DisplayServer.window_set_title("Overlay")
@@ -330,6 +335,20 @@ func _ready():
 		
 		#DB.delete_DB("constellations")
 		load_constellations()
+
+func _input(event: InputEvent) -> void:
+	if DEBUG and event.is_action_pressed("debug"):
+		#if is_instance_valid(constellation_manager.telescope):
+			#constellation_manager.telescope.queue_free()
+			#
+			#
+		#constellation_manager._create_telescope()
+		#constellation_manager.telescope.stop_loop(false)
+		_on_follow_received({
+			"user_id" : str(randi_range(100000, 9999999)),
+			"user_name" : dummy_usernames.pick_random() + str(randi_range(1, 1000)),
+			"followed_at": Time.get_datetime_string_from_system()
+		})
 
 
 func get_nearby_POIs(position : Vector2, zoom : float, zoom_dependent_distance : bool = true) -> Array:
@@ -357,7 +376,7 @@ func get_nearby_POIs(position : Vector2, zoom : float, zoom_dependent_distance :
 	
 	return [closest_POI, nearby_POIs]
 
-func add_POI(type : String, object_name : String, object_status : String, description : String, location : Vector2, zoom_range : Array[float], bounding_box : Vector2, extra_info : Array = [], dupe_verify : int  = -2, draw_name : bool = false, is_dynamic : bool = false) -> int: 
+func add_POI(type : String, object_name : String, object_status : String, _owner : String, description : String, location : Vector2, zoom_range : Array[float], bounding_box : Vector2, extra_info : Array = [], dupe_verify : int  = -2, draw_name : bool = false, is_dynamic : bool = false) -> int: 
 	if dupe_verify != -2:
 		for POI in POIs:
 			if POI["dupe_verify"]  == dupe_verify:
@@ -372,6 +391,7 @@ func add_POI(type : String, object_name : String, object_status : String, descri
 		"bounding_box" : bounding_box,
 		"type" : type,
 		"name" : object_name,
+		"owner" : _owner,
 		"status" : object_status,
 		"description" : description,
 		"extra_info" : extra_info,
@@ -379,10 +399,24 @@ func add_POI(type : String, object_name : String, object_status : String, descri
 		"drawing_name" : false,
 		"dupe_verify": dupe_verify,
 		"dynamic" : is_dynamic
+			
 	})
 	
 	return id
-	
+
+#"id" : id,
+#"location" : Vector2,
+#"zoom_range" : Array, [numerical lower, numerical higher]
+#"bounding_box" : Vector2,
+#"type" : String,
+#"name" : String,
+#"status" : String,
+#"description" : String,
+#"draw_name" : bool
+#"drawing_name" : bool
+#"extra_info" : Array[Array[String]] [["title1", value1 (variant)], "title2", value2 (variant)]]
+#"dupe_verify": int
+#"dynamic" : bool
 
 func update_POI(id : int, entry : String, new_value : Variant):
 	var selected : Dictionary = _find_POI(id)
@@ -435,7 +469,6 @@ func get_stars() -> Array[Star]:
 	return out 
 
 func load_constellations():
-	# TODO Fix constellation loading
 	var db_constellations : Array = DB.list("constellations")
 	constellations = []
 	for constellation : Array in db_constellations:
@@ -453,7 +486,7 @@ func load_constellations():
 			new_followers.append(follower)
 	
 	if new_followers.size() != 0: 
-		printerr("Unstellar followers! uncomment below line to fix")
+		printerr("Unstellar followers! uncomment below lines to fix")
 		for follower : Array in new_followers:
 			generate_star(follower[1], follower[0])
 		save_constellation(true)
@@ -554,8 +587,10 @@ func generate_star(source : String, id : String, trigger_anim : bool = false) ->
 	star.user_id = id
 	star.angle = remap(float(CHAR_ORDER.find(source[0])) / float(CHAR_ORDER.length() - 1), 0.0, 1.0, 0.0, TAU)
 	star.distance = source.length() * STAR_DIST_MULT
-	star.color = Star.Colors.WHITE
+	star.color = randi_range(0,3)
+	
 	star.id = create_unique_id()
+	if Util.TIME > 0.2: star.draw_amount = 0.0 
 	# TODO idea for not here have stars added to people with similar names
 	for i : float in range(1, STAR_SPLITS):
 		if hash(source) < (float(HASH_LIMIT) / float(STAR_SPLITS)) * i:
@@ -655,12 +690,14 @@ func _on_chat_message_received(chat_message: TwitchChatMessage):
 		#else:
 			#printerr("Failed to send reply. Reason: ", response_data[0].drop_reason if not response_data.is_empty() else "Unknown")
 
+
 func _on_follow_received(data: Dictionary) -> void:
 	# TODO add ppl to stars
 	prints("follow: " + str(data))
-	DB.update("followers", data["user_id"], [data["user_id"], data["user_name"], Time.get_unix_time_from_datetime_string(data["followed_at"]), true])
+	var follower_arr : Array = [data["user_id"], data["user_name"], Time.get_unix_time_from_datetime_string(data["followed_at"]), true]
+	DB.update("followers", data["user_id"], follower_arr)
+	followers.append(follower_arr)
 	notification_manager.send_notification(NotificationManager.NotificationType.FOLLOW, Time.get_unix_time_from_datetime_string(data["followed_at"]), data["user_name"])
-	
 	if not DB.find("branches", data["user_id"]):
 		send_message(FOLLOW_NOTED.pick_random().replace("[user]", data["user_name"]))
 		if GEN_TREE:
@@ -668,7 +705,7 @@ func _on_follow_received(data: Dictionary) -> void:
 			update_branches()
 		
 		if GEN_STARS:
-			generate_branch(data["user_name"], data["user_id"], true)
+			constellation_manager.add_to_buffer(generate_star(data["user_name"], data["user_id"], true))
 
 func _on_discord_command_received(from_username: String, info: TwitchCommandInfo, args: PackedStringArray) -> void:
 	send_message("Dream with me <3 " + DISCORD_LINK)

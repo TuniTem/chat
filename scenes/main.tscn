@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://e6smj52fq76u"]
+[gd_scene load_steps=34 format=3 uid="uid://e6smj52fq76u"]
 
 [ext_resource type="Script" uid="uid://bt67igeh5arjf" path="res://scripts/twitch.gd" id="1_0xm2m"]
 [ext_resource type="Script" uid="uid://d0253vbx2k6gk" path="res://scripts/chat.gd" id="1_h2yge"]
@@ -8,7 +8,12 @@
 [ext_resource type="Script" uid="uid://cft8h5tsgesgg" path="res://scenes/constellation_controller.gd" id="7_85g3d"]
 [ext_resource type="Shader" uid="uid://bq43mxo7qukb7" path="res://shader/edge_fade.gdshader" id="7_choun"]
 [ext_resource type="PackedScene" uid="uid://cltetaql0d31y" path="res://scenes/music_widget.tscn" id="7_o6xl0"]
-[ext_resource type="PackedScene" uid="uid://dymru5aukpxr8" path="res://scenes/telescope.tscn" id="7_tipki"]
+[ext_resource type="Script" uid="uid://d2skygwlxpywv" path="res://scripts/util/confirm_pos.gd" id="9_eb6dy"]
+[ext_resource type="Shader" uid="uid://bb3m0ojc3j20i" path="res://shader/sparkle.gdshader" id="10_eb6dy"]
+[ext_resource type="Material" uid="uid://4g836krgspte" path="res://shader/warbletext.tres" id="10_ya4ey"]
+[ext_resource type="FontVariation" uid="uid://cljbpt32qtdf0" path="res://tres/notif_font.tres" id="11_eb6dy"]
+[ext_resource type="Script" uid="uid://dtgw716kdxuex" path="res://scripts/util/input_viewport_holder.gd" id="13_a8y0u"]
+[ext_resource type="FontFile" uid="uid://lud2b8n4baea" path="res://art/Fonts/CodeSaver-Regular.otf" id="13_jkv2x"]
 
 [sub_resource type="Environment" id="Environment_1bvp3"]
 background_mode = 3
@@ -29,7 +34,566 @@ shader_parameter/xoffset = 0.0
 shader_parameter/yoffset = 0.0
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_tipki"]
-viewport_path = NodePath("Constellations/SubViewport")
+viewport_path = NodePath("Constellations/PreviewWindow/SubViewport")
+
+[sub_resource type="Animation" id="Animation_a8y0u"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Control/PreviewTitle:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:material:shader_parameter/amount")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.73]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:material:shader_parameter/feather")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.106]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Control/PreviewUsername:modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(2, 2, 2, 1)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Control/PreviewHelp:modulate")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Control/PreviewInfo:visible_ratio")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Control/PreviewInfo:modulate")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_jkv2x"]
+resource_name = "hide"
+length = 10.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/amount")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 10),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.73, 1.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:material:shader_parameter/feather")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.106]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 10),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(0, 0, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_jbj1t"]
+resource_name = "hide_text"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Control/PreviewTitle:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 0.267943),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(0, 0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Control/PreviewUsername:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(2, 2, 2, 1), Color(0, 0, 0.470588, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Control/PreviewHelp:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(0, 0, 0.470588, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_yc10j"]
+resource_name = "info_in"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Control/PreviewInfo:visible_ratio")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Control/PreviewInfo:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_jscy8"]
+resource_name = "info_out"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Control/PreviewInfo:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_trceg"]
+resource_name = "show"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Control/PreviewTitle:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(0.267943, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 0), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:material:shader_parameter/amount")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(0.482968, 1),
+"update": 0,
+"values": [1.0, 0.73]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:material:shader_parameter/feather")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(0.482968, 1),
+"update": 0,
+"values": [0.0, 0.106]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Control/PreviewUsername:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(1, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0.470588, 0), Color(2, 2, 2, 1)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Control/PreviewHelp:modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(2, 2.96667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0.470588, 0), Color(1, 1, 1, 1)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath(".:modulate")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_muem4"]
+resource_name = "show_bg"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Control/PreviewTitle:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(0.267943),
+"update": 0,
+"values": [Color(0, 0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:material:shader_parameter/amount")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(0.482968, 1),
+"update": 0,
+"values": [1.0, 0.73]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:material:shader_parameter/feather")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(0.482968, 1),
+"update": 0,
+"values": [0.0, 0.106]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Control/PreviewUsername:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0, 0.470588, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Control/PreviewHelp:modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0, 0.470588, 0)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath(".:modulate")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_eb6dy"]
+resource_name = "show_text"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Control/PreviewTitle:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(0.267943, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 0), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Control/PreviewUsername:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0.470588, 0), Color(2, 2, 2, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Control/PreviewHelp:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(2, 2.96667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0.470588, 0), Color(1, 1, 1, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_jkv2x"]
+_data = {
+&"RESET": SubResource("Animation_a8y0u"),
+&"hide": SubResource("Animation_jkv2x"),
+&"hide_text": SubResource("Animation_jbj1t"),
+&"info_in": SubResource("Animation_yc10j"),
+&"info_out": SubResource("Animation_jscy8"),
+&"show": SubResource("Animation_trceg"),
+&"show_bg": SubResource("Animation_muem4"),
+&"show_text": SubResource("Animation_eb6dy")
+}
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_trceg"]
+shader = ExtResource("10_eb6dy")
+shader_parameter/sparkle_color = Color(10, 10, 8.1, 1)
+shader_parameter/contrast = 10.0
+shader_parameter/bias = 0.189
+shader_parameter/scale = 0.467
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jbj1t"]
+shader = ExtResource("7_choun")
+shader_parameter/radial_cut = true
+shader_parameter/screen_size = Vector2(1920, 1080)
+shader_parameter/amount = 0.0
+shader_parameter/feather = 0.467
+shader_parameter/xoffset = 0.0
+shader_parameter/yoffset = 0.0
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_eb6dy"]
+viewport_path = NodePath("Constellations/MainWindow/SubViewport")
+
+[sub_resource type="Animation" id="Animation_0ld40"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/amount")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:material:shader_parameter/feather")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.467]
+}
+
+[sub_resource type="Animation" id="Animation_gqmmt"]
+resource_name = "close"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/feather")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(0.31864, 1),
+"update": 0,
+"values": [0.0, 0.337]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:material:shader_parameter/amount")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(2.63902, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+
+[sub_resource type="Animation" id="Animation_dp3eg"]
+resource_name = "open"
+length = 8.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/amount")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 5),
+"transitions": PackedFloat32Array(0.170755, 1, 1),
+"update": 0,
+"values": [1.0, 0.0, 0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:material:shader_parameter/feather")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1, 5, 5.5),
+"transitions": PackedFloat32Array(1, 2, -0.5),
+"update": 0,
+"values": [0.467, 0.467, 0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_yc10j"]
+_data = {
+&"RESET": SubResource("Animation_0ld40"),
+&"close": SubResource("Animation_gqmmt"),
+&"open": SubResource("Animation_dp3eg")
+}
 
 [node name="Main" type="Control"]
 layout_mode = 3
@@ -77,44 +641,162 @@ position = Vector2(8, 38)
 offset_right = 0.0
 offset_bottom = 0.0
 
-[node name="Constellations" type="Sprite2D" parent="." node_paths=PackedStringArray("viewport")]
+[node name="Constellations" type="Node2D" parent="." node_paths=PackedStringArray("preview_viewport", "preview_animations", "preview_title", "preview_username", "preview_info", "preview_window", "main_viewport", "main_window", "main_animations")]
+script = ExtResource("7_85g3d")
+preview_viewport = NodePath("PreviewWindow/SubViewport")
+preview_animations = NodePath("PreviewWindow/PreviewAnimations")
+preview_title = NodePath("PreviewWindow/Control/PreviewTitle")
+preview_username = NodePath("PreviewWindow/Control/PreviewUsername")
+preview_info = NodePath("PreviewWindow/Control/PreviewInfo")
+preview_window = NodePath("PreviewWindow")
+main_viewport = NodePath("MainWindow/SubViewport")
+main_window = NodePath("MainWindow")
+main_animations = NodePath("MainWindow/MainAnimation")
+
+[node name="PreviewWindow" type="Sprite2D" parent="Constellations"]
 material = SubResource("ShaderMaterial_ya4ey")
 position = Vector2(296, 344)
-scale = Vector2(0.308333, 0.308333)
+scale = Vector2(0.3083, 0.3083)
 texture = SubResource("ViewportTexture_tipki")
-script = ExtResource("7_85g3d")
-viewport = NodePath("SubViewport")
 
-[node name="SubViewport" type="SubViewport" parent="Constellations"]
+[node name="SubViewport" type="SubViewport" parent="Constellations/PreviewWindow"]
+transparent_bg = true
 use_hdr_2d = true
-size = Vector2i(1920, 1080)
+size = Vector2i(1920, 1920)
 
-[node name="Telescope" parent="Constellations/SubViewport" instance=ExtResource("7_tipki")]
-position = Vector2(960, 540)
+[node name="PreviewAnimations" type="AnimationPlayer" parent="Constellations/PreviewWindow"]
+libraries = {
+&"": SubResource("AnimationLibrary_jkv2x")
+}
+autoplay = "hide"
 
-[node name="Control" type="Control" parent="Constellations"]
+[node name="Control" type="Control" parent="Constellations/PreviewWindow"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -960.0
-offset_top = -540.0
-offset_right = -960.0
-offset_bottom = -540.0
+offset_right = -1920.0
+offset_bottom = -1920.0
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+script = ExtResource("9_eb6dy")
 
-[node name="Label" type="Label" parent="Constellations/Control"]
+[node name="PreviewTitle" type="RichTextLabel" parent="Constellations/PreviewWindow/Control"]
+material = SubResource("ShaderMaterial_trceg")
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -372.5
+offset_top = -408.65
+offset_right = 372.5
+offset_bottom = -307.65
+grow_horizontal = 2
+theme_override_colors/default_color = Color(0.890196, 0.541176, 0.72549, 1)
+theme_override_colors/font_outline_color = Color(0.184314, 0.101961, 0.254902, 1)
+theme_override_constants/outline_size = 45
+theme_override_fonts/normal_font = ExtResource("11_eb6dy")
+theme_override_font_sizes/normal_font_size = 76
+bbcode_enabled = true
+text = "[wave amp=50.0]New Star Found!"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+horizontal_alignment = 1
+
+[node name="PreviewUsername" type="RichTextLabel" parent="Constellations/PreviewWindow/Control"]
+modulate = Color(2, 2, 2, 1)
+material = ExtResource("10_ya4ey")
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -11.5
-offset_right = 20.0
-offset_bottom = 11.5
+offset_left = -372.0
+offset_top = -301.622
+offset_right = 373.0
+offset_bottom = -200.622
 grow_horizontal = 2
 grow_vertical = 2
-text = "New Star Fund"
+theme_override_colors/default_color = Color(0.54902, 0.427451, 0.654902, 1)
+theme_override_colors/font_outline_color = Color(0.184314, 0.101961, 0.254902, 1)
+theme_override_constants/outline_size = 45
+theme_override_fonts/normal_font = ExtResource("11_eb6dy")
+theme_override_font_sizes/normal_font_size = 76
+bbcode_enabled = true
+text = "[tornado radius=4.0 freq=4.0][pulse freq=0.5 color=#dddddd40 ease=-2.0]Username"
+fit_content = true
+autowrap_mode = 0
+horizontal_alignment = 1
+
+[node name="PreviewHelp" type="RichTextLabel" parent="Constellations/PreviewWindow/Control"]
+material = ExtResource("10_ya4ey")
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -372.0
+offset_top = 295.135
+offset_right = 373.0
+offset_bottom = 396.135
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/default_color = Color(0.890196, 0.541176, 0.72549, 1)
+theme_override_colors/font_outline_color = Color(0.184314, 0.101961, 0.254902, 1)
+theme_override_constants/outline_size = 20
+theme_override_fonts/normal_font = ExtResource("11_eb6dy")
+theme_override_font_sizes/normal_font_size = 56
+bbcode_enabled = true
+text = "[wave amp=50.0]\"!c help\" for more info"
+horizontal_alignment = 1
+
+[node name="PreviewInfo" type="RichTextLabel" parent="Constellations/PreviewWindow/Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -372.0
+offset_top = 435.0
+offset_right = 373.0
+offset_bottom = 629.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 20
+theme_override_fonts/normal_font = ExtResource("13_jkv2x")
+theme_override_font_sizes/normal_font_size = 44
+bbcode_enabled = true
+text = "NAME: [UNKNOWN STAR]
+OWNER: [UNKNOWN OWNER]"
+scroll_active = false
+autowrap_mode = 0
+horizontal_alignment = 1
+visible_characters = 0
+visible_characters_behavior = 1
+visible_ratio = 0.0
+
+[node name="MainWindow" type="Sprite2D" parent="Constellations" node_paths=PackedStringArray("viewport")]
+visible = false
+z_index = -65
+material = SubResource("ShaderMaterial_jbj1t")
+texture = SubResource("ViewportTexture_eb6dy")
+offset = Vector2(960, 540)
+script = ExtResource("13_a8y0u")
+viewport = NodePath("SubViewport")
+
+[node name="SubViewport" type="SubViewport" parent="Constellations/MainWindow"]
+transparent_bg = true
+use_hdr_2d = true
+size = Vector2i(1920, 1080)
+
+[node name="MainAnimation" type="AnimationPlayer" parent="Constellations/MainWindow"]
+libraries = {
+&"": SubResource("AnimationLibrary_yc10j")
+}

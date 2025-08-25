@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://drurjqrckvufr"]
+[gd_scene load_steps=8 format=3 uid="uid://drurjqrckvufr"]
 
-[ext_resource type="FontFile" uid="uid://bupu2v14iq1fp" path="res://Pangolin-Regular.ttf" id="1_fab17"]
+[ext_resource type="FontFile" uid="uid://bupu2v14iq1fp" path="res://art/Fonts/Pangolin-Regular.ttf" id="1_fab17"]
 [ext_resource type="Script" uid="uid://cdtvcdl7nbgru" path="res://scripts/control_panel.gd" id="1_vd23e"]
 [ext_resource type="PackedScene" uid="uid://dj03ufbb20bma" path="res://scenes/control_button.tscn" id="3_5q0ia"]
 [ext_resource type="Script" uid="uid://d0ll1flqmjvg7" path="res://scripts/data.gd" id="3_o3t6x"]
+[ext_resource type="Script" uid="uid://cqajgphqfguig" path="res://scripts/data_toggle.gd" id="5_o8p77"]
 
 [sub_resource type="Environment" id="Environment_fab17"]
 
@@ -118,6 +119,64 @@ data = "music_off"
 layout_mode = 2
 text = "Random"
 data = "music_random"
+
+[node name="Control2" type="Control" parent="Control/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+
+[node name="Label3" type="Label" parent="Control/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_fab17")
+theme_override_font_sizes/font_size = 26
+text = "Constellation Controls"
+
+[node name="Constellation" type="HBoxContainer" parent="Control/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+
+[node name="ToggleMini" parent="Control/MarginContainer/VBoxContainer/Constellation" instance=ExtResource("3_5q0ia")]
+layout_mode = 2
+text = "Toggle
+Miniplayer"
+script = ExtResource("5_o8p77")
+data = "toggle_miniplayer"
+toggle = true
+
+[node name="ToggleAutoLoop" parent="Control/MarginContainer/VBoxContainer/Constellation" instance=ExtResource("3_5q0ia")]
+layout_mode = 2
+text = "Toggle
+Auto Loop"
+script = ExtResource("5_o8p77")
+data = "toggle_auto_loop"
+toggle = false
+
+[node name="ToggleShowNew" parent="Control/MarginContainer/VBoxContainer/Constellation" instance=ExtResource("3_5q0ia")]
+layout_mode = 2
+text = "Toggle
+Show New"
+script = ExtResource("5_o8p77")
+data = "toggle_show_new"
+toggle = true
+
+[node name="ToggleShowNew2" parent="Control/MarginContainer/VBoxContainer/Constellation" instance=ExtResource("3_5q0ia")]
+layout_mode = 2
+text = "Hide Text"
+data = "hide_text"
+
+[node name="ToggleShowNew3" parent="Control/MarginContainer/VBoxContainer/Constellation" instance=ExtResource("3_5q0ia")]
+layout_mode = 2
+text = "Show Text"
+data = "show_text"
+
+[node name="ToggleShowNew4" parent="Control/MarginContainer/VBoxContainer/Constellation" instance=ExtResource("3_5q0ia")]
+layout_mode = 2
+text = "Hide"
+data = "hide"
+
+[node name="ToggleShowNew5" parent="Control/MarginContainer/VBoxContainer/Constellation" instance=ExtResource("3_5q0ia")]
+layout_mode = 2
+text = "Show"
+data = "show"
 
 [connection signal="pressed" from="Control/MarginContainer/VBoxContainer/HBoxContainer/Button2" to="Control/MarginContainer/VBoxContainer/HBoxContainer/Button2" method="_on_pressed"]
 [connection signal="pressed" from="Control/MarginContainer/VBoxContainer/HBoxContainer/Button3" to="Control/MarginContainer/VBoxContainer/HBoxContainer/Button3" method="_on_pressed"]

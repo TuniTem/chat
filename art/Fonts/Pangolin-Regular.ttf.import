@@ -3,12 +3,12 @@
 importer="font_data_dynamic"
 type="FontFile"
 uid="uid://bupu2v14iq1fp"
-path="res://.godot/imported/Pangolin-Regular.ttf-ba57aa0b739256d322be371923adb932.fontdata"
+path="res://.godot/imported/Pangolin-Regular.ttf-8808e7fdd31ff99cd7bca92ab5f64077.fontdata"
 
 [deps]
 
-source_file="res://Pangolin-Regular.ttf"
-dest_files=["res://.godot/imported/Pangolin-Regular.ttf-ba57aa0b739256d322be371923adb932.fontdata"]
+source_file="res://art/Fonts/Pangolin-Regular.ttf"
+dest_files=["res://.godot/imported/Pangolin-Regular.ttf-8808e7fdd31ff99cd7bca92ab5f64077.fontdata"]
 
 [params]
 

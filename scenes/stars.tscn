@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://c6sup8wwebre6"]
+[gd_scene load_steps=38 format=3 uid="uid://c6sup8wwebre6"]
 
 [ext_resource type="Script" uid="uid://ctx7iugx8ap7o" path="res://scripts/stars.gd" id="1_ucpii"]
 [ext_resource type="Script" uid="uid://bbpn8nctt3seq" path="res://scripts/star_ui.gd" id="2_nwprx"]
@@ -6,7 +6,7 @@
 [ext_resource type="Shader" uid="uid://b4k8jk7jqpaxo" path="res://shader/WobbleText.gdshader" id="3_784ub"]
 [ext_resource type="Texture2D" uid="uid://lldvwxf1ts3e" path="res://art/NewStars/Soft Outline/SoftOutline1003.png" id="3_jlhay"]
 [ext_resource type="Texture2D" uid="uid://csrgf1eisfvh4" path="res://art/NewStars/Normal/Normal1007.png" id="3_qov51"]
-[ext_resource type="FontFile" uid="uid://bupu2v14iq1fp" path="res://Pangolin-Regular.ttf" id="3_rkm7s"]
+[ext_resource type="FontFile" uid="uid://bupu2v14iq1fp" path="res://art/Fonts/Pangolin-Regular.ttf" id="3_rkm7s"]
 [ext_resource type="Script" uid="uid://cpsjn2mwpiohx" path="res://scripts/cam_canvas.gd" id="4_8olaw"]
 [ext_resource type="AudioStream" uid="uid://kn6yc1jbfpl0" path="res://audio/SFX/OVERLAY-SFX-boot.wav" id="6_jlhay"]
 [ext_resource type="Environment" uid="uid://ims8y6jjl1h5" path="res://tres/stars_enviroment.tres" id="6_uxhsd"]
@@ -16,6 +16,18 @@
 [ext_resource type="AudioStream" uid="uid://b2lq5ych8bye5" path="res://audio/Music/OVERLAY-MUS-FinalConstellation.mp3" id="14_yrfgp"]
 [ext_resource type="AudioStream" uid="uid://b1ae3el3jur1r" path="res://audio/SFX/OVERLAY-SFX-boot_full.wav" id="15_qc5w6"]
 [ext_resource type="AudioStream" uid="uid://beq46d8d42vn6" path="res://audio/SFX/OVERLAY-SFX-boot_full2.wav" id="15_yrfgp"]
+[ext_resource type="Texture2D" uid="uid://cgasffanj3q8r" path="res://art/NewStars/Shimmer/shimmer1001.png" id="17_kjb5u"]
+
+[sub_resource type="Curve" id="Curve_q2yfu"]
+_data = [Vector2(0, 0.0316455), 0.0, 0.0, 0, 0, Vector2(0.0909091, 0.481013), 0.67478, 0.67478, 0, 0, Vector2(0.214646, 0.21519), 0.0, 0.0, 0, 0, Vector2(0.252525, 0.753165), 0.0, 0.0, 0, 0, Vector2(0.330808, 0.170886), 0.0, 0.0, 0, 0, Vector2(0.411616, 0.696203), 0.0, 0.0, 0, 0, Vector2(0.474747, 0.348101), 0.0, 0.0, 0, 0, Vector2(0.578283, 0.708861), 0.0, 0.0, 0, 0, Vector2(0.686869, 0), 0.0, 0.0, 0, 0, Vector2(0.755051, 0.537975), 0.0, 0.0, 0, 0, Vector2(0.830808, 0.196203), -4.38608, -4.38608, 0, 0, Vector2(0.90404, 0.398734), 0.0, 0.0, 0, 0, Vector2(1, 0.00632906), -5.1693, 0.0, 0, 0]
+point_count = 13
+
+[sub_resource type="Gradient" id="Gradient_u0pr1"]
+offsets = PackedFloat32Array(0.183784, 0.210811, 0.345946, 0.418919, 0.789189, 1)
+colors = PackedColorArray(1, 1, 1, 1, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="Gradient" id="Gradient_m5347"]
+colors = PackedColorArray(0.94864, 0.96, 0.2784, 1, 1, 1, 1, 1)
 
 [sub_resource type="Curve" id="Curve_qov51"]
 _data = [Vector2(0, 0), 0.0, 2.49026, 0, 0, Vector2(0.529412, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -3.71531, 0.0, 0, 0]
@@ -41,6 +53,43 @@ gravity = Vector3(0, 0, 0)
 scale_min = 0.0
 scale_max = 0.03
 scale_curve = SubResource("CurveTexture_8olaw")
+
+[sub_resource type="Animation" id="Animation_q2yfu"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Warp:material:shader_parameter/distortion")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.433]
+}
+
+[sub_resource type="Animation" id="Animation_kjb5u"]
+resource_name = "ping"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Warp:material:shader_parameter/distortion")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0666667, 0.166667, 3),
+"transitions": PackedFloat32Array(0.164939, 0.659753, 0.353554, 1),
+"update": 0,
+"values": [0.433, 0.3975, 0.636, 0.433]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_u0pr1"]
+_data = {
+&"RESET": SubResource("Animation_q2yfu"),
+&"ping": SubResource("Animation_kjb5u")
+}
 
 [sub_resource type="Animation" id="Animation_uxhsd"]
 resource_name = "HideLabel"
@@ -313,15 +362,42 @@ _data = {
 &"intro": SubResource("Animation_ck6na")
 }
 
-[node name="Stars" type="Node2D" node_paths=PackedStringArray("twinkle", "warp_shader")]
+[node name="Stars" type="Node2D" node_paths=PackedStringArray("new_star_particles", "twinkle", "warp_shader")]
 script = ExtResource("1_ucpii")
+new_star_particles = NodePath("NewStarParticles")
 twinkle = NodePath("Camera2D/Twinkle")
 warp_shader = NodePath("Camera2D/Warp")
 
-[node name="Camera2D" type="Camera2D" parent="." node_paths=PackedStringArray("stars_viewer", "canvas2")]
+[node name="NewStarParticles" type="CPUParticles2D" parent="."]
+modulate = Color(2, 2, 2, 1)
+z_index = -3
+position = Vector2(0, -777)
+emitting = false
+amount = 100
+texture = ExtResource("17_kjb5u")
+lifetime = 2.77
+one_shot = true
+explosiveness = 1.0
+lifetime_randomness = 1.0
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 53.65
+initial_velocity_max = 121.96
+damping_min = 44.391
+damping_max = 44.391
+angle_min = 90.0
+angle_max = 90.0
+scale_amount_min = 0.0
+scale_amount_max = 0.03
+scale_amount_curve = SubResource("Curve_q2yfu")
+color_ramp = SubResource("Gradient_u0pr1")
+color_initial_ramp = SubResource("Gradient_m5347")
+
+[node name="Camera2D" type="Camera2D" parent="." node_paths=PackedStringArray("stars_viewer", "canvas2", "ping_anims")]
 script = ExtResource("2_nwprx")
 stars_viewer = NodePath("..")
 canvas2 = NodePath("CamCanvas2")
+ping_anims = NodePath("Ping")
 
 [node name="Big" type="CPUParticles2D" parent="Camera2D"]
 z_index = -1
@@ -386,6 +462,11 @@ grow_vertical = 2
 scale = Vector2(0.913, 1)
 pivot_offset = Vector2(960, 540)
 
+[node name="Ping" type="AnimationPlayer" parent="Camera2D"]
+libraries = {
+&"": SubResource("AnimationLibrary_u0pr1")
+}
+
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(0.003, 0.003)
 texture = ExtResource("2_rs5ub")
@@ -434,16 +515,16 @@ autoplay = "intro"
 stream = ExtResource("14_yrfgp")
 volume_db = -7.6138
 autoplay = true
-bus = &"Music"
+bus = &"Constellation"
 
 [node name="Boot" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("15_yrfgp")
 volume_db = -4.4973
-bus = &"SFX"
+bus = &"Constellation"
 
 [node name="Boot2" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("15_qc5w6")
 volume_db = 24.0
-bus = &"SFX"
+bus = &"Constellation"
 
 [connection signal="timeout" from="FloatyGuyTimer" to="." method="_on_floaty_guy_timer_timeout"]

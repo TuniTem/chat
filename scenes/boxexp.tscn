@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=3 uid="uid://cqrvwxks6edx6"]
 
-[ext_resource type="FontFile" uid="uid://bupu2v14iq1fp" path="res://Pangolin-Regular.ttf" id="1_o3lbn"]
+[ext_resource type="FontFile" uid="uid://bupu2v14iq1fp" path="res://art/Fonts/Pangolin-Regular.ttf" id="1_o3lbn"]
 [ext_resource type="StyleBox" uid="uid://dxga0xh41ca1a" path="res://textbg.tres" id="2_cbhm5"]
 
 [sub_resource type="Theme" id="Theme_ceo7u"]

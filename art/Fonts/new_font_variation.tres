@@ -1,6 +1,6 @@
 [gd_resource type="FontVariation" load_steps=2 format=3 uid="uid://oilnyae6van3"]
 
-[ext_resource type="FontFile" uid="uid://bupu2v14iq1fp" path="res://Pangolin-Regular.ttf" id="1_ej4o4"]
+[ext_resource type="FontFile" uid="uid://bupu2v14iq1fp" path="res://art/Fonts/Pangolin-Regular.ttf" id="1_ej4o4"]
 
 [resource]
 base_font = ExtResource("1_ej4o4")

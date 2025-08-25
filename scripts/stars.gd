@@ -28,7 +28,7 @@ const ZOOM_SCALER_RANGE2 = [0.04, 0.35]
 @export var zoom_scale3 : Sprite2D
 @export var zoom_label : Label
 @export var location_label : Label
-
+@export var new_star_particles: CPUParticles2D
 
 var using_scope_move : bool = true
 var can_scope : bool = true
@@ -51,6 +51,7 @@ const USERNAME_TEXT_PREFIX : String = "[pulse freq=1.25 color=#808080 ease=-2.0]
 
 @export var info_label : Label
 
+
 var select_radius = 0.0
 var last_selected_star : Star
 var mouse_position : Vector2:
@@ -62,7 +63,7 @@ var mouse_position : Vector2:
 const MAX_POINT_COUNT : int = 64
 const COLOR : Color = Color(1.0, 1.0, 1.0, 1.0)
 const CIRCLE_MULT : float = 1.0
-const PANGOLIN_REGULAR = preload("res://Pangolin-Regular.ttf")
+const PANGOLIN_REGULAR = preload("res://art/Fonts/Pangolin-Regular.ttf")
 
 
 
@@ -70,15 +71,16 @@ const PANGOLIN_REGULAR = preload("res://Pangolin-Regular.ttf")
 
 
 @onready var star_texures : Dictionary[Star.Colors, Texture2D] = {
-	Star.Colors.PURPLE: preload("res://art/NewStars/Soft Outline/SoftOutline1001.png"),
-	Star.Colors.PINK: preload("res://art/NewStars/Soft Outline/SoftOutline1000.png"),
-	Star.Colors.YELLOW: preload("res://art/NewStars/Soft Outline/SoftOutline1002.png"),
-	Star.Colors.WHITE: preload("res://art/NewStars/Soft Outline/SoftOutline1003.png")
+	Star.Colors.PURPLE: preload("res://art/NewStars/Normal/Normal1007.png"),
+	Star.Colors.PINK: preload("res://art/NewStars/Normal/Normal1007.png"),
+	Star.Colors.YELLOW: preload("res://art/NewStars/Normal/Normal1007.png"),
+	Star.Colors.WHITE: preload("res://art/NewStars/Normal/Normal1007.png")
 }
 
 # drawing
 const CONSTELLATION_VIGNETTE_INNER : float = 500.0
 const CONSTELLATION_VIGNETTE_FALLOFF : float = 500.0
+const STAR_TEXTURE_ASPECT_RATIO : float = 1200.0/1000.0
 
 
 var draw_scale : float = 3.0
@@ -112,6 +114,10 @@ const FLOATY_GUY_BUFFER = 400
 func _ready() -> void:
 	camera_position = camera.position
 	queue_redraw()
+	if Global.simplify_constellations:
+		new_star_particles.initial_velocity_max = 536.0
+		new_star_particles.scale_amount_max = 0.1
+		
 
 func _process(delta: float) -> void:
 	if using_scope_move:
@@ -180,18 +186,22 @@ func _process(delta: float) -> void:
 	#print(get_global_mouse_position())
 	queue_redraw()
 
-func move_to_location(location : Vector2, end_zoom : float, time_mult : float = DEFAULT_AUTO_MOVE_TIME_MULT):
+func move_to_location(location : Vector2, end_zoom : float, wait : bool = false, time_mult : float = DEFAULT_AUTO_MOVE_TIME_MULT):
+	if Util.fzero(location.distance_to(camera.position)): return
 	var time : float = pow(location.distance_to(camera.position), AUTO_MOVE_DIST_POW) * time_mult * AUTO_MOVE_STATIC_MULT
 	var zoom_tween : Tween = create_tween()
 	var pos_tween : Tween = create_tween()
 	
 	pos_tween.tween_property(camera, "position", location, time).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE)
-	zoom_tween.tween_property(self, "zoom", 1.0 / (time * AUTO_MOVE_ZOOM_OUT), time / 2.0).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE)
+	zoom_tween.tween_property(self, "zoom", 1.0 / (clamp(time, 1.0, INF) * AUTO_MOVE_ZOOM_OUT), time / 2.0).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
 	zoom_tween.tween_property(self, "zoom", end_zoom, time / 2.0).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE)
 	
 	for scope_interval : int in range(SCOPE_INTERVALS.size()):
 		if Util.between(end_zoom, SCOPE_INTERVALS[scope_interval][0], SCOPE_INTERVALS[scope_interval][1]):
 			current_scope_interval = scope_interval
+	
+	if wait:
+		await zoom_tween.finished
 
 func set_can_scope(on : bool): can_scope = on
 
@@ -257,11 +267,19 @@ func _draw() -> void:
 		#prints(star.position[0],constellation_origin)
 		var progress : float = clamp((constellation_dist - CONSTELLATION_VIGNETTE_INNER) / CONSTELLATION_VIGNETTE_FALLOFF, 0.0, 1.0)
 		#draw_dashed_line(star.position[0] + constellation_origin, star.position[1] + constellation_origin, COLOR * Color(1.0, 1.0, 1.0, progress), draw_scale, 20.0, true)
-		draw_line(star.position[0] + constellation_origin, star.position[1] + constellation_origin, COLOR * Color(1.0, 1.0, 1.0, 0.2 + 0.4 * (1.0 - progress) * (1.0 if not Global.simplify_constellations else 0.0)), draw_scale if not Global.simplify_constellations else 4.0 * (1.0/zoom))
+		var start : Vector2 = star.position[0] + constellation_origin
+		var end : Vector2
+		if Util.fequal(star.draw_amount, 1.0, 2):
+			end = (star.position[1] + constellation_origin)
+		else:
+			end = lerp(start, star.position[1] + constellation_origin, star.draw_amount)
+			if Util.fequal(star.draw_amount, 1.0, 0) and not new_star_particles.emitting:
+				sparkle_at(star.position[1] + star.parent_constellation.origin_position)
+				
+		var color : Color = COLOR * Color(1.0, 1.0, 1.0, 0.2 + 0.4 * (1.0 - progress) * (1.0 if not Global.simplify_constellations else 0.0))
+		draw_line(start, end, color, draw_scale if not Global.simplify_constellations else 4.0 * (1.0/zoom))
 		
 		
-	
-	
 	
 	#if min_dist < SELECT_DIST:
 		#if last_selected_star != min_dist_star: 
@@ -286,10 +304,16 @@ func _draw() -> void:
 	for star : Star in Global.get_stars():
 		var constellation_origin : Vector2 = star.parent_constellation.origin_position
 		var tex_scale : float = texture_scale if not Global.simplify_constellations else max(texture_scale * (1.0/zoom) * 0.25, texture_scale * 1.5)
-		draw_texture_rect(star_texures[star.color], Rect2(star.position[1] + constellation_origin - Vector2.ONE * tex_scale / 2.0, Vector2.ONE * tex_scale), false)
+		var size : Vector2 = Vector2.ONE * tex_scale * Vector2(STAR_TEXTURE_ASPECT_RATIO, 1.0)
+		draw_texture_rect(star_texures[star.color], Rect2(star.position[1] + constellation_origin - size / 2.0, size), false)
 	
 	if Global.debug_draw_pos:
 		draw_circle(Global.debug_draw_pos, 16.0, Color.RED, false, 4.0)
+	
+
+func sparkle_at(pos : Vector2):
+	new_star_particles.position = pos
+	new_star_particles.emitting = true
 	
 
 func _input(event: InputEvent) -> void:

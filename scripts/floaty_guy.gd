@@ -32,6 +32,7 @@ func _ready() -> void:
 				"unknown_object." + str(randi_range(100, 999)),
 				"Jules",
 				"lost",
+				"???",
 				"A fellow dreamer, they found their way here... somehow? They look lost.",
 				position + BOX_OFFSET,
 				ZOOM_RANGE,

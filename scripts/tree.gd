@@ -2,7 +2,7 @@ extends Node2D
 const MAX_POINT_COUNT : int = 64
 const COLOR : Color = Color(1.0, 1.0, 1.0, 1.0)
 const CIRCLE_MULT : float = 1.0
-const PANGOLIN_REGULAR = preload("res://Pangolin-Regular.ttf")
+const PANGOLIN_REGULAR = preload("res://art/Fonts/Pangolin-Regular.ttf")
 @onready var camera: Camera2D = $Camera2D
 
 var draw_scale : float = 4.0

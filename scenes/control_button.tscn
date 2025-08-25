@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://dj03ufbb20bma"]
 
-[ext_resource type="FontFile" uid="uid://bupu2v14iq1fp" path="res://Pangolin-Regular.ttf" id="1_vwfvl"]
+[ext_resource type="FontFile" uid="uid://bupu2v14iq1fp" path="res://art/Fonts/Pangolin-Regular.ttf" id="1_vwfvl"]
 [ext_resource type="Script" uid="uid://d0ll1flqmjvg7" path="res://scripts/data.gd" id="2_v8ok0"]
 
 [node name="Button" type="Button"]

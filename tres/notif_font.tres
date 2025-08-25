@@ -1,0 +1,7 @@
+[gd_resource type="FontVariation" load_steps=2 format=3 uid="uid://cljbpt32qtdf0"]
+
+[ext_resource type="FontFile" uid="uid://bupu2v14iq1fp" path="res://art/Fonts/Pangolin-Regular.ttf" id="1_hcxsq"]
+
+[resource]
+base_font = ExtResource("1_hcxsq")
+spacing_glyph = 10

@@ -16,6 +16,7 @@ const FONT = preload("res://art/Fonts/CodeSaver-Regular.otf")
 
 @export var stars_viewer : Node2D
 @export var canvas2: Node2D
+@export var ping_anims: AnimationPlayer
 
 var POI : Dictionary = {}
 	#"id" : id,
@@ -86,11 +87,18 @@ var info_line_end : Vector2 = Vector2.ZERO
 func _ready() -> void:
 	info_label = stars_viewer.info_label
 
-func send_ping(reversed : bool):
+func send_ping(reversed : bool, play_anim : bool = true):
 	ping_pos = position
 	ping_reversed = reversed
 	ping_completion = 1.0 if reversed else 0.0
-	Global.crosshair.flash(0.4)
+	if is_instance_valid(Global.crosshair) : Global.crosshair.flash(0.4)
+	if has_poi:
+		confirm_amount = 1.0
+		delay_timer = CONFIRM_DELAY + Global.EPSILON
+	
+	if play_anim:
+		ping_anims.stop(true)
+		ping_anims.play("ping")
 	for set_POI : Dictionary in Global.POIs:
 		set_POI["drawing_name"] = false
 
@@ -147,7 +155,7 @@ func _process(delta: float) -> void:
 			Global.crosshair.switch_anim("idle")
 	prev_had_poi = has_poi
 	
-	if has_poi and not Global.simplify_constellations:
+	if has_poi:
 		if confirmed_POI != {} and confirmed_POI["dynamic"]:
 			info_label.display_POI_data(confirmed_POI, true)
 			
@@ -210,10 +218,16 @@ func _process(delta: float) -> void:
 
 
 func play_confirm_anim():
+	if not Global.simplify_constellations:
+		create_connect_line(to_global(info_base_point), to_global(info_base_point) + Vector2(1000, 700.0) * (1.0 / stars_viewer.zoom), 0.3, 1.0)
+		info_label.display_POI_data(confirmed_POI)
+	else:
+		Global.constellation_manager.preview_info.text = "NAME: " + confirmed_POI["name"].to_upper() + "\nOWNER: " + confirmed_POI["owner"].to_upper()
+		Global.constellation_manager.preview_animations.play("info_in")
+	
 	$Confirm.play()
-	create_connect_line(to_global(info_base_point), to_global(info_base_point) + Vector2(1000, 700.0) * (1.0 / stars_viewer.zoom), 0.3, 1.0)
-	info_label.display_POI_data(confirmed_POI)
 	Global.crosshair.switch_anim("select")
+	print("confirm!")
 	
 	#info_label.line_offset
 	#info_line_end = info_base_point
@@ -225,6 +239,7 @@ func play_confirm_anim():
 func reset_confirm_progress():
 	if confirmed_POI != {}:
 		Global.crosshair.switch_anim("idle", 0.5)
+		Global.constellation_manager.preview_animations.play("info_out")
 	confirm_amount = 0.0
 	delay_timer = 0.0
 	confirmed_POI = {}
@@ -235,9 +250,6 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("call"):
 		$Call.play(1.1)
 		send_ping(false)
-		if has_poi:
-			confirm_amount = 1.0
-			delay_timer = CONFIRM_DELAY + Global.EPSILON
 			
 			
 

@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" uid="uid://dc8j8o7j0ffxo" path="res://scripts/text_box_manager.gd" id="1_wavyb"]
 [ext_resource type="Shader" uid="uid://crvrwrwwqtf2f" path="res://shader/transitionin.gdshader" id="2_igdtg"]
-[ext_resource type="FontVariation" uid="uid://w40gj0t6gd4w" path="res://italic.tres" id="3_anxlp"]
-[ext_resource type="FontVariation" uid="uid://oilnyae6van3" path="res://new_font_variation.tres" id="4_yches"]
+[ext_resource type="FontVariation" uid="uid://w40gj0t6gd4w" path="res://art/Fonts/italic.tres" id="3_anxlp"]
+[ext_resource type="FontVariation" uid="uid://oilnyae6van3" path="res://art/Fonts/new_font_variation.tres" id="4_yches"]
 [ext_resource type="StyleBox" uid="uid://dxga0xh41ca1a" path="res://textbg.tres" id="5_h6rpn"]
 [ext_resource type="AudioStream" uid="uid://dt1ylinp7dtt7" path="res://audio/Borrowed/DREAM-SFX-ParryBuild2.wav" id="6_gu2bm"]
 [ext_resource type="AudioStream" uid="uid://brlwrwavl4kyd" path="res://audio/Borrowed/notif1.wav" id="7_x8w8a"]

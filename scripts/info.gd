@@ -20,9 +20,10 @@ var line_offset : Vector2:
 #"dupe_verify": int
 
 func hide_node():
-	anims.play("InfoHide")
-	await anims.animation_finished
-	hide()
+	if not hidden:
+		anims.play("InfoHide")
+		await anims.animation_finished
+		hide()
 
 func display_POI_data(POI : Dictionary, update : bool = false):
 	show()

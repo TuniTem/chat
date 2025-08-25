@@ -10,7 +10,7 @@ enum Colors {
 const DIST_BUFFER = 100
 const ANGLE_BUFFER = 10
 
-const STAR_ZOOM_RANGE : Array[float] = [0.9, INF]
+const STAR_ZOOM_RANGE : Array[float] = [0.75, INF]
 const SIZE : float = 72
 
 var username : String = "Unknown"
@@ -67,6 +67,7 @@ func add_to_POI():
 		"Star",
 		username + "'s Star",
 		status + " " + ("(searching)" if children == 0 else ("(growing)" if children < max_children else "(dorment)")),
+		username,
 		{
 			"newborn shimmer": "A new shimmer spotted in dreamspace",
 			"blooming glimmer" : "A fresh glimmer, drifting through fragments",
@@ -98,6 +99,7 @@ func is_angle_outside_exclusion(angle) -> bool:
 	return true
 
 func update_position():
+	if _constructing: return
 	if is_constellation_base or not parent_constellation:
 		position = [Vector2.ZERO, Vector2.ZERO]
 	else:
@@ -122,7 +124,9 @@ func get_end_pos(set_angle : float, set_dist : float) -> Vector2:
 func deconstruct() -> Array:
 	return [user_id, username, angle, distance, id, parent_id, children, max_children, excluded_angles, is_constellation_base, Colors.keys()[int(color)], position]
 
+var _constructing : bool = false
 func construct(data : Array):
+	_constructing = true
 	user_id = data[0]
 	username = data[1]
 	angle = data[2]
@@ -135,7 +139,7 @@ func construct(data : Array):
 	is_constellation_base = data[9]
 	color = Colors.get(data[10])
 	position = data[11]
-	
+	_constructing = false
 	add_to_POI()
 
 func duplicate() -> Star:

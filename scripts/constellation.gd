@@ -1,7 +1,7 @@
 class_name Constellation
 
 const BOX_BUFFER : int = 200
-const ZOOM_RANGE : Array[float] = [0.15, 0.7]
+const ZOOM_RANGE : Array[float] = [0.15, 0.55]
 
 
 var owner_username : String = "Unknown"
@@ -56,6 +56,7 @@ func add_to_POI():
 		"Constellation",
 		name,
 		status + " " + ("(searching)" if star_count == 0 else ("(growing)" if star_count < max_stars else "(dorment)")),
+		owner_username,
 		{
 			"newborn" : "A young constellation, I wonder what the future will hold for this one?",
 			"mature" : "A blossoming flower, full of potential",
@@ -82,7 +83,8 @@ func get_star_from_id(id : int) -> Star:
 		if star.id == id:
 			return star
 	
-	printerr("Global serch failed")
+	printerr("Global search failed")
+	print_stack()
 	return Star.new()
 
 func verify_star(verify_id : int) -> bool:

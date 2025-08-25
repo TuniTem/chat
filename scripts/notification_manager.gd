@@ -5,7 +5,7 @@ enum NotificationType {
 }
 
 const NOTIFICATION_SCENE = preload("res://scenes/notif.tscn")
-const NOTIFICATION_GAP_INTERVAL : float = 5.0
+const NOTIFICATION_GAP_INTERVAL : float = 2.0
 
 @export var location : Marker2D
 

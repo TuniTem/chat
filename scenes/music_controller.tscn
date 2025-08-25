@@ -229,4 +229,3 @@ unique_name_in_owner = true
 
 [node name="constellation" type="AudioStreamPlayer" parent="Music"]
 stream = ExtResource("43_wssqn")
-bus = &"Music"

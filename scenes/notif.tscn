@@ -369,10 +369,11 @@
 [ext_resource type="Script" uid="uid://w5mq8yvyrwe3" path="res://scripts/clip.gd" id="364_fb3e5"]
 [ext_resource type="Texture2D" uid="uid://dllqsqee1bar5" path="res://art/NewStars/Boarder/shimmer1001.png" id="365_j2jl1"]
 [ext_resource type="Shader" uid="uid://b4k8jk7jqpaxo" path="res://shader/WobbleText.gdshader" id="366_fkevi"]
-[ext_resource type="FontFile" uid="uid://bupu2v14iq1fp" path="res://Pangolin-Regular.ttf" id="367_rcuxn"]
+[ext_resource type="FontFile" uid="uid://bupu2v14iq1fp" path="res://art/Fonts/Pangolin-Regular.ttf" id="367_rcuxn"]
 [ext_resource type="StyleBox" uid="uid://nw63pi4hlpnw" path="res://tres/notifline.tres" id="368_kwjpp"]
 [ext_resource type="Texture2D" uid="uid://4jwkekf3vv5b" path="res://art/Tuni/halo.png" id="369_fy2ja"]
 [ext_resource type="Texture2D" uid="uid://bdl35fvojbugw" path="res://art/NewStars/Soft Outline/SoftOutline1000.png" id="370_852ch"]
+[ext_resource type="FontVariation" uid="uid://cljbpt32qtdf0" path="res://tres/notif_font.tres" id="370_k6dle"]
 [ext_resource type="Material" uid="uid://b06nmgdh5eamq" path="res://shader/warble.tres" id="370_s1cjt"]
 [ext_resource type="Texture2D" uid="uid://c86fnkm1vq8bx" path="res://art/Tuni/glasses.png" id="371_1abmg"]
 [ext_resource type="Texture2D" uid="uid://84gcjgfd6a5w" path="res://art/Tuni/bowclip.png" id="372_npcuo"]
@@ -1860,10 +1861,6 @@ shader_parameter/time_factor = 0.183
 shader_parameter/amplitude = Vector2(5, 1)
 shader_parameter/pos_factor = 0.143
 
-[sub_resource type="FontVariation" id="FontVariation_86smi"]
-base_font = ExtResource("367_rcuxn")
-spacing_glyph = 10
-
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_pi2b6"]
 shader = ExtResource("366_fkevi")
 shader_parameter/time_factor = 2.0
@@ -1983,7 +1980,7 @@ layout_mode = 2
 theme_override_colors/default_color = Color(0.705882, 0.564706, 0.85098, 1)
 theme_override_colors/font_outline_color = Color(0.183518, 0.103748, 0.255456, 1)
 theme_override_constants/outline_size = 22
-theme_override_fonts/normal_font = SubResource("FontVariation_86smi")
+theme_override_fonts/normal_font = ExtResource("370_k6dle")
 theme_override_font_sizes/normal_font_size = 36
 bbcode_enabled = true
 text = "[tornado radius=5.0 freq=2.0 connected=1]Welcome  Dreamer "
