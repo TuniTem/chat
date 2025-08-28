@@ -20,7 +20,7 @@ var line_offset : Vector2:
 #"dupe_verify": int
 
 func hide_node():
-	if not hidden:
+	if visible:
 		anims.play("InfoHide")
 		await anims.animation_finished
 		hide()

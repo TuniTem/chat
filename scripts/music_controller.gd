@@ -128,7 +128,9 @@ func _on_control_button_pressed(to : String):
 			exclusive.erase(current_playlist)
 			var selected : String = exclusive.pick_random()
 			load_playlist_to_queue(selected)
-
+			
+		"toggle_constellation_audio":
+				Util.toggle_mute_bus("Constellation")
 
 func clear():
 	current_playlist = ""

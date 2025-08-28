@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://e6smj52fq76u"]
+[gd_scene load_steps=33 format=3 uid="uid://e6smj52fq76u"]
 
 [ext_resource type="Script" uid="uid://bt67igeh5arjf" path="res://scripts/twitch.gd" id="1_0xm2m"]
 [ext_resource type="Script" uid="uid://d0253vbx2k6gk" path="res://scripts/chat.gd" id="1_h2yge"]
@@ -12,7 +12,6 @@
 [ext_resource type="Shader" uid="uid://bb3m0ojc3j20i" path="res://shader/sparkle.gdshader" id="10_eb6dy"]
 [ext_resource type="Material" uid="uid://4g836krgspte" path="res://shader/warbletext.tres" id="10_ya4ey"]
 [ext_resource type="FontVariation" uid="uid://cljbpt32qtdf0" path="res://tres/notif_font.tres" id="11_eb6dy"]
-[ext_resource type="Script" uid="uid://dtgw716kdxuex" path="res://scripts/util/input_viewport_holder.gd" id="13_a8y0u"]
 [ext_resource type="FontFile" uid="uid://lud2b8n4baea" path="res://art/Fonts/CodeSaver-Regular.otf" id="13_jkv2x"]
 
 [sub_resource type="Environment" id="Environment_1bvp3"]
@@ -41,7 +40,7 @@ length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Control/PreviewTitle:modulate")
+tracks/0/path = NodePath("Node2D/Control/PreviewTitle:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -89,7 +88,7 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("Control/PreviewUsername:modulate")
+tracks/4/path = NodePath("Node2D/Control/PreviewUsername:modulate")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -101,7 +100,7 @@ tracks/4/keys = {
 tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("Control/PreviewHelp:modulate")
+tracks/5/path = NodePath("Node2D/Control/PreviewHelp:modulate")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
@@ -113,7 +112,7 @@ tracks/5/keys = {
 tracks/6/type = "value"
 tracks/6/imported = false
 tracks/6/enabled = true
-tracks/6/path = NodePath("Control/PreviewInfo:visible_ratio")
+tracks/6/path = NodePath("Node2D/Control/PreviewInfo:visible_ratio")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
@@ -125,7 +124,7 @@ tracks/6/keys = {
 tracks/7/type = "value"
 tracks/7/imported = false
 tracks/7/enabled = true
-tracks/7/path = NodePath("Control/PreviewInfo:modulate")
+tracks/7/path = NodePath("Node2D/Control/PreviewInfo:modulate")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/keys = {
@@ -180,7 +179,7 @@ resource_name = "hide_text"
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Control/PreviewTitle:modulate")
+tracks/0/path = NodePath("Node2D/Control/PreviewTitle:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -192,7 +191,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Control/PreviewUsername:modulate")
+tracks/1/path = NodePath("Node2D/Control/PreviewUsername:modulate")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -204,7 +203,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Control/PreviewHelp:modulate")
+tracks/2/path = NodePath("Node2D/Control/PreviewHelp:modulate")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -232,7 +231,7 @@ length = 0.5
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Control/PreviewInfo:visible_ratio")
+tracks/0/path = NodePath("Node2D/Control/PreviewInfo:visible_ratio")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -244,7 +243,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Control/PreviewInfo:modulate")
+tracks/1/path = NodePath("Node2D/Control/PreviewInfo:modulate")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -260,7 +259,7 @@ length = 0.5
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Control/PreviewInfo:modulate")
+tracks/0/path = NodePath("Node2D/Control/PreviewInfo:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -276,7 +275,7 @@ length = 3.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Control/PreviewTitle:modulate")
+tracks/0/path = NodePath("Node2D/Control/PreviewTitle:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -312,7 +311,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("Control/PreviewUsername:modulate")
+tracks/3/path = NodePath("Node2D/Control/PreviewUsername:modulate")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -324,7 +323,7 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("Control/PreviewHelp:modulate")
+tracks/4/path = NodePath("Node2D/Control/PreviewHelp:modulate")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -352,7 +351,7 @@ length = 3.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Control/PreviewTitle:modulate")
+tracks/0/path = NodePath("Node2D/Control/PreviewTitle:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -388,7 +387,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("Control/PreviewUsername:modulate")
+tracks/3/path = NodePath("Node2D/Control/PreviewUsername:modulate")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -400,7 +399,7 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("Control/PreviewHelp:modulate")
+tracks/4/path = NodePath("Node2D/Control/PreviewHelp:modulate")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -428,7 +427,7 @@ length = 3.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Control/PreviewTitle:modulate")
+tracks/0/path = NodePath("Node2D/Control/PreviewTitle:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -440,7 +439,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Control/PreviewUsername:modulate")
+tracks/1/path = NodePath("Node2D/Control/PreviewUsername:modulate")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -452,7 +451,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Control/PreviewHelp:modulate")
+tracks/2/path = NodePath("Node2D/Control/PreviewHelp:modulate")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -645,9 +644,9 @@ offset_bottom = 0.0
 script = ExtResource("7_85g3d")
 preview_viewport = NodePath("PreviewWindow/SubViewport")
 preview_animations = NodePath("PreviewWindow/PreviewAnimations")
-preview_title = NodePath("PreviewWindow/Control/PreviewTitle")
-preview_username = NodePath("PreviewWindow/Control/PreviewUsername")
-preview_info = NodePath("PreviewWindow/Control/PreviewInfo")
+preview_title = NodePath("PreviewWindow/Node2D/Control/PreviewTitle")
+preview_username = NodePath("PreviewWindow/Node2D/Control/PreviewUsername")
+preview_info = NodePath("PreviewWindow/Node2D/Control/PreviewInfo")
 preview_window = NodePath("PreviewWindow")
 main_viewport = NodePath("MainWindow/SubViewport")
 main_window = NodePath("MainWindow")
@@ -670,20 +669,19 @@ libraries = {
 }
 autoplay = "hide"
 
-[node name="Control" type="Control" parent="Constellations/PreviewWindow"]
+[node name="Node2D" type="Node2D" parent="Constellations/PreviewWindow"]
+
+[node name="Control" type="Control" parent="Constellations/PreviewWindow/Node2D"]
 layout_mode = 3
-anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = -1920.0
-offset_bottom = -1920.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 script = ExtResource("9_eb6dy")
 
-[node name="PreviewTitle" type="RichTextLabel" parent="Constellations/PreviewWindow/Control"]
+[node name="PreviewTitle" type="RichTextLabel" parent="Constellations/PreviewWindow/Node2D/Control"]
 material = SubResource("ShaderMaterial_trceg")
 layout_mode = 1
 anchors_preset = 5
@@ -706,7 +704,7 @@ scroll_active = false
 autowrap_mode = 0
 horizontal_alignment = 1
 
-[node name="PreviewUsername" type="RichTextLabel" parent="Constellations/PreviewWindow/Control"]
+[node name="PreviewUsername" type="RichTextLabel" parent="Constellations/PreviewWindow/Node2D/Control"]
 modulate = Color(2, 2, 2, 1)
 material = ExtResource("10_ya4ey")
 layout_mode = 1
@@ -732,7 +730,7 @@ fit_content = true
 autowrap_mode = 0
 horizontal_alignment = 1
 
-[node name="PreviewHelp" type="RichTextLabel" parent="Constellations/PreviewWindow/Control"]
+[node name="PreviewHelp" type="RichTextLabel" parent="Constellations/PreviewWindow/Node2D/Control"]
 material = ExtResource("10_ya4ey")
 layout_mode = 1
 anchors_preset = 8
@@ -755,7 +753,7 @@ bbcode_enabled = true
 text = "[wave amp=50.0]\"!c help\" for more info"
 horizontal_alignment = 1
 
-[node name="PreviewInfo" type="RichTextLabel" parent="Constellations/PreviewWindow/Control"]
+[node name="PreviewInfo" type="RichTextLabel" parent="Constellations/PreviewWindow/Node2D/Control"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -782,14 +780,12 @@ visible_characters = 0
 visible_characters_behavior = 1
 visible_ratio = 0.0
 
-[node name="MainWindow" type="Sprite2D" parent="Constellations" node_paths=PackedStringArray("viewport")]
+[node name="MainWindow" type="Sprite2D" parent="Constellations"]
 visible = false
 z_index = -65
 material = SubResource("ShaderMaterial_jbj1t")
 texture = SubResource("ViewportTexture_eb6dy")
 offset = Vector2(960, 540)
-script = ExtResource("13_a8y0u")
-viewport = NodePath("SubViewport")
 
 [node name="SubViewport" type="SubViewport" parent="Constellations/MainWindow"]
 transparent_bg = true

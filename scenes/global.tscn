@@ -110,6 +110,7 @@ _subscriptions = Array[ExtResource("7_b18l6")]([SubResource("Resource_wafyw"), S
 scopes = SubResource("Resource_n5rs1")
 
 [node name="API" type="Node" parent="TwitchService"]
+unique_name_in_owner = true
 script = ExtResource("7_apua7")
 token = ExtResource("5_dxqtg")
 oauth_setting = ExtResource("3_b18l6")

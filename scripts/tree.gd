@@ -72,6 +72,7 @@ func _draw() -> void:
 		
 
 func _input(event: InputEvent) -> void:
+	if Util.input_context != "default" : return
 	if event.is_action_pressed("drag"):
 		dragging = true
 	if event.is_action_released("drag"):

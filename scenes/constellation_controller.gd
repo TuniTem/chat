@@ -2,7 +2,7 @@ extends Node2D
 
 const TELESCOPE = preload("res://scenes/telescope.tscn")
 const PREVIEW_ZOOM : float = 1.1
-const POSTVIEW_ZOOM : float = 0.35
+const POSTVIEW_ZOOM : float = 0.56
 
 @export var preview_viewport : SubViewport
 @export var preview_animations : AnimationPlayer
@@ -41,6 +41,8 @@ func _input(event: InputEvent) -> void:
 	if not Global.simplify_constellations and main_viewport:
 		main_viewport.push_input(event)
 	
+	if Util.input_context != "default" : 
+		return
 	if event.is_action_pressed("constellation"):
 		big_mode = not big_mode
 		if big_mode:
@@ -230,24 +232,27 @@ func display_new_star(star : Star):
 		if looping and is_instance_valid(telescope):
 			if not telescope.intro_finished:
 				await Util.compound_signal([telescope.intro_finish, telescope_freed])
-				await telescope.stop_loop(true)
-				
-				await telescope.stars.move_to_location(star.global_position[1], PREVIEW_ZOOM, true)
-				
-				var tween : Tween = create_tween()
-				tween.tween_property(star, "draw_amount", 1.0, 2.0).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE)
-				await tween.finished
-				telescope.stars.camera.send_ping(false, false)
-				tween = create_tween()
-				tween.tween_property(telescope.stars, "zoom", POSTVIEW_ZOOM, 1.0).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUINT)
-				await tween.finished
-				await Util.wait(telescope.LOOP_REST)
-				#print("f")
-				
-				if await try_buffer(): return
-				
-				if looping:
-					telescope.start_loop()
+			
+			await telescope.stop_loop(true)
+			
+			await telescope.stars.move_to_location(star.global_position[1], PREVIEW_ZOOM, true)
+			
+			var tween : Tween = create_tween()
+			telescope.stars.camera.send_ping(false)
+			tween.tween_property(star, "draw_amount", 1.0, 2.0).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE)
+			await tween.finished
+			await Util.wait(0.5)
+			telescope.stars.camera.send_ping(false, false)
+			tween = create_tween()
+			tween.tween_property(telescope.stars, "zoom", POSTVIEW_ZOOM, 1.0).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUINT)
+			await tween.finished
+			await Util.wait(telescope.LOOP_REST)
+			#print("f")
+			
+			if await try_buffer(): return
+			
+			if looping:
+				telescope.start_loop()
 		
 				
 			

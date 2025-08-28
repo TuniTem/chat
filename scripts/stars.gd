@@ -13,7 +13,7 @@ const PRECISION_SPEED_MULTIPLIER = 3.5
 
 const DEFAULT_AUTO_MOVE_TIME_MULT : float = 1.0
 const AUTO_MOVE_STATIC_MULT : float = 0.1
-const AUTO_MOVE_ZOOM_OUT : float = 0.5
+const AUTO_MOVE_ZOOM_OUT : float = 1.0
 const AUTO_MOVE_DIST_POW : float = 0.5
 
 const ZOOM_SCALER_RANGE = [0.25, 0.5528]
@@ -29,6 +29,7 @@ const ZOOM_SCALER_RANGE2 = [0.04, 0.35]
 @export var zoom_label : Label
 @export var location_label : Label
 @export var new_star_particles: CPUParticles2D
+@export var screens : Node2D
 
 var using_scope_move : bool = true
 var can_scope : bool = true
@@ -122,6 +123,7 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if using_scope_move:
 		var dir : Vector2 = Vector2(Input.get_action_strength("right") - Input.get_action_strength("left"), Input.get_action_strength("down") - Input.get_action_strength("up"))
+		if Util.input_context != "default" : dir = Vector2.ZERO
 		var presition_mult : float = (1.0/PRECISION_SPEED_MULTIPLIER if Input.is_action_pressed("scope_slow") else (PRECISION_SPEED_MULTIPLIER if Input.is_action_pressed("scope_fast") else 1.0))
 		var vel_mult : float = (1.0/zoom) * presition_mult 
 		if abs(dir.x) < Global.EPSILON or velocity.x < -SCOPE_SPEED * vel_mult or velocity.x > SCOPE_SPEED * vel_mult:
@@ -141,6 +143,7 @@ func _process(delta: float) -> void:
 		location_label.text = "Viewfinder\nLat: " + str(snapped(camera.position.y * Global.LOCATION_MULTIPLIER, 0.0001)) + "\nLgt: " + str(snapped(camera.position.x * Global.LOCATION_MULTIPLIER, 0.0001))
 		
 		var scope_dir : float = Input.get_action_strength("scope_zoom_in") - Input.get_action_strength("scope_zoom_out")
+		if Util.input_context != "default" : scope_dir = 0.0
 		if abs(scope_dir) > Global.EPSILON and can_scope:
 			zoom = clamp(zoom * ((1.0 + SCOPE_ZOOM_SPEED * delta * presition_mult) if scope_dir > 0 else (1.0/(1.0 + SCOPE_ZOOM_SPEED * delta * presition_mult))), SCOPE_INTERVALS[current_scope_interval][1], SCOPE_INTERVALS[current_scope_interval][0])
 			if Input.is_action_pressed("alt"):
@@ -167,6 +170,8 @@ func _process(delta: float) -> void:
 		zoom_scale2.rotation = remap(pow(zoom, 0.125), pow(SCOPE_INTERVALS[-1][1], 0.125), pow(SCOPE_INTERVALS[0][0], 0.25), PI - 0.14, 0.1) + PI
 		zoom_scale3.position = zoom_scale2.position
 		zoom_scale3.scale = zoom_scale2.scale *1.4
+		screens.position = -velocity * SCOPE_TRAIL_MULT * zoom * 2.0
+		screens.scale = (1.0 / zoom) * Vector2.ONE
 		
 		warp_shader.scale = Vector2.ONE * (1.0 / zoom) 
 		
@@ -193,8 +198,16 @@ func move_to_location(location : Vector2, end_zoom : float, wait : bool = false,
 	var pos_tween : Tween = create_tween()
 	
 	pos_tween.tween_property(camera, "position", location, time).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE)
-	zoom_tween.tween_property(self, "zoom", 1.0 / (clamp(time, 1.0, INF) * AUTO_MOVE_ZOOM_OUT), time / 2.0).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
-	zoom_tween.tween_property(self, "zoom", end_zoom, time / 2.0).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE)
+	
+	if Util.fequal(zoom, end_zoom, 0):
+		zoom_tween.tween_property(self, "zoom", end_zoom - time * 0.075 * end_zoom, time / 2.0).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
+		zoom_tween.tween_property(self, "zoom", end_zoom, time / 2.0).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE)
+	
+	elif Util.fless(zoom, end_zoom, 0): # if zooming in
+		zoom_tween.tween_property(self, "zoom", end_zoom, time).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CUBIC)
+		
+	else: # if zooming out
+		zoom_tween.tween_property(self, "zoom", end_zoom, time).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_SINE)
 	
 	for scope_interval : int in range(SCOPE_INTERVALS.size()):
 		if Util.between(end_zoom, SCOPE_INTERVALS[scope_interval][0], SCOPE_INTERVALS[scope_interval][1]):
@@ -317,6 +330,7 @@ func sparkle_at(pos : Vector2):
 	
 
 func _input(event: InputEvent) -> void:
+	if Util.input_context != "default" : return
 	if not using_scope_move:
 		if event.is_action_pressed("drag"):
 			if Input.is_action_pressed("alt") and last_selected_star != null:

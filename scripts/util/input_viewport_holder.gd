@@ -4,4 +4,5 @@ class_name InputViewportHolder extends Node
 
 
 func _input(event: InputEvent) -> void:
-	viewport.push_input(event)
+	if viewport: 
+		viewport.push_input(event)

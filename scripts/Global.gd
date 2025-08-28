@@ -289,8 +289,13 @@ var closest_POI : Dictionary = {}
 var simplify_constellations : bool = true
 
 # Twitch 
+const STREAMER_ID : String = "1050685508"
+const STREAMER_USERNAME : String = "tunitemvt"
+const FOLLOWER_VERIFY_INDEXES : Array[int] = [1, 2]
+
 @onready var chat : TwitchChat = %Chat
 @onready var twitch: TwitchService = %TwitchService
+@onready var api: TwitchAPI = %API
 
 var followers : Array = []
 
@@ -301,11 +306,13 @@ var notification_manager : NotificationManager
 
 var constellation_manager : Node2D
 
+
+
 # Util
 const EPSILON = 0.001
 const FINE_EPSILON = 0.00001
 
-var screen_id : String = ""
+var screen_id : String = "brb"
 var debug_draw_pos : Vector2
 var music_widget : Control
 var crosshair : DrawCrosshair
@@ -332,11 +339,12 @@ func _ready():
 		verify_branches()
 	
 	if GEN_STARS:
-		
-		#DB.delete_DB("constellations")
+		await verify_followers()
+		followers.sort_custom(Util.sort_ascending.bind(2))
 		load_constellations()
 
 func _input(event: InputEvent) -> void:
+	if Util.input_context != "default" : return
 	if DEBUG and event.is_action_pressed("debug"):
 		#if is_instance_valid(constellation_manager.telescope):
 			#constellation_manager.telescope.queue_free()
@@ -349,6 +357,86 @@ func _input(event: InputEvent) -> void:
 			"user_name" : dummy_usernames.pick_random() + str(randi_range(1, 1000)),
 			"followed_at": Time.get_datetime_string_from_system()
 		})
+
+func verify_followers():
+	print("Fetching followers...")
+	var opt : TwitchGetChannelFollowers.Opt = TwitchGetChannelFollowers.Opt.new()
+	opt.first = 100
+	var api_followers : TwitchGetChannelFollowers.Response = await api.get_channel_followers(opt, STREAMER_ID)
+	var cannonical_followers : Array = []
+	while cannonical_followers.size() == 0 or cannonical_followers[-1][1] != "Desilkan":
+		for follower : TwitchGetChannelFollowers.ResponseData in api_followers.data:
+			var formatted : Array = [follower.user_id, follower.user_name, Time.get_unix_time_from_datetime_string(follower.followed_at), true]
+			cannonical_followers.append(formatted)
+		
+		print("(", cannonical_followers.size(), " / ", api_followers.total, ")")
+		await api_followers.next_page()
+	
+	# followers in api but not in db
+	var missed : Array = cannonical_followers.duplicate()
+	for follower : Array in cannonical_followers:
+		if Util.search(followers, 0, follower[0]):
+			missed.erase(follower)
+	
+	# followers in db but not api
+	var added : Array = followers.duplicate()
+	for follower : Array in followers:
+		if Util.search(cannonical_followers, 0, follower[0]):
+			added.erase(follower)
+	
+	# mismatched data
+	var mismatched : Dictionary[int, Array] = {}
+	for check_idx : int in FOLLOWER_VERIFY_INDEXES:
+		var to_add : Array = []
+		for follower : Array in cannonical_followers:
+			var _match = Util.search(followers, 0, follower[0])
+			if _match and follower[check_idx] != _match[check_idx]:
+				to_add.append([follower, _match])
+		
+		mismatched[check_idx] = to_add
+	
+	var err : bool = missed.size() + added.size() > 0
+	if not err:
+		for key in mismatched.keys():
+			if mismatched[key].size() > 0:
+				err = true
+				break
+	
+	if err:
+		printerr("Verify Followers: Something's up! Printing errors, make the bool below true to auto fix")
+		
+		print_rich("\n[color=red]Followers in the twitch API but not in the db:")
+		if missed.size() == 0: print("<none>")
+		else:
+			for miss : Array in missed:
+				print(miss)
+		
+		print_rich("\n[color=purple]Followers in the db but not in the twitch API:")
+		if added.size() == 0: print("<none>")
+		else:
+			for add : Array in added:
+				print(add)
+		
+		for idx in mismatched.keys():
+			print_rich("\n[color=light_blue]Mismatched values on index ", idx, ":")
+			if mismatched[idx].size() == 0: print("<none>")
+			else:
+				for mismatch : Array in mismatched[idx]:
+					print(mismatch[0], "\n", mismatch[1], "\n")
+		
+		print("Break to allow cancellation...")
+		
+		for add : Array in added:
+			followers.erase(add)
+		
+		for miss : Array in missed:
+			followers.append(miss)
+		
+		for idx in mismatched.keys():
+			for mismatch : Array in mismatched[idx]:
+				mismatch[1][idx] = mismatch[0][idx]
+		
+		DB.replace("followers", followers, true, true)
 
 
 func get_nearby_POIs(position : Vector2, zoom : float, zoom_dependent_distance : bool = true) -> Array:
@@ -486,7 +574,7 @@ func load_constellations():
 			new_followers.append(follower)
 	
 	if new_followers.size() != 0: 
-		printerr("Unstellar followers! uncomment below lines to fix")
+		printerr("Unstellar followers! Will fix, but breaking to allow cancellation")
 		for follower : Array in new_followers:
 			generate_star(follower[1], follower[0])
 		save_constellation(true)
@@ -607,6 +695,8 @@ func generate_star(source : String, id : String, trigger_anim : bool = false) ->
 		if source.to_lower().contains(letter):
 			total += 1
 	
+	if source in ["Grapitalist", "watsupdudes", "PlushBoxStreaming", "sodaspheal", "Tugatitabella80", "livy__bivy", "dafooodil", "maplbar", "Desilkan"]:
+		total += 100
 	
 	if total < NEW_CONSTELLATION_MATCH_THRESH:
 		var shuffled_constellations : Array[Constellation] = constellations

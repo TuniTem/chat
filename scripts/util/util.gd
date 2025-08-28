@@ -19,6 +19,8 @@ var _breathe_methods : Dictionary[Callable, Dictionary] = {}
 var _breathe_enabled : bool = false
 var _active_promises : Array[Promise]
 
+var input_context : String = "default"
+
 
 # [Object, property] : {
 #    "init" : float
@@ -121,17 +123,17 @@ func get_all_children(node : Node, data : Array = []):
 	
 	return data
 
-func search(array : Array, index : Variant, key : Variant, duplicate : bool = false, on_fail : Variant = null, sub_key : Variant = -1):
+func search(array : Array, index : Variant, key : Variant, duplicate : bool = false, on_fail : Variant = null, sub_key : Variant = -1, verbose : bool = false):
 	for item in array:
 		if item[index] == key:
 			if sub_key == -1:
 				return item.duplicate() if duplicate else item
 			else:
 				return item[sub_key]
-	
-	printerr("Util search error: Could not find iteration ", key, " avalable iterations printed")
-	print(array)
-	print_stack()
+	if verbose:
+		printerr("Util search error: Could not find iteration ", key, " avalable iterations printed")
+		print(array)
+		print_stack()
 	return on_fail
 
 func between(value : Variant, lower : Variant, upper : Variant) -> bool:
@@ -143,6 +145,14 @@ func wait(time : float):
 
 func compound_signal(signals : Array[Signal], mode : Promise.Mode = Promise.Mode.ANY) -> Signal:
 	return Promise.new(signals, mode).completed
+
+func sort_ascending(a, b, index):
+	if a[index] < b[index]:
+		return true
+	return false
+
+func set_input_context(to : String):
+	input_context = to
 
 func set_mute_bus(bus : String, on : bool):
 	var idx : int = AudioServer.get_bus_index(bus)

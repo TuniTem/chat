@@ -96,6 +96,7 @@ _data = {
 
 [sub_resource type="FontVariation" id="FontVariation_u0pr1"]
 base_font = ExtResource("11_q2yfu")
+variation_embolden = -0.32
 spacing_glyph = 15
 
 [sub_resource type="RichTextEffect" id="RichTextEffect_u0pr1"]
@@ -449,7 +450,6 @@ volume_db = 3.6996
 bus = &"Constellation"
 
 [node name="Warp" type="ColorRect" parent="Camera2D"]
-z_index = 10
 material = ExtResource("8_ck6na")
 anchors_preset = 15
 anchor_right = 1.0
@@ -484,7 +484,6 @@ libraries = {
 }
 
 [node name="Screens" type="Node2D" parent="Camera2D"]
-modulate = Color(1, 1, 1, 0)
 z_index = 4
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Camera2D/Screens"]
@@ -495,9 +494,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -2242.0
-offset_top = -309.0
+offset_top = 234.0
 offset_right = 2242.0
-offset_bottom = -266.0
+offset_bottom = 277.0
 grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
@@ -516,28 +515,26 @@ layout_mode = 2
 layout_mode = 2
 theme_override_constants/margin_top = 8
 
-[node name="BRB" type="RichTextLabel" parent="Camera2D/Screens/HBoxContainer/MarginContainer3" node_paths=PackedStringArray("holder")]
-z_index = 9
+[node name="BRB" type="RichTextLabel" parent="Camera2D/Screens/HBoxContainer/MarginContainer3"]
 clip_contents = false
 layout_mode = 2
 theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
 theme_override_fonts/normal_font = SubResource("FontVariation_u0pr1")
 theme_override_font_sizes/normal_font_size = 31
 bbcode_enabled = true
-text = "[float]"
+text = "[float]sdaa"
 fit_content = true
 scroll_active = false
 autowrap_mode = 0
 horizontal_alignment = 1
 custom_effects = [SubResource("RichTextEffect_u0pr1")]
 script = ExtResource("13_m5347")
-holder = NodePath("../../..")
 
 [node name="LineEdit" type="LineEdit" parent="Camera2D/Screens/HBoxContainer/MarginContainer3/BRB"]
 layout_mode = 0
-offset_top = 1733.0
+offset_top = -94.0
 offset_right = 68.5625
-offset_bottom = 1764.0
+offset_bottom = -63.0
 keep_editing_on_text_submit = true
 select_all_on_focus = true
 

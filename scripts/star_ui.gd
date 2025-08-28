@@ -160,8 +160,8 @@ func _process(delta: float) -> void:
 			info_label.display_POI_data(confirmed_POI, true)
 			
 		
-		
-		if not (Input.is_action_pressed("up") or Input.is_action_pressed("down") or Input.is_action_pressed("left") or Input.is_action_pressed("right") or Input.is_action_pressed("scope_zoom_in") or Input.is_action_pressed("scope_zoom_out")):
+		#  not Global.constellation_manager.looping and
+		if (not (Input.is_action_pressed("up") or Input.is_action_pressed("down") or Input.is_action_pressed("left") or Input.is_action_pressed("right") or Input.is_action_pressed("scope_zoom_in") or Input.is_action_pressed("scope_zoom_out"))):
 			global_position = lerp(global_position, POI["location"], delta * 0.8 if not POI["dynamic"] else delta * 2.0)
 		
 		if POI["id"] != prev_poi_id:
@@ -227,7 +227,6 @@ func play_confirm_anim():
 	
 	$Confirm.play()
 	Global.crosshair.switch_anim("select")
-	print("confirm!")
 	
 	#info_label.line_offset
 	#info_line_end = info_base_point
@@ -237,9 +236,10 @@ func play_confirm_anim():
 
 
 func reset_confirm_progress():
-	if confirmed_POI != {}:
+	if confirmed_POI != {} and Global.simplify_constellations:
 		Global.crosshair.switch_anim("idle", 0.5)
 		Global.constellation_manager.preview_animations.play("info_out")
+	
 	confirm_amount = 0.0
 	delay_timer = 0.0
 	confirmed_POI = {}
@@ -247,6 +247,7 @@ func reset_confirm_progress():
 	
 
 func _input(event: InputEvent) -> void:
+	if Util.input_context != "default" : return
 	if event.is_action_pressed("call"):
 		$Call.play(1.1)
 		send_ping(false)

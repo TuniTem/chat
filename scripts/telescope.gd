@@ -29,19 +29,15 @@ func _ready() -> void:
 func start_loop():
 	can_loop = true
 	while can_loop:
-		print("CL a")
 		if Global.POIs.size() == 0:
 			can_loop = false
 			break
 		
 		var targ : Dictionary = Global.POIs.pick_random()
-		print("CL b")
-		
 		await stars.move_to_location(targ["location"], targ["zoom_range"][0] + Util.EPSILON, true)
+		await Util.wait(0.25)
 		stars.camera.send_ping(false)
-		print("CL c")
 		await Util.wait(LOOP_REST)
-		print("CL d")
 	
 	loop_done.emit()
 

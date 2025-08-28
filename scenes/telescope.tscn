@@ -2236,7 +2236,7 @@ script = ExtResource("7_v3bok")
 hooked_node = NodePath("../../../Mag")
 
 [node name="LocationAttach" type="Marker2D" parent="Scope/ticks" node_paths=PackedStringArray("hooked_node")]
-position = Vector2(13.522, -590.84)
+position = Vector2(-9.53493, 425.188)
 rotation = 0.0226893
 scale = Vector2(0.580048, 0.580048)
 script = ExtResource("7_v3bok")
@@ -2425,6 +2425,7 @@ offset_right = 1379.0
 offset_bottom = 802.0
 
 [node name="IntroAperture" type="AnimatedSprite2D" parent="."]
+visible = false
 modulate = Color(0, 0, 0, 1)
 scale = Vector2(0.7185, 0.7185)
 sprite_frames = SubResource("SpriteFrames_o2k8x")

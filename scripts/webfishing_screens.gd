@@ -10,4 +10,4 @@ func _ready() -> void:
 	animation_player.play("sway", 1.0)
 
 func fade():
-	animation_player.play("bye", 0.5)
+	animation_player.play("bye", 1.0)

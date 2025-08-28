@@ -158,22 +158,32 @@ script = ExtResource("5_o8p77")
 data = "toggle_show_new"
 toggle = true
 
-[node name="ToggleShowNew2" parent="Control/MarginContainer/VBoxContainer/Constellation" instance=ExtResource("3_5q0ia")]
+[node name="ToggleAudio" parent="Control/MarginContainer/VBoxContainer/Constellation" instance=ExtResource("3_5q0ia")]
+layout_mode = 2
+text = "Toggle
+Audio"
+data = "toggle_constellation_audio"
+
+[node name="Constellation2" type="HBoxContainer" parent="Control/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+
+[node name="ToggleShowNew2" parent="Control/MarginContainer/VBoxContainer/Constellation2" instance=ExtResource("3_5q0ia")]
 layout_mode = 2
 text = "Hide Text"
 data = "hide_text"
 
-[node name="ToggleShowNew3" parent="Control/MarginContainer/VBoxContainer/Constellation" instance=ExtResource("3_5q0ia")]
+[node name="ToggleShowNew3" parent="Control/MarginContainer/VBoxContainer/Constellation2" instance=ExtResource("3_5q0ia")]
 layout_mode = 2
 text = "Show Text"
 data = "show_text"
 
-[node name="ToggleShowNew4" parent="Control/MarginContainer/VBoxContainer/Constellation" instance=ExtResource("3_5q0ia")]
+[node name="ToggleShowNew4" parent="Control/MarginContainer/VBoxContainer/Constellation2" instance=ExtResource("3_5q0ia")]
 layout_mode = 2
 text = "Hide"
 data = "hide"
 
-[node name="ToggleShowNew5" parent="Control/MarginContainer/VBoxContainer/Constellation" instance=ExtResource("3_5q0ia")]
+[node name="ToggleShowNew5" parent="Control/MarginContainer/VBoxContainer/Constellation2" instance=ExtResource("3_5q0ia")]
 layout_mode = 2
 text = "Show"
 data = "show"

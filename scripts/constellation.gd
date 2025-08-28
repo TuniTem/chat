@@ -55,7 +55,7 @@ func add_to_POI():
 	POI_id = Global.add_POI(
 		"Constellation",
 		name,
-		status + " " + ("(searching)" if star_count == 0 else ("(growing)" if star_count < max_stars else "(dorment)")),
+		status + " " + ("(searching)" if star_count == 1 else ("(growing)" if star_count < max_stars else "(dorment)")),
 		owner_username,
 		{
 			"newborn" : "A young constellation, I wonder what the future will hold for this one?",
