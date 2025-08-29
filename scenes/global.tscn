@@ -178,7 +178,7 @@ description = "How much time is left"
 eventsub = NodePath("../../EventSub")
 metadata/_custom_type_script = "uid://bmluckfvgm1c2"
 
-[node name="music" type="Node" parent="TwitchService/Commands" node_paths=PackedStringArray("eventsub")]
+[node name="Music" type="Node" parent="TwitchService/Commands" node_paths=PackedStringArray("eventsub")]
 script = ExtResource("18_korfd")
 command = "music"
 aliases = Array[String](["m", "song"])
@@ -186,8 +186,46 @@ description = "See what music is currently playing"
 eventsub = NodePath("../../EventSub")
 metadata/_custom_type_script = "uid://bmluckfvgm1c2"
 
+[node name="Constellation" type="Node" parent="TwitchService/Commands" node_paths=PackedStringArray("eventsub")]
+script = ExtResource("18_korfd")
+command = "constellation"
+aliases = Array[String](["c"])
+description = "See and change info about your constellation!"
+eventsub = NodePath("../../EventSub")
+metadata/_custom_type_script = "uid://bmluckfvgm1c2"
+
+[node name="Star" type="Node" parent="TwitchService/Commands" node_paths=PackedStringArray("eventsub")]
+script = ExtResource("18_korfd")
+command = "star"
+aliases = Array[String](["s"])
+description = "See and change info about your star!"
+eventsub = NodePath("../../EventSub")
+metadata/_custom_type_script = "uid://bmluckfvgm1c2"
+
+[node name="ResetName" type="Node" parent="TwitchService/Commands" node_paths=PackedStringArray("eventsub")]
+script = ExtResource("18_korfd")
+command = "resetname"
+aliases = Array[String](["reset", "rn"])
+description = "Reset someones constellation name if it's bad"
+args_max = 3
+permission_level = 4
+eventsub = NodePath("../../EventSub")
+metadata/_custom_type_script = "uid://bmluckfvgm1c2"
+
+[node name="Followed" type="Node" parent="TwitchService/Commands" node_paths=PackedStringArray("eventsub")]
+script = ExtResource("18_korfd")
+command = "followed"
+aliases = Array[String](["follow", "f"])
+description = "Tells you how long you have been followed"
+eventsub = NodePath("../../EventSub")
+metadata/_custom_type_script = "uid://bmluckfvgm1c2"
+
 [connection signal="received" from="TwitchService/Follow" to="." method="_on_follow_received"]
 [connection signal="command_received" from="TwitchService/Commands/Discord" to="." method="_on_discord_command_received"]
 [connection signal="command_received" from="TwitchService/Commands/Lurk" to="." method="_on_lurk_command_received"]
 [connection signal="command_received" from="TwitchService/Commands/Timeleft" to="." method="_on_timeleft_command_received"]
-[connection signal="command_received" from="TwitchService/Commands/music" to="." method="_on_music_command_received"]
+[connection signal="command_received" from="TwitchService/Commands/Music" to="." method="_on_music_command_received"]
+[connection signal="command_received" from="TwitchService/Commands/Constellation" to="." method="_on_constellation_command_received"]
+[connection signal="command_received" from="TwitchService/Commands/Star" to="." method="_on_star_command_received"]
+[connection signal="command_received" from="TwitchService/Commands/ResetName" to="." method="_on_reset_name_command_received"]
+[connection signal="command_received" from="TwitchService/Commands/Followed" to="." method="_on_followed_command_received"]

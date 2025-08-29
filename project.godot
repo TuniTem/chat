@@ -25,6 +25,7 @@ DB="*res://scripts/db.gd"
 Music="*res://scenes/music_controller.tscn"
 ControlPanel="*res://scenes/control_panel.tscn"
 Util="*res://scripts/util/util.gd"
+File="*res://scripts/util/file_manager.gd"
 
 [display]
 

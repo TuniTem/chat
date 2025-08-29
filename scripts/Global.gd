@@ -212,6 +212,10 @@ var active_temp_ids : Array = []
 
 # Commands
 const DISCORD_LINK = "https://discord.gg/ZSsZxYhRRt"
+const CONSTELLATION_INSTRUCTIONS_LINK = "https://tr.ee/nWqk1n"
+const LINKTREE_LINK = "https://linktr.ee/tunitem"
+const CHARACTER_LIMIT : Array = [3, 25]
+
 const LURK_MESSAGES : Array[String] = [
 	"[user] drifts through another fragment",
 	"[user] blends in with the ink",
@@ -507,16 +511,16 @@ func add_POI(type : String, object_name : String, object_status : String, _owner
 #"dynamic" : bool
 
 func update_POI(id : int, entry : String, new_value : Variant):
-	var selected : Dictionary = _find_POI(id)
+	var selected : Dictionary = find_POI(id)
 	if selected != {}:
 		selected[entry] = new_value
 			 
 	
 
 func remove_POI(id : int):
-	POIs.erase(_find_POI(id))
+	POIs.erase(find_POI(id))
 
-func _find_POI(id : int) -> Dictionary:
+func find_POI(id : int) -> Dictionary:
 	var selected_POI : Dictionary = {}
 	for POI : Dictionary in POIs:
 		if POI["id"] == id:
@@ -525,9 +529,10 @@ func _find_POI(id : int) -> Dictionary:
 	printerr("Could not find POI ", id, " avalable POIs printed")
 	return {} 
 
-func get_follower_data(id : String, key : String = ""):
-	return Util.search(followers, 0, id, true, [], {"id" : 0, "name" : 1, "time" : 2, "" : -1}[key])
-	
+func get_follower_data(id : String, key : String = "", username : bool = false):
+	return Util.search(followers, 0 if not username else 1, id, true, null, {"id" : 0, "name" : 1, "time" : 2, "" : -1}[key])
+
+
 func create_unique_id() -> int:
 	for i in MAX_ID_GENERATION_ATTEMPTS:
 		var test_id : int = randi()
@@ -769,6 +774,22 @@ func send_message(message : String):
 	else:
 		printerr("Failed to send " + message + ". Reason: ", response_data[0].drop_reason if not response_data.is_empty() else "Unknown")
 
+func update_constellation_name(constellation : Constellation, to : String):
+	constellation.name = to
+	save_constellation(Util.cooldown("const_backup", 3600.0))
+	update_POI(constellation.POI_id, "name", to)
+
+func locate_constellation(constellation : Constellation):
+	pass
+
+func update_star_name(star : Star, to : String):
+	star.name = to
+	save_constellation(Util.cooldown("const_backup", 3600.0))
+	update_POI(star.POI_id, "name", to)
+
+func locate_star(constellation : Star):
+	pass
+
 func _on_chat_message_received(chat_message: TwitchChatMessage):
 	print("[%s] %s: %s" % [chat_message.broadcaster_user_name, chat_message.chatter_user_name, chat_message.message.text])
 	#notification_manager.send_notification(NotificationManager.NotificationType.FOLLOW, Time.get_unix_time_from_system(), chat_message.chatter_user_name)
@@ -817,6 +838,166 @@ func _on_music_command_received(from_username: String, info: TwitchCommandInfo, 
 	send_message("Currently playing . . . . . " + Music.get_current_song_as_string() + " " + Music.get_current_song_link())
 	music_widget.visiblity = 10.0
 
+func _on_constellation_command_received(from_username: String, info: TwitchCommandInfo, args: PackedStringArray) -> void:
+	if args.size() == 0 or args[0] == "info":
+		send_message("Every follower gets a permanent star in dreamspace! You can rename it with \"!s name <star name>\" and if you own a constellation, name it with \"!c name <constellation name>\"")
+		Util.wait(0.5)
+		send_message("You can find more info here: " + CONSTELLATION_INSTRUCTIONS_LINK)
+		return
+	
+	var constellation : Constellation
+	for con : Constellation in constellations:
+		if con.owner_username == from_username:
+			constellation = con
+			break
+	
+	if not constellation:
+		send_message("You do not own a constellation!")
+		return
+	
+	match args[0]:
+		"name":
+			if args.size() != 2:
+				send_message("Format: !c name <name>")
+				return
+			
+			if not Util.is_alphanumeric(args[1]):
+				send_message("Names can only contain A-Z and 0-9")
+				return
+			
+			if not Util.between(args[1].length(), CHARACTER_LIMIT[0], CHARACTER_LIMIT[1]):
+				send_message("Names must be between " + str(CHARACTER_LIMIT[0]) + " and " + str(CHARACTER_LIMIT[1]) + " characters")
+				return
+			
+			if Util.cooldown(from_username + "cname", 600.0):
+				update_constellation_name(constellation, args[1])
+				send_message("Constellation name updated!")
+			
+			else:
+				send_message("Cooldown: " + Util.cooldown_timeleft_string(from_username + "cname"))
+				
+		"locate":
+			if Util.cooldown(from_username + "clocate", 120.0):
+				locate_constellation(constellation)
+			else:
+				send_message("Cooldown: " + Util.cooldown_timeleft_string(from_username + "clocate"))
+		
+		"status":
+			send_message("STATUS : " + find_POI(constellation.POI_id)["status"])
+		
+		"age", "found":
+			send_message("FOUND : " + Time.get_datetime_string_from_unix_time(constellation.creation_unix_time))
+		
+		_:
+			send_message("Unknown argument \"" + args[0] + "\"")
+
+func _on_star_command_received(from_username: String, info: TwitchCommandInfo, args: PackedStringArray) -> void:
+	if args.size() == 0 or args[0] == "info":
+		send_message("Every follower gets a permanent star in dreamspace! You can rename it with \"!s name <star name>\" and if you own a constellation, name it with \"!c name <constellation name>\"")
+		Util.wait(0.5)
+		send_message("You can find more info here: " + CONSTELLATION_INSTRUCTIONS_LINK)
+		return
+	
+	var star : Star
+	for s : Star in get_stars():
+		if star.username == from_username:
+			star = s
+			break
+	
+	if not star:
+		send_message("Could not find star, you might be unfollowed!")
+		return
+	
+	match args[0]:
+		"name":
+			if args.size() != 2:
+				send_message("Format: !s name <name>")
+				return
+			
+			if not Util.is_alphanumeric(args[1]):
+				send_message("Names can only contain A-Z and 0-9")
+				return
+			
+			if not Util.between(args[1].length(), CHARACTER_LIMIT[0], CHARACTER_LIMIT[1]):
+				send_message("Names must be between " + str(CHARACTER_LIMIT[0]) + " and " + str(CHARACTER_LIMIT[1]) + " characters")
+				return
+			
+			if Util.cooldown(from_username + "sname", 300.0):
+				update_star_name(star, args[1])
+				send_message("Star name updated!")
+			
+			else:
+				send_message("Cooldown: " + Util.cooldown_timeleft_string(from_username + "sname"))
+				
+		"locate":
+			if Util.cooldown(from_username + "slocate", 120.0):
+				locate_star(star)
+			else:
+				send_message("Cooldown: " + Util.cooldown_timeleft_string(from_username + "slocate"))
+		
+		"status":
+			send_message("STATUS : " + find_POI(star.POI_id)["status"])
+		
+		_:
+			send_message("Unknown argument \"" + args[0] + "\"")
+
+# format: !rn <name> [s or c, it defaults both] [name to set to, default names by default]
+func _on_reset_name_command_received(from_username: String, info: TwitchCommandInfo, args: PackedStringArray) -> void:
+	var size : int = args.size()
+	if size == 0:
+		send_message("Format: !rn <name> [s or c, defaults both] [name to set to]")
+		return
+	
+	var star : Star
+	for s : Star in get_stars():
+		if star.username.to_lower() == args[0].to_lower():
+			star = s
+			break
+	
+	if not star:
+		send_message("Could not find user " + args[0])
+		return
+	
+	var constellation : Constellation
+	if size > 1:
+		match args[1]:
+			"s":
+				pass
+			"c": 
+				if star.is_constellation_base:
+					constellation = star.parent_constellation
+				else:
+					send_message(args[0] + " does not appear to own their constellation")
+					return
+			_:
+				send_message("Unknown argument \"" + args[1] + "\" use 'c' [constellation] or 's' [star]")
+				return
+	
+	else:
+		if star.is_constellation_base:
+			constellation = star.parent_constellation
+	
+	var to : String = ""
+	if size == 3:
+		to = args[2]
+	
+	star.name = to
+	
+	if constellation:
+		constellation.name = Global.dummy_constellation_names.pick_random() if to == "" else to
+
+func _on_followed_command_received(from_username: String, info: TwitchCommandInfo, args: PackedStringArray) -> void:
+	var user : String = from_username
+	if args.size() == 1:
+		user = args[0]
+	
+	var time = Global.get_follower_data(user, "time")
+	if time:
+		send_message(from_username + " followed at " + time)
+	elif args.size() == 1:
+		send_message("Unknown user " + args[0])
+	else:
+		send_message("Not followed")
 
 
 

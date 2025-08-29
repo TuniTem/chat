@@ -14,6 +14,13 @@ const STAR_ZOOM_RANGE : Array[float] = [0.75, INF]
 const SIZE : float = 72
 
 var username : String = "Unknown"
+var name : String = "":
+	get():
+		if name == "":
+			return username + "'s Star"
+		
+		return name
+
 var user_id : String = "Unknown"
 var angle : float = 0:
 	set(val):
@@ -122,7 +129,7 @@ func get_end_pos(set_angle : float, set_dist : float) -> Vector2:
 	#Vector2(cos(angle + previous_angle), sin(angle + previous_angle)) * distance
 
 func deconstruct() -> Array:
-	return [user_id, username, angle, distance, id, parent_id, children, max_children, excluded_angles, is_constellation_base, Colors.keys()[int(color)], position]
+	return [user_id, username, angle, distance, id, parent_id, children, max_children, excluded_angles, is_constellation_base, Colors.keys()[int(color)], position, name]
 
 var _constructing : bool = false
 func construct(data : Array):
@@ -139,6 +146,8 @@ func construct(data : Array):
 	is_constellation_base = data[9]
 	color = Colors.get(data[10])
 	position = data[11]
+	if data.size() > 12: name = data[12] # TODO remove this once dicts are fixed, on the saved constellation file too
+	else: name = ""
 	_constructing = false
 	add_to_POI()
 

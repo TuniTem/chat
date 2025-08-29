@@ -145,7 +145,7 @@ func _create_telescope(mini_ver : bool = true):
 	telescope = inst
 	
 
-func add_to_buffer(star : Star):
+func add_to_buffer(star : Variant):
 	if show_new:
 		if miniplayer or big_mode:
 			if not displaying:
@@ -168,7 +168,7 @@ func try_buffer() -> bool:
 		return true
 	return false
 
-func display_new_star(star : Star):
+func display_new_star(star : Variant):
 	#print("a")
 	if not miniplayer:
 		print("miniplayer disabled, blocking display")
@@ -179,37 +179,46 @@ func display_new_star(star : Star):
 		return
 	
 	displaying = true
-	#print("b")
+	var is_star : bool = typeof(star) != TYPE_DICTIONARY
+	
 	if not big_mode:
-		if not star.is_constellation_base:
-			preview_title.text = "[wave amp=50.0]New Star Found!"
-		else:
-			preview_title.text = "[wave amp=50.0]New Constellation Found!"
-		
-		preview_username.text = "[tornado radius=4.0 freq=4.0][pulse freq=0.5 color=#dddddd ease=-2.0]" + star.username
+		if is_star:
+			if not star.is_constellation_base:
+				preview_title.text = "[wave amp=50.0]New Star Found!"
+			else:
+				preview_title.text = "[wave amp=50.0]New Constellation Found!"
+			
+			preview_username.text = "[tornado radius=4.0 freq=4.0][pulse freq=0.5 color=#dddddd ease=-2.0]" + star.username
 		
 		if not is_instance_valid(telescope): 
 			#print("c1")
 			_create_telescope()
-			preview_animations.play("show")
+			preview_animations.play("show" if is_star else "show_bg")
 			await Util.wait(Global.STARS_OPENING_ANIMATION_LENGTH)
 		
 		else:
 			if not telescope.intro_finished:
 				await Util.compound_signal([telescope.intro_finish, telescope_freed])
 			await telescope.stop_loop(true)
-			preview_animations.play("show_text")
+			if is_star: preview_animations.play("show_text")
 		#print("d")
 		#preview_animations.play("show")
-		await telescope.stars.move_to_location(star.global_position[1], PREVIEW_ZOOM, true)
+		await telescope.stars.move_to_location(star.global_position[1] if is_star else star["location"], PREVIEW_ZOOM, true)
 		#print("e")
-		var tween : Tween = create_tween()
-		tween.tween_property(star, "draw_amount", 1.0, 2.0).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE)
-		await tween.finished
-		telescope.stars.camera.send_ping(false, false)
-		tween = create_tween()
-		tween.tween_property(telescope.stars, "zoom", POSTVIEW_ZOOM, 1.0).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUINT)
-		await tween.finished
+		
+		if is_star:
+			var tween : Tween = create_tween()
+			tween.tween_property(star, "draw_amount", 1.0, 2.0).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE)
+			await tween.finished
+			telescope.stars.camera.send_ping(false, false)
+			tween = create_tween()
+			tween.tween_property(telescope.stars, "zoom", POSTVIEW_ZOOM, 1.0).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUINT)
+			await tween.finished
+			
+		else:
+			await Util.wait(0.25)
+			telescope.stars.camera.send_ping(false)
+			
 		await Util.wait(telescope.LOOP_REST)
 		#print("f")
 		
@@ -217,7 +226,7 @@ func display_new_star(star : Star):
 		
 		if looping: 
 			#print("h?")
-			preview_animations.play("hide_text")
+			if is_star : preview_animations.play("hide_text")
 			telescope.start_loop()
 			
 		else:
@@ -235,17 +244,23 @@ func display_new_star(star : Star):
 			
 			await telescope.stop_loop(true)
 			
-			await telescope.stars.move_to_location(star.global_position[1], PREVIEW_ZOOM, true)
+			await telescope.stars.move_to_location(star.global_position[1] if is_star else star["location"], PREVIEW_ZOOM, true)
 			
-			var tween : Tween = create_tween()
-			telescope.stars.camera.send_ping(false)
-			tween.tween_property(star, "draw_amount", 1.0, 2.0).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE)
-			await tween.finished
-			await Util.wait(0.5)
-			telescope.stars.camera.send_ping(false, false)
-			tween = create_tween()
-			tween.tween_property(telescope.stars, "zoom", POSTVIEW_ZOOM, 1.0).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUINT)
-			await tween.finished
+			if is_star:
+				var tween : Tween = create_tween()
+				telescope.stars.camera.send_ping(false)
+				tween.tween_property(star, "draw_amount", 1.0, 2.0).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE)
+				await tween.finished
+				await Util.wait(0.5)
+				telescope.stars.camera.send_ping(false, false)
+				tween = create_tween()
+				tween.tween_property(telescope.stars, "zoom", POSTVIEW_ZOOM, 1.0).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUINT)
+				await tween.finished
+			
+			else:
+				await Util.wait(0.25)
+				telescope.stars.camera.send_ping(false)
+			
 			await Util.wait(telescope.LOOP_REST)
 			#print("f")
 			
@@ -257,7 +272,7 @@ func display_new_star(star : Star):
 				
 			
 			
-		else:
+		elif is_star:
 			buffer.append(star)
 	
 	displaying = false

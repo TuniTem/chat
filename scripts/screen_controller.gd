@@ -29,10 +29,13 @@ func load_new_screen(screen_id : String):
 	
 
 func _input(event: InputEvent) -> void:
-	for screen in ["brb", "starting", "ending"]:
-		if event.is_action_pressed(screen):
-			load_new_screen(screen)
-	if Util.input_context != "default" : return
-	if event.is_action_pressed("exit"):
-		if get_child(0):
-			get_child(0).fade()
+	if Util.input_context == "default" :
+		if event.is_action_pressed("exit"):
+			if get_child(0):
+				get_child(0).fade()
+	
+	if not Global.constellation_manager.big_mode:
+		for screen in ["brb", "starting", "ending"]:
+			if event.is_action_pressed(screen):
+				load_new_screen(screen)
+	

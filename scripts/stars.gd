@@ -72,20 +72,20 @@ const PANGOLIN_REGULAR = preload("res://art/Fonts/Pangolin-Regular.ttf")
 
 
 @onready var star_texures : Dictionary[Star.Colors, Texture2D] = {
-	Star.Colors.PURPLE: preload("res://art/NewStars/Normal/Normal1007.png"),
-	Star.Colors.PINK: preload("res://art/NewStars/Normal/Normal1007.png"),
-	Star.Colors.YELLOW: preload("res://art/NewStars/Normal/Normal1007.png"),
-	Star.Colors.WHITE: preload("res://art/NewStars/Normal/Normal1007.png")
+	Star.Colors.PURPLE: preload("res://art/NewStars/Soft Outline/SoftOutline1001.png"),
+	Star.Colors.PINK: preload("res://art/NewStars/Soft Outline/SoftOutline1000.png"),
+	Star.Colors.YELLOW: preload("res://art/NewStars/Soft Outline/SoftOutline1002.png"),
+	Star.Colors.WHITE: preload("res://art/NewStars/Soft Outline/SoftOutline1003.png")
 }
 
 # drawing
 const CONSTELLATION_VIGNETTE_INNER : float = 500.0
 const CONSTELLATION_VIGNETTE_FALLOFF : float = 500.0
-const STAR_TEXTURE_ASPECT_RATIO : float = 1200.0/1000.0
+const STAR_TEXTURE_ASPECT_RATIO : float = 1000.0/1000.0
 
 
 var draw_scale : float = 3.0
-var texture_scale : float = 48.0
+var texture_scale : float = 32.0
 
 # camera
 const ZOOM_CLAMP : Array[float] = [1/40.0, 40.0]
@@ -315,10 +315,15 @@ func _draw() -> void:
 	
 	
 	for star : Star in Global.get_stars():
+		var rng : RandomNumberGenerator = RandomNumberGenerator.new()
+		rng.seed = star.id
+		var wavelength : float = rng.randf_range(5.0, 10.0)
+		var amp : float = rng.randf_range(0.8, 1.0) 
+		
 		var constellation_origin : Vector2 = star.parent_constellation.origin_position
 		var tex_scale : float = texture_scale if not Global.simplify_constellations else max(texture_scale * (1.0/zoom) * 0.25, texture_scale * 1.5)
-		var size : Vector2 = Vector2.ONE * tex_scale * Vector2(STAR_TEXTURE_ASPECT_RATIO, 1.0)
-		draw_texture_rect(star_texures[star.color], Rect2(star.position[1] + constellation_origin - size / 2.0, size), false)
+		var size : Vector2 = Vector2.ONE * tex_scale * Vector2(STAR_TEXTURE_ASPECT_RATIO, 1.0) * Util.breathe_remap(wavelength, -amp, -(2.0 - amp))
+		draw_texture_rect(star_texures[star.color], Util.rect_from_center(star.position[1] + constellation_origin, size - 0.3 * Vector2.ZERO), false)
 	
 	if Global.debug_draw_pos:
 		draw_circle(Global.debug_draw_pos, 16.0, Color.RED, false, 4.0)
@@ -379,7 +384,8 @@ func _input(event: InputEvent) -> void:
 
 
 func _on_floaty_guy_timer_timeout() -> void:
-	if randi_range(1, 100) <= 1:
+	if randi_range(1, 1000) <= 1:
+		print("floaty guy")
 		var inst = FLOATY_GUY.instantiate()
 		var dir_vec : Vector2 = Vector2(randi_range(0,1) * 2 - 1, randi_range(0,1) * 2 - 1)
 		inst.position = camera.position + ((DisplayServer.window_get_size() / 2.0 + Vector2.ONE * FLOATY_GUY_BUFFER) / zoom) * dir_vec + Vector2.from_angle(randf_range(0.0, TAU)) * FLOATY_GUY_BUFFER / 2.0
