@@ -5,6 +5,7 @@ const COARSE_EPSILON : float = 0.01
 const EPSILON : float  = 0.001
 const FINE_EPSILON : float  = 0.00001
 const FINEST_EPSILON : float  = 0.000000001
+const MAX_ID_GENERATION_ATTEMPTS = 1000
 const _EPSILON_ARR : Array = [COARSE_EPSILON, EPSILON, FINE_EPSILON, FINEST_EPSILON]
 
 # breathe
@@ -20,6 +21,8 @@ var _breathe_enabled : bool = false
 var _active_promises : Array[Promise]
 var _cooldowns : Dictionary[String, float]
 var _run_every_counts : Dictionary[Array, int]
+var _active_temp_ids : Array[int] = []
+var _smooth_hide_colors : Dictionary[CanvasItem, Color]
 
 var input_context : String = "default"
 
@@ -138,8 +141,8 @@ func search(array : Array, index : Variant, key : Variant, duplicate : bool = fa
 		print_stack()
 	return on_fail
 
-func between(value : Variant, lower : Variant, upper : Variant) -> bool:
-	return value > lower and value < upper
+func between(value : Variant, lower : Variant, upper : Variant, inclusive : bool = false) -> bool:
+	return (value >= lower and value <= upper) if inclusive else (value > lower and value < upper)
 
 func wait(time : float):
 	await get_tree().create_timer(time).timeout
@@ -205,6 +208,35 @@ func run_every(num_runs : int = 10, parent : Node = self, identifier : String = 
 	
 	return false
 
+func convert_hms(time : int) -> Array[int]:
+	var hours : int = time / 3600
+	var mins : int = (time % 3600) / 60
+	var sec : int = (time % 3600) % 60
+	
+	return [hours, mins, sec]
+
+func create_temp_unique_id() -> int:
+	for i in MAX_ID_GENERATION_ATTEMPTS:
+		var test_id : int = randi()
+		if not _active_temp_ids.has(test_id):
+			_active_temp_ids.append(test_id)
+			return test_id
+	
+	printerr("MAX TUID GENERATION ATTEMPTS EXCEEDED, THIS REALLY SHOULD NOT HAPPEN!! CONTINUING GRACEFULLY AND YOU WILL NOT NOTICE ANYTHING BREAK UNLESS UR REALLY UNLUCKY BUT LIKE TOTTALLY FIX THIS COS THE UID SYSTEM JUST ISNT WORKING")
+	return randi()
+
+func hide_smooth(node : CanvasItem, time : float = 1.0, wait : bool = false, self_modulate : bool = false, fade_color : Color = Color.WHITE):
+	var tween : Tween = create_tween()
+	_smooth_hide_colors[node] = node.self_modulate if self_modulate else node.modulate
+	tween.tween_property(node, "self_modulate" if self_modulate else "modulate", Color(fade_color, 0.0), time)
+	if wait : await tween.finished
+
+func show_smooth(node : CanvasItem, time : float = 1.0, wait : bool = false, self_modulate : bool = false):
+	if (node.self_modulate.a if self_modulate else node.modulate.a) == 1.0 or not _smooth_hide_colors.has(node): return
+	var tween : Tween = create_tween()
+	tween.tween_property(node, "self_modulate" if self_modulate else "modulate", _smooth_hide_colors[node], time)
+	_smooth_hide_colors.erase(node)
+	if wait : await tween.finished
 
 func cooldown(id : String, time : float) -> bool:
 	if not _cooldowns.has(id) or TIME - _cooldowns[id] > time:
@@ -213,25 +245,24 @@ func cooldown(id : String, time : float) -> bool:
 	
 	return false
 
-func cooldown_timeleft(id : String) -> float:
+func cooldown_timeleft(id : String, time : float) -> float:
 	if _cooldowns.has(id):
-		return TIME - _cooldowns[id]
+		return time - (TIME - _cooldowns[id])
 	
 	return -1.0
 
-func cooldown_timeleft_string(id : String) -> String:
-	var timeleft : int = ceil(cooldown_timeleft(id))
+func cooldown_timeleft_string(id : String, time : float) -> String:
+	var timeleft : int = ceil(cooldown_timeleft(id, time))
+	print(timeleft)
 	if timeleft == -1.0: return "Unknown"
-	if timeleft > 0: timeleft = 0
+	if timeleft < 0: timeleft = 0
 	
-	var hours : int = timeleft / 3600
-	var mins : int = (timeleft % 3600) / 60
-	var sec : int = (timeleft % 3600) % 60
+	var converted : Array[int] = convert_hms(timeleft)
 	
 	return (
-		("" if hours == 0 else str(hours) + "h ") +
-		("" if mins == 0 else str(mins) + "m ") +
-		str(sec) + "s"
+		("" if converted[0] == 0 else str(converted[0]) + "h ") +
+		("" if converted[1] == 0 else str(converted[1]) + "m ") +
+		str(converted[2]) + "s"
 	)
 
 

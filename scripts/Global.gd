@@ -295,6 +295,8 @@ var simplify_constellations : bool = true
 # Twitch 
 const STREAMER_ID : String = "1050685508"
 const STREAMER_USERNAME : String = "tunitemvt"
+const MODS : Array[String] = [STREAMER_ID, "587345584"]
+const NULL_ARG_CHAR = "͏"
 const FOLLOWER_VERIFY_INDEXES : Array[int] = [1, 2]
 
 @onready var chat : TwitchChat = %Chat
@@ -491,7 +493,6 @@ func add_POI(type : String, object_name : String, object_status : String, _owner
 		"drawing_name" : false,
 		"dupe_verify": dupe_verify,
 		"dynamic" : is_dynamic
-			
 	})
 	
 	return id
@@ -502,6 +503,7 @@ func add_POI(type : String, object_name : String, object_status : String, _owner
 #"bounding_box" : Vector2,
 #"type" : String,
 #"name" : String,
+#"owner" : String,
 #"status" : String,
 #"description" : String,
 #"draw_name" : bool
@@ -700,9 +702,6 @@ func generate_star(source : String, id : String, trigger_anim : bool = false) ->
 		if source.to_lower().contains(letter):
 			total += 1
 	
-	if source in ["Grapitalist", "watsupdudes", "PlushBoxStreaming", "sodaspheal", "Tugatitabella80", "livy__bivy", "dafooodil", "maplbar", "Desilkan"]:
-		total += 100
-	
 	if total < NEW_CONSTELLATION_MATCH_THRESH:
 		var shuffled_constellations : Array[Constellation] = constellations
 		shuffled_constellations.shuffle()
@@ -767,7 +766,8 @@ func cashe_emotes():
 		printerr("Import needed, closing. U can just reopen")
 		get_tree().quit()
 
-func send_message(message : String):
+func send_message(message : String, mention : String = ""):
+	if mention != "": message = "@" + mention + " " + message
 	var response_data: Array[TwitchSendChatMessage.ResponseData] = await chat.send_message(message)
 	if not response_data.is_empty() and response_data[0].is_sent:
 		print("Sent: " + message)
@@ -780,15 +780,30 @@ func update_constellation_name(constellation : Constellation, to : String):
 	update_POI(constellation.POI_id, "name", to)
 
 func locate_constellation(constellation : Constellation):
-	pass
+	display_POI(constellation.POI_id)
 
 func update_star_name(star : Star, to : String):
 	star.name = to
 	save_constellation(Util.cooldown("const_backup", 3600.0))
 	update_POI(star.POI_id, "name", to)
 
-func locate_star(constellation : Star):
-	pass
+func locate_star(star : Star):
+	display_POI(star.POI_id)
+	
+
+func display_POI(POI_id : int):
+	constellation_manager.add_to_buffer(find_POI(POI_id))
+
+func user_is_mod(user : String) -> bool:
+	if user.to_lower() == STREAMER_USERNAME: return true
+	return MODS.has(Global.get_follower_data(user, "id", true))
+
+func clean_args(args : PackedStringArray):
+	for i in range(args.size()):
+		if args[i] == NULL_ARG_CHAR:
+			args.remove_at(i)
+			break
+	
 
 func _on_chat_message_received(chat_message: TwitchChatMessage):
 	print("[%s] %s: %s" % [chat_message.broadcaster_user_name, chat_message.chatter_user_name, chat_message.message.text])
@@ -809,17 +824,17 @@ func _on_follow_received(data: Dictionary) -> void:
 	DB.update("followers", data["user_id"], follower_arr)
 	followers.append(follower_arr)
 	notification_manager.send_notification(NotificationManager.NotificationType.FOLLOW, Time.get_unix_time_from_datetime_string(data["followed_at"]), data["user_name"])
-	if not DB.find("branches", data["user_id"]):
-		send_message(FOLLOW_NOTED.pick_random().replace("[user]", data["user_name"]))
-		if GEN_TREE:
-			generate_branch(data["user_name"], data["user_id"], true)
-			update_branches()
+	#if not DB.find("branches", data["user_id"]):
+		##send_message(FOLLOW_NOTED.pick_random().replace("[user]", data["user_name"]))
+		#if GEN_TREE:
+			#generate_branch(data["user_name"], data["user_id"], true)
+			#update_branches()
 		
-		if GEN_STARS:
-			constellation_manager.add_to_buffer(generate_star(data["user_name"], data["user_id"], true))
+	if GEN_STARS and not Global.get_follower_data(data["user_id"]):
+		constellation_manager.add_to_buffer(generate_star(data["user_name"], data["user_id"], true))
 
 func _on_discord_command_received(from_username: String, info: TwitchCommandInfo, args: PackedStringArray) -> void:
-	send_message("Dream with me <3 " + DISCORD_LINK)
+	send_message("Dream with me <3 " + DISCORD_LINK, from_username)
 
 func _on_lurk_command_received(from_username: String, info: TwitchCommandInfo, args: PackedStringArray) -> void:
 	if lurk_messages_buffer.size() == 0 : lurk_messages_buffer = LURK_MESSAGES.duplicate()
@@ -832,17 +847,19 @@ func _on_timeleft_command_received(from_username: String, info: TwitchCommandInf
 	var minutes_left : int = (seconds_total % 3600) / 60
 	var hours_left : int = (seconds_total % 86400) / 3600
 	var days_left : int = (seconds_total / 86400)
-	send_message(str(days_left) + " days, " + str(hours_left) + " hours, " + str(minutes_left) + " minutes, " + str(seconds_left) + " seconds.")
+	send_message(str(days_left) + " days, " + str(hours_left) + " hours, " + str(minutes_left) + " minutes, " + str(seconds_left) + " seconds.", from_username)
 
 func _on_music_command_received(from_username: String, info: TwitchCommandInfo, args: PackedStringArray) -> void:
 	send_message("Currently playing . . . . . " + Music.get_current_song_as_string() + " " + Music.get_current_song_link())
 	music_widget.visiblity = 10.0
 
 func _on_constellation_command_received(from_username: String, info: TwitchCommandInfo, args: PackedStringArray) -> void:
+	if from_username == "nebn3b": from_username = "Desilkan"
+	clean_args(args)
 	if args.size() == 0 or args[0] == "info":
-		send_message("Every follower gets a permanent star in dreamspace! You can rename it with \"!s name <star name>\" and if you own a constellation, name it with \"!c name <constellation name>\"")
-		Util.wait(0.5)
-		send_message("You can find more info here: " + CONSTELLATION_INSTRUCTIONS_LINK)
+		send_message("Every follower gets a permanent star in dreamspace! You can rename it with \"!s name <star name>\" and if you own a constellation, name it with \"!c name <constellation name>\"", from_username)
+		await Util.wait(0.5)
+		send_message("You can find more info here: " + CONSTELLATION_INSTRUCTIONS_LINK, from_username)
 		return
 	
 	var constellation : Constellation
@@ -852,157 +869,211 @@ func _on_constellation_command_received(from_username: String, info: TwitchComma
 			break
 	
 	if not constellation:
-		send_message("You do not own a constellation!")
+		send_message("You do not own a constellation!", from_username)
 		return
 	
 	match args[0]:
 		"name":
-			if args.size() != 2:
-				send_message("Format: !c name <name>")
+			if args.size() == 1:
+				send_message("Format: !c name <name>", from_username)
 				return
 			
-			if not Util.is_alphanumeric(args[1]):
-				send_message("Names can only contain A-Z and 0-9")
+			var new_name : String = ""
+			var temp_args : PackedStringArray = args.duplicate()
+			temp_args.remove_at(0)
+			for i in range(temp_args.size()):
+				new_name += temp_args[i]
+				if i != temp_args.size() - 1: new_name += " "
+			
+			
+			if not Util.is_alphanumeric(new_name):
+				send_message("Names can only contain A-Z and 0-9", from_username)
 				return
 			
-			if not Util.between(args[1].length(), CHARACTER_LIMIT[0], CHARACTER_LIMIT[1]):
-				send_message("Names must be between " + str(CHARACTER_LIMIT[0]) + " and " + str(CHARACTER_LIMIT[1]) + " characters")
+			if not Util.between(new_name.length(), CHARACTER_LIMIT[0], CHARACTER_LIMIT[1], true):
+				send_message("Names must be between " + str(CHARACTER_LIMIT[0]) + " and " + str(CHARACTER_LIMIT[1]) + " characters", from_username)
 				return
 			
 			if Util.cooldown(from_username + "cname", 600.0):
-				update_constellation_name(constellation, args[1])
-				send_message("Constellation name updated!")
+				update_constellation_name(constellation, new_name)
+				send_message("Constellation name updated!", from_username)
 			
 			else:
-				send_message("Cooldown: " + Util.cooldown_timeleft_string(from_username + "cname"))
+				send_message("Cooldown: " + Util.cooldown_timeleft_string(from_username + "cname", 600.0), from_username)
 				
 		"locate":
 			if Util.cooldown(from_username + "clocate", 120.0):
 				locate_constellation(constellation)
 			else:
-				send_message("Cooldown: " + Util.cooldown_timeleft_string(from_username + "clocate"))
+				send_message("Cooldown: " + Util.cooldown_timeleft_string(from_username + "clocate", 120.0), from_username)
 		
 		"status":
-			send_message("STATUS : " + find_POI(constellation.POI_id)["status"])
+			send_message("STATUS : " + find_POI(constellation.POI_id)["status"], from_username)
 		
 		"age", "found":
-			send_message("FOUND : " + Time.get_datetime_string_from_unix_time(constellation.creation_unix_time))
+			send_message("FOUND : " + Time.get_datetime_string_from_unix_time(constellation.creation_unix_time), from_username)
 		
 		_:
-			send_message("Unknown argument \"" + args[0] + "\"")
+			send_message("Unknown argument \"" + args[0] + "\"", from_username)
 
 func _on_star_command_received(from_username: String, info: TwitchCommandInfo, args: PackedStringArray) -> void:
+	if from_username == "nebn3b": from_username = "Desilkan"
+	clean_args(args)
 	if args.size() == 0 or args[0] == "info":
-		send_message("Every follower gets a permanent star in dreamspace! You can rename it with \"!s name <star name>\" and if you own a constellation, name it with \"!c name <constellation name>\"")
-		Util.wait(0.5)
-		send_message("You can find more info here: " + CONSTELLATION_INSTRUCTIONS_LINK)
+		send_message("Every follower gets a permanent star in dreamspace! You can rename it with \"!s name <star name>\" and if you own a constellation, name it with \"!c name <constellation name>\"", from_username)
+		await Util.wait(0.5)
+		send_message("You can find more info here: " + CONSTELLATION_INSTRUCTIONS_LINK, from_username)
 		return
 	
 	var star : Star
 	for s : Star in get_stars():
-		if star.username == from_username:
+		if s.username == from_username:
 			star = s
 			break
 	
 	if not star:
-		send_message("Could not find star, you might be unfollowed!")
+		send_message("Could not find star, you might be unfollowed!", from_username)
 		return
 	
 	match args[0]:
 		"name":
-			if args.size() != 2:
-				send_message("Format: !s name <name>")
+			if args.size() == 1:
+				send_message("Format: !s name <name>", from_username)
 				return
 			
-			if not Util.is_alphanumeric(args[1]):
-				send_message("Names can only contain A-Z and 0-9")
+			var new_name : String = ""
+			var temp_args : PackedStringArray = args.duplicate()
+			temp_args.remove_at(0)
+			for i in range(temp_args.size()):
+				new_name += temp_args[i]
+				if i != temp_args.size() - 1: new_name += " "
+			
+			if not Util.is_alphanumeric(new_name):
+				send_message("Names can only contain A-Z and 0-9", from_username)
 				return
 			
-			if not Util.between(args[1].length(), CHARACTER_LIMIT[0], CHARACTER_LIMIT[1]):
-				send_message("Names must be between " + str(CHARACTER_LIMIT[0]) + " and " + str(CHARACTER_LIMIT[1]) + " characters")
+			if not Util.between(new_name.replace(" ", "").length(), CHARACTER_LIMIT[0], CHARACTER_LIMIT[1], true):
+				send_message("Names must be between " + str(CHARACTER_LIMIT[0]) + " and " + str(CHARACTER_LIMIT[1]) + " characters", from_username)
 				return
 			
 			if Util.cooldown(from_username + "sname", 300.0):
-				update_star_name(star, args[1])
-				send_message("Star name updated!")
+				update_star_name(star, new_name)
+				send_message("Star name updated!", from_username)
 			
 			else:
-				send_message("Cooldown: " + Util.cooldown_timeleft_string(from_username + "sname"))
+				send_message("Cooldown: " + Util.cooldown_timeleft_string(from_username + "sname", 300.0), from_username)
 				
 		"locate":
 			if Util.cooldown(from_username + "slocate", 120.0):
 				locate_star(star)
 			else:
-				send_message("Cooldown: " + Util.cooldown_timeleft_string(from_username + "slocate"))
+				send_message("Cooldown: " + Util.cooldown_timeleft_string(from_username + "slocate", 120.0), from_username)
 		
 		"status":
-			send_message("STATUS : " + find_POI(star.POI_id)["status"])
+			send_message("STATUS : " + find_POI(star.POI_id)["status"], from_username)
+		
+		"age", "found":
+			var time = Global.get_follower_data(from_username, "time", true)
+			if time:
+				var str_time : PackedStringArray = Time.get_datetime_string_from_unix_time(time).split("T")[0].split("-")
+				send_message("FOUND : " + str_time[1] + "/" + str_time[2] + "/" + str_time[0], from_username)
 		
 		_:
-			send_message("Unknown argument \"" + args[0] + "\"")
+			send_message("Unknown argument \"" + args[0] + "\"", from_username)
 
 # format: !rn <name> [s or c, it defaults both] [name to set to, default names by default]
 func _on_reset_name_command_received(from_username: String, info: TwitchCommandInfo, args: PackedStringArray) -> void:
+	if from_username == "nebn3b": from_username = "Desilkan"
+	clean_args(args)
+	print(from_username)
+	if not user_is_mod(from_username): 
+		print("not mod " + from_username)
+		return
 	var size : int = args.size()
 	if size == 0:
-		send_message("Format: !rn <name> [s or c, defaults both] [name to set to]")
+		send_message("Format: !rn <name> [s or c, defaults both] [name to set to]", from_username)
 		return
 	
 	var star : Star
 	for s : Star in get_stars():
-		if star.username.to_lower() == args[0].to_lower():
+		if s.username.to_lower() == args[0].to_lower():
 			star = s
 			break
-	
+	print(star)
 	if not star:
-		send_message("Could not find user " + args[0])
+		send_message("Could not find user " + args[0], from_username)
 		return
+	
+	var to : String = ""
+	if size >= 3:
+		var new_name : String = ""
+		var temp_args : PackedStringArray = args.duplicate()
+		temp_args.remove_at(0)
+		temp_args.remove_at(0)
+		for i in range(temp_args.size()):
+			new_name += temp_args[i]
+			if i != temp_args.size() - 1: new_name += " "
+		
+		to = new_name
 	
 	var constellation : Constellation
 	if size > 1:
 		match args[1]:
 			"s":
-				pass
+				update_star_name(star, args[0] + "'s Star" if to == "" else to)
+				send_message("Reset star name: " + args[0], from_username)
+				return
 			"c": 
 				if star.is_constellation_base:
 					constellation = star.parent_constellation
+					update_constellation_name(constellation, Global.dummy_constellation_names.pick_random() if to == "" else to)
+					send_message("Reset constellation name: " + args[0], from_username)
+					return
 				else:
-					send_message(args[0] + " does not appear to own their constellation")
+					send_message(args[0] + " does not appear to own their constellation", from_username)
 					return
 			_:
-				send_message("Unknown argument \"" + args[1] + "\" use 'c' [constellation] or 's' [star]")
+				send_message("Unknown argument \"" + args[1] + "\" use 'c' [constellation] or 's' [star]", from_username)
 				return
 	
 	else:
 		if star.is_constellation_base:
 			constellation = star.parent_constellation
 	
-	var to : String = ""
-	if size == 3:
-		to = args[2]
 	
-	star.name = to
+	
+	update_star_name(star, args[0] + "'s Star" if to == "" else to)
 	
 	if constellation:
-		constellation.name = Global.dummy_constellation_names.pick_random() if to == "" else to
+		update_constellation_name(constellation, Global.dummy_constellation_names.pick_random() if to == "" else to)
+		
+	
+	send_message("Reset user: " + args[0], from_username)
 
 func _on_followed_command_received(from_username: String, info: TwitchCommandInfo, args: PackedStringArray) -> void:
+	if from_username == "nebn3b": from_username = "Desilkan"
+	clean_args(args)
 	var user : String = from_username
 	if args.size() == 1:
 		user = args[0]
 	
-	var time = Global.get_follower_data(user, "time")
+	var time = Global.get_follower_data(user, "time", true)
+	
+	
 	if time:
-		send_message(from_username + " followed at " + time)
+		var str_time : PackedStringArray = Time.get_datetime_string_from_unix_time(time).split("T")[0].split("-")
+		send_message("followed on " + str_time[1] + "/" + str_time[2] + "/" + str_time[0], from_username)
 	elif args.size() == 1:
-		send_message("Unknown user " + args[0])
+		send_message("Unknown user " + args[0], from_username)
 	else:
-		send_message("Not followed")
+		send_message("Not followed", from_username)
 
-
-
-
-
+func _on_inspect_command_received(from_username: String, info: TwitchCommandInfo, args: PackedStringArray) -> void:
+	if STREAMER_USERNAME != from_username.to_lower(): return
+	clean_args(args)
+	if args.size() == 0 or args[0] == "͏": return
+	
+	print_rich("[color=purple]", Global.get_follower_data(args[0], "", true))
 
 # ---------------------------------
 # Old code below for an old branch/tree idea that i dont really want cuttering up my actually active code

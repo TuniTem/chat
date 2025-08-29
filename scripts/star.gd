@@ -72,7 +72,7 @@ func add_to_POI():
 	
 	POI_id = Global.add_POI(
 		"Star",
-		username + "'s Star",
+		name,
 		status + " " + ("(searching)" if children == 0 else ("(growing)" if children < max_children else "(dorment)")),
 		username,
 		{

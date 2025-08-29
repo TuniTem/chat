@@ -226,6 +226,7 @@ func play_confirm_anim():
 		Global.constellation_manager.preview_animations.play("info_in")
 	
 	$Confirm.play()
+	
 	Global.crosshair.switch_anim("select")
 	
 	#info_label.line_offset

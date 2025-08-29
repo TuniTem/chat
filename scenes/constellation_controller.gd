@@ -2,6 +2,7 @@ extends Node2D
 
 const TELESCOPE = preload("res://scenes/telescope.tscn")
 const PREVIEW_ZOOM : float = 1.1
+const CONST_PREVIEW_ZOOM : float = 0.4
 const POSTVIEW_ZOOM : float = 0.56
 
 @export var preview_viewport : SubViewport
@@ -203,7 +204,8 @@ func display_new_star(star : Variant):
 			if is_star: preview_animations.play("show_text")
 		#print("d")
 		#preview_animations.play("show")
-		await telescope.stars.move_to_location(star.global_position[1] if is_star else star["location"], PREVIEW_ZOOM, true)
+		var zoom : float = PREVIEW_ZOOM if is_star else (CONST_PREVIEW_ZOOM if star["type"] == "Fragment" else star["zoom_range"][0] + Util.EPSILON)
+		await telescope.stars.move_to_location(star.global_position[1] if is_star else star["location"], zoom, true)
 		#print("e")
 		
 		if is_star:

@@ -207,8 +207,6 @@ script = ExtResource("18_korfd")
 command = "resetname"
 aliases = Array[String](["reset", "rn"])
 description = "Reset someones constellation name if it's bad"
-args_max = 3
-permission_level = 4
 eventsub = NodePath("../../EventSub")
 metadata/_custom_type_script = "uid://bmluckfvgm1c2"
 
@@ -217,6 +215,15 @@ script = ExtResource("18_korfd")
 command = "followed"
 aliases = Array[String](["follow", "f"])
 description = "Tells you how long you have been followed"
+eventsub = NodePath("../../EventSub")
+metadata/_custom_type_script = "uid://bmluckfvgm1c2"
+
+[node name="Inspect" type="Node" parent="TwitchService/Commands" node_paths=PackedStringArray("eventsub")]
+script = ExtResource("18_korfd")
+command = "inspect"
+aliases = Array[String](["i"])
+description = "Print data on a user"
+permission_level = 8
 eventsub = NodePath("../../EventSub")
 metadata/_custom_type_script = "uid://bmluckfvgm1c2"
 
@@ -229,3 +236,4 @@ metadata/_custom_type_script = "uid://bmluckfvgm1c2"
 [connection signal="command_received" from="TwitchService/Commands/Star" to="." method="_on_star_command_received"]
 [connection signal="command_received" from="TwitchService/Commands/ResetName" to="." method="_on_reset_name_command_received"]
 [connection signal="command_received" from="TwitchService/Commands/Followed" to="." method="_on_followed_command_received"]
+[connection signal="command_received" from="TwitchService/Commands/Inspect" to="." method="_on_inspect_command_received"]

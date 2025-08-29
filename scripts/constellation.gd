@@ -16,6 +16,9 @@ var neighbors : Array[int]
 var creation_unix_time : int  = 0
 
 func add_to_POI():
+	if POI_id != 0 and POI_id != -1:
+		return
+	
 	var status : String = ""
 	var time_alive : int = floor(Time.get_unix_time_from_system()) - creation_unix_time
 	
@@ -51,9 +54,9 @@ func add_to_POI():
 				lowest.x = position.x
 	
 	average_position = Vector2((highest.x + lowest.x) * 0.5, (highest.y + lowest.y) * 0.5)
-	
+	print("id : ", id)
 	POI_id = Global.add_POI(
-		"Constellation",
+		"Fragment",
 		name,
 		status + " " + ("(searching)" if star_count == 1 else ("(growing)" if star_count < max_stars else "(dorment)")),
 		owner_username,
@@ -77,6 +80,7 @@ func add_to_POI():
 		id,
 		true
 	)
+	print(POI_id)
 
 func get_star_from_id(id : int) -> Star:
 	for star : Star in stars:
