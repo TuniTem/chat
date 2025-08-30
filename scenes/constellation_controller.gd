@@ -18,6 +18,7 @@ const POSTVIEW_ZOOM : float = 0.56
 
 signal display_end
 signal telescope_freed
+signal bigmode_toggled(to : bool)
 
 var telescope : Node2D
 var displaying : bool = false
@@ -30,7 +31,7 @@ var show_new : bool = true
 
 func _ready() -> void:
 	Global.constellation_manager = self
-	ControlPanel.button_pressed.connect(_on_control_button_pressed)
+	Net.button_pressed.connect(_on_control_button_pressed)
 	if Global.simplify_constellations:
 		#$SubViewport/Telescope.scale = Vector2.ONE * 
 		preview_viewport.size.y = 1920.0
@@ -44,23 +45,30 @@ func _input(event: InputEvent) -> void:
 	
 	if Util.input_context != "default" : 
 		return
+	
 	if event.is_action_pressed("constellation"):
-		big_mode = not big_mode
-		if big_mode:
-			free_telescope()
-			_create_telescope(false)
-			preview_window.hide()
-			main_window.show()
-			main_animations.play("open")
-		
-		else:
-			main_animations.play("close")
-			big_mode = true
-			await main_animations.animation_finished
-			big_mode = false
-			free_telescope()
-			preview_window.show()
-			main_window.hide()
+		toggle_bigmode()
+
+func toggle_bigmode():
+	big_mode = not big_mode
+	if big_mode:
+		free_telescope()
+		_create_telescope(false)
+		preview_window.hide()
+		main_window.show()
+		main_animations.play("open")
+	
+	else:
+		main_animations.play("close")
+		big_mode = true
+		await main_animations.animation_finished
+		big_mode = false
+		free_telescope()
+		preview_window.show()
+		main_window.hide()
+	
+	bigmode_toggled.emit(big_mode)
+	
 
 func free_telescope():
 	#if is_instance_valid(telescope): 
@@ -127,9 +135,13 @@ func _on_control_button_pressed(data):
 			prints("SHOW NEW FOLLOWS:", show_new)
 		
 		
+		"toggle_constellation_bigmode":
+			toggle_bigmode()
+		
 		
 		"hide", "show", "hide_text", "show_text":
 			preview_animations.play(data)
+			
 
 func _create_telescope(mini_ver : bool = true):
 	Global.simplify_constellations = mini_ver

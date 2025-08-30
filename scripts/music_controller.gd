@@ -90,7 +90,7 @@ func get_current_song_link() -> String:
 
 
 func _ready() -> void:
-	ControlPanel.button_pressed.connect(_on_control_button_pressed)
+	Net.button_pressed.connect(_on_control_button_pressed)
 	
 	for playlist : Node in playlist_node.get_children():
 		var playlist_name : String = playlist.name

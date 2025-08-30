@@ -8,10 +8,10 @@ const SCREEN_SCENES : Dictionary = {
 
 func _ready() -> void:
 	clear()
-	ControlPanel.button_pressed.connect(_on_controller_button_pressed)
+	Net.button_pressed.connect(_on_controller_button_pressed)
 
 func _on_controller_button_pressed(data : String):
-	if data in ["brb", "starting", "ending", "none"]: 
+	if data in ["brb", "starting", "ending", "none"] and not Global.constellation_manager.big_mode: 
 		load_new_screen(data)
 
 func clear():
@@ -26,7 +26,7 @@ func load_new_screen(screen_id : String):
 		inst.screen_id = screen_id
 		Global.screen_id = screen_id
 		add_child(inst)
-	
+
 
 func _input(event: InputEvent) -> void:
 	if Util.input_context == "default" :

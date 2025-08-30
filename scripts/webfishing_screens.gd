@@ -5,9 +5,13 @@ extends Sprite2D
 var screen_id : String = "brb"
 
 func _ready() -> void:
+	Global.constellation_manager.bigmode_toggled.connect(fade)
+	
 	title_text.text_group = screen_id
 	await get_tree().create_timer(2.0).timeout
 	animation_player.play("sway", 1.0)
+	
 
-func fade():
-	animation_player.play("bye", 1.0)
+func fade(to : bool = true):
+	if to:
+		animation_player.play("bye", 1.0)
