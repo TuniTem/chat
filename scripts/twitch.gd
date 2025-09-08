@@ -2,9 +2,11 @@ extends Control
 
 const HIDDEN_USERS = ["TuniTemVT", "tunitemvt"]
 
-@onready var chat: VBoxContainer = $chat
+@onready var chat: VBoxContainer = %Chat
+@onready var chat_window: TextureRect = %ChatWindow
 
 func _ready() -> void:
+	Global.main = self
 	Global.sparkle_holder = $SparkleHolder
 	
 	var setup_successful: bool = await Global.twitch.setup()
@@ -21,11 +23,10 @@ func _ready() -> void:
 
 func _on_message_received(message: TwitchChatMessage):
 	if not Global.DEBUG:
-		if not message.chatter_user_name in HIDDEN_USERS:
-			chat.chat(message.message.text, message.chatter_user_name, Color(message.get_color("#8c6da7")))
-	
+		if not message.chatter_user_name in HIDDEN_USERS and not message.message.text.begins_with("!"):
+			chat.chat(message)
 	else:
-		chat.chat(message.message.text, message.chatter_user_name, Color(message.get_color("#8c6da7")))
+		chat.chat(message)
 
 
 func get_self_info():

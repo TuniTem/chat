@@ -49,7 +49,7 @@ const USERNAME_TEXT_PREFIX : String = "[pulse freq=1.25 color=#808080 ease=-2.0]
 @onready var label_node: Node2D = $Label
 @onready var rich_text_label: RichTextLabel = $Label/RichTextLabel
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
-
+@onready var bgm: AudioStreamPlayer = $BGM
 @export var info_label : Label
 
 
@@ -75,7 +75,8 @@ const PANGOLIN_REGULAR = preload("res://art/Fonts/Pangolin-Regular.ttf")
 	Star.Colors.PURPLE: preload("res://art/NewStars/Soft Outline/SoftOutline1001.png"),
 	Star.Colors.PINK: preload("res://art/NewStars/Soft Outline/SoftOutline1000.png"),
 	Star.Colors.YELLOW: preload("res://art/NewStars/Soft Outline/SoftOutline1002.png"),
-	Star.Colors.WHITE: preload("res://art/NewStars/Soft Outline/SoftOutline1003.png")
+	Star.Colors.WHITE: preload("res://art/NewStars/Soft Outline/SoftOutline1003.png"),
+	Star.Colors.DARK: preload("res://art/NewStars/Soft Outline/SoftOutline1004.png")
 }
 
 # drawing
@@ -111,8 +112,13 @@ const FLOATY_GUY_BUFFER = 400
 # Shaders
 @export var warp_shader : ColorRect
 
+# Audio
+var default_vol : float
+var music_on : bool = true
 
 func _ready() -> void:
+	Net.button_pressed.connect(_on_control_button_pressed)
+	default_vol = bgm.volume_linear
 	camera_position = camera.position
 	queue_redraw()
 	if Global.simplify_constellations:
@@ -382,6 +388,13 @@ func _input(event: InputEvent) -> void:
 	
 	#if event.is_action_pressed("scope_zoom_in"):
 
+func _on_control_button_pressed(data):
+	
+	match data:
+		"toggle_constellation_music":
+			music_on = not music_on
+			bgm.volume_linear = default_vol if music_on else 0.0
+			
 
 func _on_floaty_guy_timer_timeout() -> void:
 	if randi_range(1, 1000) <= 1:

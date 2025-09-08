@@ -4,7 +4,8 @@ enum Colors {
 	PURPLE,
 	PINK,
 	YELLOW,
-	WHITE
+	WHITE,
+	DARK
 }
 
 const DIST_BUFFER = 100
@@ -55,7 +56,31 @@ var draw_amount : float = 1.0
 
 func add_to_POI():
 	var status : String
-	var time_alive : int = floor(Time.get_unix_time_from_system()) - Global.get_follower_data(user_id, "time")
+	var birth_time = Global.get_follower_data(user_id, "time")
+	var time_alive : int = floor(Time.get_unix_time_from_system())
+	
+	if birth_time != null:
+		time_alive -= birth_time
+	else:
+		color = Colors.DARK
+		POI_id = Global.add_POI(
+			"NULL STAR", 
+			user_id, 
+			"LEFT " + ("(searching)" if children == 0 else ("(growing)" if children < max_children else "(dorment)")),
+			username,
+			"A Star lost to time",
+			global_position[1],
+			STAR_ZOOM_RANGE,
+			Vector2.ONE * SIZE,
+			[
+				["constellation", parent_constellation.name], 
+				["lat", global_position[1].y * Global.LOCATION_MULTIPLIER], 
+				["lgt", global_position[1].x * Global.LOCATION_MULTIPLIER]
+			],
+			id, 
+			false, false, false
+		)
+		return
 	
 	if time_alive < 604800: # < 1 week
 		status = "newborn shimmer"

@@ -51,8 +51,8 @@ func _input(event: InputEvent) -> void:
 		Util.input_context = "default"
 	
 	if Util.input_context != "default" : return
-	if event.is_action_pressed("debug"):
-		print(eventsub.get_instance_id())
+	#if event.is_action_pressed("debug"):
+		#print(eventsub.get_instance_id())
 
 func _enter_tree() -> void:
 	if instance == null: instance = self

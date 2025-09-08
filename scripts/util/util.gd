@@ -161,7 +161,7 @@ func set_input_context(to : String):
 
 func is_alphanumeric(str : String) -> bool:
 	for letter in str.to_lower():
-		if not letter in "abcdefghijklmnopqrstuvwxyz1234567890 ":
+		if not letter in "abcdefghijklmnopqrstuvwxyz1234567890 _":
 			return false
 	
 	return true

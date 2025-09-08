@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://e6smj52fq76u"]
+[gd_scene load_steps=36 format=3 uid="uid://e6smj52fq76u"]
 
 [ext_resource type="Script" uid="uid://bt67igeh5arjf" path="res://scripts/twitch.gd" id="1_0xm2m"]
 [ext_resource type="Script" uid="uid://d0253vbx2k6gk" path="res://scripts/chat.gd" id="1_h2yge"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" uid="uid://cft8h5tsgesgg" path="res://scenes/constellation_controller.gd" id="7_85g3d"]
 [ext_resource type="Shader" uid="uid://bq43mxo7qukb7" path="res://shader/edge_fade.gdshader" id="7_choun"]
 [ext_resource type="PackedScene" uid="uid://cltetaql0d31y" path="res://scenes/music_widget.tscn" id="7_o6xl0"]
+[ext_resource type="PackedScene" uid="uid://cn36khck3w2pl" path="res://scenes/promo_widget.tscn" id="8_a8y0u"]
 [ext_resource type="Script" uid="uid://d2skygwlxpywv" path="res://scripts/util/confirm_pos.gd" id="9_eb6dy"]
 [ext_resource type="Shader" uid="uid://bb3m0ojc3j20i" path="res://shader/sparkle.gdshader" id="10_eb6dy"]
 [ext_resource type="Material" uid="uid://4g836krgspte" path="res://shader/warbletext.tres" id="10_ya4ey"]
@@ -16,12 +17,29 @@
 
 [sub_resource type="Environment" id="Environment_1bvp3"]
 background_mode = 3
-glow_intensity = 8.0
+glow_intensity = 1.54
 glow_strength = 1.01
-glow_bloom = 0.51
-glow_hdr_threshold = 0.29
+glow_bloom = 1.0
+glow_hdr_threshold = 0.0
 glow_hdr_scale = 0.0
-glow_hdr_luminance_cap = 165.6
+glow_hdr_luminance_cap = 1.95
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_a8y0u"]
+shader = ExtResource("7_choun")
+shader_parameter/radial_cut = false
+shader_parameter/screen_size = Vector2(1920, 1080)
+shader_parameter/amount = 0.019
+shader_parameter/feather = 0.062
+shader_parameter/xoffset = 0.0
+shader_parameter/yoffset = 0.0
+shader_parameter/enabled = true
+shader_parameter/top = true
+shader_parameter/bottom = false
+shader_parameter/left = false
+shader_parameter/right = false
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_jkv2x"]
+viewport_path = NodePath("ChatWindow/ChatViewport")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ya4ey"]
 shader = ExtResource("7_choun")
@@ -31,6 +49,11 @@ shader_parameter/amount = 0.73
 shader_parameter/feather = 0.106
 shader_parameter/xoffset = 0.0
 shader_parameter/yoffset = 0.0
+shader_parameter/enabled = true
+shader_parameter/top = true
+shader_parameter/bottom = true
+shader_parameter/left = true
+shader_parameter/right = true
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_tipki"]
 viewport_path = NodePath("Constellations/PreviewWindow/SubViewport")
@@ -500,6 +523,11 @@ shader_parameter/amount = 0.0
 shader_parameter/feather = 0.467
 shader_parameter/xoffset = 0.0
 shader_parameter/yoffset = 0.0
+shader_parameter/enabled = true
+shader_parameter/top = true
+shader_parameter/bottom = true
+shader_parameter/left = true
+shader_parameter/right = true
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_eb6dy"]
 viewport_path = NodePath("Constellations/MainWindow/SubViewport")
@@ -530,6 +558,18 @@ tracks/1/keys = {
 "update": 0,
 "values": [0.467]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:material:shader_parameter/enabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="Animation" id="Animation_gqmmt"]
 resource_name = "close"
@@ -541,7 +581,7 @@ tracks/0/path = NodePath(".:material:shader_parameter/feather")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.4),
+"times": PackedFloat32Array(0, 2),
 "transitions": PackedFloat32Array(0.31864, 1),
 "update": 0,
 "values": [0.0, 0.337]
@@ -553,10 +593,22 @@ tracks/1/path = NodePath(".:material:shader_parameter/amount")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 2),
+"times": PackedFloat32Array(0.266667, 1.63333),
 "transitions": PackedFloat32Array(2.63902, 1),
 "update": 0,
 "values": [0.0, 1.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:material:shader_parameter/enabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
 }
 
 [sub_resource type="Animation" id="Animation_dp3eg"]
@@ -569,7 +621,7 @@ tracks/0/path = NodePath(".:material:shader_parameter/amount")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 1, 5),
+"times": PackedFloat32Array(0, 1.5, 5),
 "transitions": PackedFloat32Array(0.170755, 1, 1),
 "update": 0,
 "values": [1.0, 0.0, 0.0]
@@ -584,7 +636,19 @@ tracks/1/keys = {
 "times": PackedFloat32Array(1, 5, 5.5),
 "transitions": PackedFloat32Array(1, 2, -0.5),
 "update": 0,
-"values": [0.467, 0.467, 0.0]
+"values": [0.467, 0.338, 0.065]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:material:shader_parameter/enabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 5.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_yc10j"]
@@ -606,20 +670,46 @@ script = ExtResource("1_0xm2m")
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_1bvp3")
 
-[node name="chat" type="VBoxContainer" parent="."]
+[node name="ChatWindow" type="TextureRect" parent="."]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_a8y0u")
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_left = 27.0
-offset_top = -583.0
-offset_right = 471.0
-offset_bottom = -24.0
+offset_top = -700.0
+offset_right = 600.0
+grow_vertical = 0
+texture = SubResource("ViewportTexture_jkv2x")
+
+[node name="ChatViewport" type="SubViewport" parent="ChatWindow"]
+transparent_bg = true
+use_hdr_2d = true
+size = Vector2i(600, 700)
+
+[node name="Chat" type="VBoxContainer" parent="ChatWindow/ChatViewport"]
+unique_name_in_owner = true
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 19.651
+offset_top = -779.406
+offset_right = 463.651
+offset_bottom = -15.4065
 grow_vertical = 0
 alignment = 2
 script = ExtResource("1_h2yge")
 
-[node name="Placement" parent="chat" instance=ExtResource("3_h2yge")]
+[node name="Placement" parent="ChatWindow/ChatViewport/Chat" instance=ExtResource("3_h2yge")]
+layout_mode = 2
+
+[node name="Placement2" parent="ChatWindow/ChatViewport/Chat" instance=ExtResource("3_h2yge")]
+layout_mode = 2
+
+[node name="Placement3" parent="ChatWindow/ChatViewport/Chat" instance=ExtResource("3_h2yge")]
+layout_mode = 2
+
+[node name="Placement4" parent="ChatWindow/ChatViewport/Chat" instance=ExtResource("3_h2yge")]
 layout_mode = 2
 
 [node name="SparkleHolder" type="Node2D" parent="."]
@@ -633,12 +723,25 @@ position = Vector2(1073, 140)
 [node name="ScreenController" type="Node2D" parent="."]
 script = ExtResource("5_tipki")
 
-[node name="Music" type="Node2D" parent="."]
-position = Vector2(8, 38)
+[node name="TopLeft" type="Node2D" parent="."]
+position = Vector2(21, 10)
 
-[node name="MusicWidget" parent="Music" instance=ExtResource("7_o6xl0")]
-offset_right = 0.0
-offset_bottom = 0.0
+[node name="VBoxContainer" type="VBoxContainer" parent="TopLeft"]
+offset_right = 824.0
+offset_bottom = 40.0
+
+[node name="MusicWidget" parent="TopLeft/VBoxContainer" node_paths=PackedStringArray("pad") instance=ExtResource("7_o6xl0")]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+size_flags_vertical = 3
+pad = NodePath("../Pad")
+
+[node name="Pad" type="Control" parent="TopLeft/VBoxContainer"]
+layout_mode = 2
+
+[node name="PromoWidget" parent="TopLeft/VBoxContainer" instance=ExtResource("8_a8y0u")]
+layout_mode = 2
+messages = Array[String](["Join the discord  ➜  !discord", "Read the list of commands  ➜  !help", "Comission me for overlays  ➜  !comms", "Watch past streams  ➜  !vods", "See your star on stream!  ➜  !s locate", "Discover my world  ➜  !yt", "See what's currently playing  ➜  !music", "Check out my socials  ➜  !links", "I stream on Mondays and Thursdays @ 6PM PST!", "I stream on Mondays and Thursdays @ 6PM PST!"])
 
 [node name="Constellations" type="Node2D" parent="." node_paths=PackedStringArray("preview_viewport", "preview_animations", "preview_title", "preview_username", "preview_info", "preview_window", "main_viewport", "main_window", "main_animations")]
 script = ExtResource("7_85g3d")
@@ -654,8 +757,8 @@ main_animations = NodePath("MainWindow/MainAnimation")
 
 [node name="PreviewWindow" type="Sprite2D" parent="Constellations"]
 material = SubResource("ShaderMaterial_ya4ey")
-position = Vector2(296, 344)
-scale = Vector2(0.3083, 0.3083)
+position = Vector2(1580, 330)
+scale = Vector2(0.3683, 0.3683)
 texture = SubResource("ViewportTexture_tipki")
 
 [node name="SubViewport" type="SubViewport" parent="Constellations/PreviewWindow"]
@@ -782,7 +885,7 @@ visible_characters_behavior = 1
 visible_ratio = 0.0
 
 [node name="MainWindow" type="Sprite2D" parent="Constellations"]
-visible = false
+modulate = Color(1, 1, 1, 0.76)
 z_index = -65
 material = SubResource("ShaderMaterial_jbj1t")
 texture = SubResource("ViewportTexture_eb6dy")

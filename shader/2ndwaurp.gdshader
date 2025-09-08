@@ -25,7 +25,7 @@ vec2 rotate(vec2 p, float angle){
 	}
 void fragment() {
 	float distMod = pow(invert ? distFromCen(UV) : 0.5 - distFromCen(UV), 1.0 / falloff);
-	
+
 	vec2 cPos = -1.0 + 2.0 * UV / (1.0 / TEXTURE_PIXEL_SIZE);
 	float cLength = length(cPos);
 	vec2 uv = FRAGCOORD.xy / (1.0 / SCREEN_PIXEL_SIZE).xy + (cPos/cLength) * cos(cLength * wave_count + TIME * speed) * height * distMod;//* texture(noise, UV + vec2(cos(TIME * 0.3), sin(TIME* 0.3))).r

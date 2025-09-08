@@ -1,7 +1,7 @@
 [gd_resource type="Environment" load_steps=3 format=3 uid="uid://ims8y6jjl1h5"]
 
 [sub_resource type="Gradient" id="Gradient_8olaw"]
-offsets = PackedFloat32Array(0.211864, 0.364407, 0.525424, 0.720339, 0.881356)
+offsets = PackedFloat32Array(0, 0.287197, 0.525424, 0.720339, 0.881356)
 colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0.764706, 1, 0.5207, 0.00160564, 0.71836, 1, 0.897937, 0.803953, 0, 1, 0, 0, 0, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_jlhay"]
@@ -19,8 +19,9 @@ glow_enabled = true
 glow_levels/1 = 0.62
 glow_levels/3 = 2.08
 glow_levels/5 = 16.0
-glow_intensity = 0.1
-glow_strength = 1.1
+glow_normalized = true
+glow_intensity = 1.93
+glow_strength = 1.25
 glow_bloom = 1.0
 glow_blend_mode = 0
 glow_hdr_threshold = 0.0

@@ -35,6 +35,13 @@ func start_loop():
 			break
 		
 		var targ : Dictionary = Global.POIs.pick_random()
+		for i in 100:
+			if targ["can_select"]:
+				break
+			
+			targ = Global.POIs.pick_random()
+		
+		
 		var zoom : float = CONST_PREVIEW_ZOOM if targ["type"] == "Fragment" else (targ["zoom_range"][0] + Util.EPSILON) 
 		await stars.move_to_location(targ["location"], zoom, true)
 		await Util.wait(0.25)

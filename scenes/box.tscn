@@ -1,11 +1,14 @@
-[gd_scene load_steps=19 format=3 uid="uid://tjxc40mmgxnw"]
+[gd_scene load_steps=23 format=3 uid="uid://tjxc40mmgxnw"]
 
 [ext_resource type="Script" uid="uid://dc8j8o7j0ffxo" path="res://scripts/text_box_manager.gd" id="1_wavyb"]
 [ext_resource type="Shader" uid="uid://crvrwrwwqtf2f" path="res://shader/transitionin.gdshader" id="2_igdtg"]
 [ext_resource type="FontVariation" uid="uid://w40gj0t6gd4w" path="res://art/Fonts/italic.tres" id="3_anxlp"]
+[ext_resource type="Texture2D" uid="uid://cf5bw1oeikphj" path="res://art/Icon/mod_outline.png" id="4_anxlp"]
 [ext_resource type="FontVariation" uid="uid://oilnyae6van3" path="res://art/Fonts/new_font_variation.tres" id="4_yches"]
 [ext_resource type="StyleBox" uid="uid://dxga0xh41ca1a" path="res://textbg.tres" id="5_h6rpn"]
+[ext_resource type="Texture2D" uid="uid://ovptt64evw3s" path="res://art/Icon/TWbroadcaster_outline.png" id="5_yches"]
 [ext_resource type="AudioStream" uid="uid://dt1ylinp7dtt7" path="res://audio/Borrowed/DREAM-SFX-ParryBuild2.wav" id="6_gu2bm"]
+[ext_resource type="Texture2D" uid="uid://cq8c4x7t21y63" path="res://art/NewStars/Soft/Soft1000.png" id="6_igdtg"]
 [ext_resource type="AudioStream" uid="uid://brlwrwavl4kyd" path="res://audio/Borrowed/notif1.wav" id="7_x8w8a"]
 [ext_resource type="AudioStream" uid="uid://d10dt67k0xpoy" path="res://audio/Borrowed/notif2.wav" id="8_ym20b"]
 [ext_resource type="AudioStream" uid="uid://ci7d8wk26j5mt" path="res://audio/Borrowed/notif3.wav" id="9_oukka"]
@@ -61,7 +64,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("../../MarginContainer2/user:material:shader_parameter/size")
+tracks/1/path = NodePath("../../MarginContainer2/HBoxContainer/user:material:shader_parameter/size")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -125,7 +128,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("../../MarginContainer2/user:material:shader_parameter/size")
+tracks/1/path = NodePath("../../MarginContainer2/HBoxContainer/user:material:shader_parameter/size")
 tracks/1/interp = 1
 tracks/1/loop_wrap = false
 tracks/1/keys = {
@@ -182,6 +185,25 @@ _data = {
 &"float": SubResource("Animation_uckbv")
 }
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_igdtg"]
+bg_color = Color(0.125, 0.063, 0.125, 0)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+corner_detail = 20
+expand_margin_left = 15.0
+expand_margin_top = 4.0
+expand_margin_right = 15.0
+expand_margin_bottom = 5.0
+shadow_color = Color(0, 0, 0, 0.219608)
+shadow_size = 55
+
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_amiuo"]
 random_pitch = 1.63
 streams_count = 1
@@ -194,21 +216,30 @@ stream_0/stream = ExtResource("7_x8w8a")
 stream_1/stream = ExtResource("8_ym20b")
 stream_2/stream = ExtResource("9_oukka")
 
-[node name="Placement" type="VBoxContainer" node_paths=PackedStringArray("animation", "text_box", "user_label", "text_box_pannel")]
+[node name="Placement" type="VBoxContainer" node_paths=PackedStringArray("animation", "text_box", "user_label", "user_label_container", "text_box_pannel", "text_box_outline", "star", "mod_icon", "broadcaster_icon")]
 offset_right = 444.0
 offset_bottom = 194.0
 script = ExtResource("1_wavyb")
 animation = NodePath("MarginContainer/TextBox/Animation")
 text_box = NodePath("MarginContainer/TextBox")
-user_label = NodePath("MarginContainer2/user")
+user_label = NodePath("MarginContainer2/HBoxContainer/user")
+user_label_container = NodePath("MarginContainer2/HBoxContainer")
 text_box_pannel = NodePath("MarginContainer/TextBox/Panel")
+text_box_outline = NodePath("MarginContainer/TextBox/Outline")
+star = NodePath("MarginContainer/TextBox/Star")
+mod_icon = NodePath("MarginContainer2/HBoxContainer/Mod")
+broadcaster_icon = NodePath("MarginContainer2/HBoxContainer/MarginContainer")
+mod_color = Color(0.823529, 0.494118, 0.67451, 1)
 
 [node name="MarginContainer2" type="MarginContainer" parent="."]
 layout_mode = 2
 theme_override_constants/margin_left = -1
 
-[node name="user" type="RichTextLabel" parent="MarginContainer2"]
-modulate = Color(0.54902, 0.427451, 0.654902, 1)
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer2"]
+layout_mode = 2
+
+[node name="user" type="RichTextLabel" parent="MarginContainer2/HBoxContainer"]
+modulate = Color(0.823529, 0.494118, 0.67451, 1)
 material = SubResource("ShaderMaterial_wj1a8")
 clip_contents = false
 layout_mode = 2
@@ -220,12 +251,13 @@ theme_override_constants/shadow_outline_size = 7
 theme_override_fonts/normal_font = ExtResource("3_anxlp")
 theme_override_font_sizes/normal_font_size = 36
 bbcode_enabled = true
-text = "TuniTem"
+text = "TuniTemsdfgsg"
 fit_content = true
-autowrap_mode = 1
+autowrap_mode = 0
 vertical_alignment = 2
 
-[node name="Panel" type="Panel" parent="MarginContainer2/user"]
+[node name="Panel" type="Panel" parent="MarginContainer2/HBoxContainer/user"]
+visible = false
 show_behind_parent = true
 z_as_relative = false
 layout_mode = 1
@@ -235,6 +267,31 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_3n43a")
+
+[node name="Pad2" type="Control" parent="MarginContainer2/HBoxContainer"]
+layout_mode = 2
+
+[node name="Mod" type="TextureRect" parent="MarginContainer2/HBoxContainer"]
+visible = false
+self_modulate = Color(0.82, 0.574, 0.7093, 1)
+layout_mode = 2
+texture = ExtResource("4_anxlp")
+expand_mode = 3
+stretch_mode = 5
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer2/HBoxContainer"]
+visible = false
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 7
+theme_override_constants/margin_bottom = 7
+
+[node name="Streamer" type="TextureRect" parent="MarginContainer2/HBoxContainer/MarginContainer"]
+self_modulate = Color(1, 0.968, 0.76, 1)
+layout_mode = 2
+texture = ExtResource("5_yches")
+expand_mode = 3
+stretch_mode = 5
 
 [node name="Pad2" type="Control" parent="."]
 layout_mode = 2
@@ -252,7 +309,7 @@ theme_override_colors/default_color = Color(0.705882, 0.564706, 0.85098, 1)
 theme_override_fonts/normal_font = ExtResource("4_yches")
 theme_override_font_sizes/normal_font_size = 31
 bbcode_enabled = true
-text = "[pulse freq=0.5 color=#ffffff80 ease=-2.0]aasdasda[sprite id='emote_1']AlienDance.gif[/sprite]sdasdasdasd23452345ASGAIUWEHGIPSJEGPJES"
+text = "[pulse freq=0.5 color=#ffffff80 ease=-2.0]aasdasda[sprite id='emote_1']AlienDance.gif[/sprite]sdasdEHGIPSJEGPJES"
 fit_content = true
 scroll_active = false
 visible_characters_behavior = 3
@@ -273,6 +330,35 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = ExtResource("5_h6rpn")
+
+[node name="Outline" type="Panel" parent="MarginContainer/TextBox"]
+modulate = Color(0.513233, 0.513233, 0.513233, 1)
+show_behind_parent = true
+z_index = -1615
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_igdtg")
+
+[node name="Star" type="TextureRect" parent="MarginContainer/TextBox"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -42.0
+offset_top = -47.0
+offset_right = 28.0
+offset_bottom = 11.0
+grow_horizontal = 0
+grow_vertical = 0
+texture = ExtResource("6_igdtg")
+expand_mode = 3
+stretch_mode = 5
 
 [node name="Pad" type="Control" parent="."]
 custom_minimum_size = Vector2(0, 10)

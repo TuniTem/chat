@@ -4,16 +4,32 @@ const DEFAULT_LENGTH = 850
 const TEST_INTERVAL = 10
 const MAX_TEXT_LINES = 15
 const PREFIX = "[pulse freq=0.5 color=#ffffff80 ease=-2.0]"
+const STAR_TEXTURES : Dictionary[Star.Colors, Texture2D] = {
+	Star.Colors.PURPLE : preload("res://art/NewStars/Soft/Soft1001.png"),
+	Star.Colors.PINK : preload("res://art/NewStars/Soft/Soft1000.png"),
+	Star.Colors.YELLOW : preload("res://art/NewStars/Soft/Soft1002.png"),
+	Star.Colors.WHITE : preload("res://art/NewStars/Soft/Soft1003.png")
+}
 
 @export var animation: AnimationPlayer
 @export var text_box: RichTextLabel
 @export var user_label: RichTextLabel
+@export var user_label_container: HBoxContainer
 @export var text_box_pannel : Panel
+@export var text_box_outline : Panel
+@export var star: TextureRect
+
+@export var mod_icon: Control
+@export var broadcaster_icon: Control
+
+@export var mod_color : Color
 
 var USEABLE_CHARS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-=!@#$%^&*_+()[]{}|\\;:\"\'<>?,./ "
 var text : String  = "aaaaaaaasoidujfghbnosierdungosirengoisurengoiuenr"
 var color : Color = Color("#8c6da7")
 var user : String = "Unknown"
+var user_id : String = "-1"
+var badges : Array[TwitchChatMessage.Badge]
 var falling : bool = false
 var big_emote : bool = false
 var sprite_effect = SpriteFrameEffect.new()
@@ -21,13 +37,28 @@ var sprite_effect = SpriteFrameEffect.new()
 func _ready():
 	color = Color("8c6da7")
 	animation.play("chat")
-	GifImporterImagemagick
 	text_box.install_effect(sprite_effect)
 	text_box.text = sprite_effect.prepare_message(PREFIX + replace_emotes(text) + " ", text_box)
 	#text_box.text = sprite_effect.prepare_message("[sprite id=1]res://art/runtime_emotes/AlienDance.gif[/sprite]", text_box)
 	user_label.text = filter(user)
 	
+	
+	
+	for badge : TwitchChatMessage.Badge in badges:
+		match badge.set_id:
+			"broadcaster":
+				broadcaster_icon.show()
+				color = mod_color
+			
+			"moderator":
+				mod_icon.show()
+				color = mod_color
+	
+	
 	user_label.modulate = color * Color(1.0, 1.0, 1.0, 0.0)
+	var user_star : Star = Global.get_user_star(user_id)
+	if user_star: star.texture = STAR_TEXTURES[user_star.color]
+	
 	create_tween().tween_property(user_label, "modulate", color, 0.1)
 	call_deferred("trunc_text")
 	free_in_time(60.0)
@@ -48,17 +79,20 @@ const BIG_EMOTE_SIZE = 112
 
 func replace_emotes(str : String):
 	var words : Array = str.split(" ")
+	var replaces : Array[String]
 	for word in words:
-		if Global.emote_exists(word):
-			#text_box.add_image(ImageTexture.create_from_image(Image.load_from_file(Global.emotes[word])), 
-				#0, 112, Color(1, 1, 1, 1), INLINE_ALIGNMENT_TO_BASELINE, Rect2(), word)
+		if Global.emote_exists(word) and not replaces.has(word):
+			replaces.append(word)
 			if words.size() == 1: # big emote
 				str = str.replace(word, "[img height=" + str(BIG_EMOTE_SIZE) + "]" + Global.emotes[word] + "[/img]")
 				text_box_pannel.hide()
+				text_box_outline.hide()
 				big_emote = true
 			else:
 				str = str.replace(word, "[img height=" + str(SMALL_EMOTE_SIZE) + "]" + Global.emotes[word] + "[/img]")
-			#print(str)
+			
+			#text_box.add_image(ImageTexture.create_from_image(Image.load_from_file(Global.emotes[word])), 
+				#0, 112, Color(1, 1, 1, 1), INLINE_ALIGNMENT_TO_BASELINE, Rect2(), word)
 	
 	return str
 
@@ -66,9 +100,9 @@ func fall():
 	if not falling:
 		falling = true
 		var angle = randf_range(-90, 90)
-		create_tween().tween_property(user_label, "rotation_degrees", angle, 8.0).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CUBIC)
-		create_tween().tween_property(user_label, "position:y", -5000, 8.0).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_EXPO)
-		create_tween().tween_property(user_label, "modulate", Color(1.0, 1.0, 1.0, 0.0), 6.0)
+		create_tween().tween_property(user_label_container, "rotation_degrees", angle, 8.0).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CUBIC)
+		create_tween().tween_property(user_label_container, "position:y", -5000, 8.0).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_EXPO)
+		create_tween().tween_property(user_label_container, "modulate", Color(1.0, 1.0, 1.0, 0.0), 6.0)
 		
 		create_tween().tween_property(text_box, "modulate", Color(10.0, 10.0, 10.0, 1.0), 0.1)
 		$Shine.play(0.1)
@@ -85,6 +119,7 @@ const SPARKLE_1 = preload("res://sparkle/sparkle1.tscn")
 const NUM_SPARKLES = 50
 func sparkle():
 	var bounds : Rect2 = text_box.get_global_rect()
+	var window_pos : Vector2 = Global.main.chat_window.position
 	if big_emote: 
 		bounds.size = Vector2.ONE * (BIG_EMOTE_SIZE - BIG_EMOTE_SIZE * 0.2)
 		bounds.position += Vector2.ONE * (BIG_EMOTE_SIZE * 0.1)
@@ -98,8 +133,8 @@ func sparkle():
 			2: dir = Vector2(randf_range(bounds.position.x, bounds.position.x + bounds.size.x), bounds.position.y + bounds.size.y)
 			3: dir = Vector2(bounds.position.x, randf_range(bounds.position.y, bounds.position.y + bounds.size.y))
 		var inst = SPARKLE_1.instantiate()
-		inst.position = dir
-		inst.center = bounds.position + bounds.size/2
+		inst.position = dir + window_pos
+		inst.center = bounds.position + bounds.size/2 + window_pos
 		Global.sparkle_holder.add_child(inst)
 	
 

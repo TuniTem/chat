@@ -154,86 +154,137 @@ metadata/_custom_type_script = "uid://bol5ltrjr6ux8"
 
 [node name="Commands" type="Node" parent="TwitchService"]
 
-[node name="Discord" type="Node" parent="TwitchService/Commands" node_paths=PackedStringArray("eventsub")]
-script = ExtResource("18_korfd")
-command = "discord"
-aliases = Array[String](["disc", "dis"])
-description = "Links to the discord!"
-eventsub = NodePath("../../EventSub")
-metadata/_custom_type_script = "uid://bmluckfvgm1c2"
+[node name="General" type="Node" parent="TwitchService/Commands"]
 
-[node name="Lurk" type="Node" parent="TwitchService/Commands" node_paths=PackedStringArray("eventsub")]
+[node name="Lurk" type="Node" parent="TwitchService/Commands/General" node_paths=PackedStringArray("eventsub")]
 script = ExtResource("18_korfd")
 command = "lurk"
 aliases = Array[String](["l"])
 description = "Lurk <3"
-eventsub = NodePath("../../EventSub")
+eventsub = NodePath("../../../EventSub")
 metadata/_custom_type_script = "uid://bmluckfvgm1c2"
 
-[node name="Timeleft" type="Node" parent="TwitchService/Commands" node_paths=PackedStringArray("eventsub")]
+[node name="Followed" type="Node" parent="TwitchService/Commands/General" node_paths=PackedStringArray("eventsub")]
+script = ExtResource("18_korfd")
+command = "followed"
+aliases = Array[String](["follow", "f", "followage"])
+description = "Tells you how long you have been followed"
+eventsub = NodePath("../../../EventSub")
+metadata/_custom_type_script = "uid://bmluckfvgm1c2"
+
+[node name="Timeleft" type="Node" parent="TwitchService/Commands/General" node_paths=PackedStringArray("eventsub")]
 script = ExtResource("18_korfd")
 command = "timeleft"
 aliases = Array[String](["time"])
 description = "How much time is left"
-eventsub = NodePath("../../EventSub")
+eventsub = NodePath("../../../EventSub")
 metadata/_custom_type_script = "uid://bmluckfvgm1c2"
 
-[node name="Music" type="Node" parent="TwitchService/Commands" node_paths=PackedStringArray("eventsub")]
+[node name="Music" type="Node" parent="TwitchService/Commands/General" node_paths=PackedStringArray("eventsub")]
 script = ExtResource("18_korfd")
 command = "music"
 aliases = Array[String](["m", "song"])
 description = "See what music is currently playing"
-eventsub = NodePath("../../EventSub")
+eventsub = NodePath("../../../EventSub")
 metadata/_custom_type_script = "uid://bmluckfvgm1c2"
 
-[node name="Constellation" type="Node" parent="TwitchService/Commands" node_paths=PackedStringArray("eventsub")]
+[node name="Links" type="Node" parent="TwitchService/Commands"]
+
+[node name="Commands" type="Node" parent="TwitchService/Commands/Links" node_paths=PackedStringArray("eventsub")]
+script = ExtResource("18_korfd")
+command = "commands"
+aliases = Array[String](["help", "commandlist"])
+description = "Links to the command list!"
+eventsub = NodePath("../../../EventSub")
+metadata/_custom_type_script = "uid://bmluckfvgm1c2"
+
+[node name="Linktree" type="Node" parent="TwitchService/Commands/Links" node_paths=PackedStringArray("eventsub")]
+script = ExtResource("18_korfd")
+command = "linktree"
+aliases = Array[String](["links", "socials"])
+description = "Links to my linktree!"
+eventsub = NodePath("../../../EventSub")
+metadata/_custom_type_script = "uid://bmluckfvgm1c2"
+
+[node name="Discord" type="Node" parent="TwitchService/Commands/Links" node_paths=PackedStringArray("eventsub")]
+script = ExtResource("18_korfd")
+command = "discord"
+aliases = Array[String](["disc", "dis"])
+description = "Links to the discord!"
+eventsub = NodePath("../../../EventSub")
+metadata/_custom_type_script = "uid://bmluckfvgm1c2"
+
+[node name="Youtube" type="Node" parent="TwitchService/Commands/Links" node_paths=PackedStringArray("eventsub")]
+script = ExtResource("18_korfd")
+command = "youtube"
+aliases = Array[String](["yt"])
+description = "Links to my youtube!"
+eventsub = NodePath("../../../EventSub")
+metadata/_custom_type_script = "uid://bmluckfvgm1c2"
+
+[node name="Vods" type="Node" parent="TwitchService/Commands/Links" node_paths=PackedStringArray("eventsub")]
+script = ExtResource("18_korfd")
+command = "vods"
+description = "Links to my vods channel!"
+eventsub = NodePath("../../../EventSub")
+metadata/_custom_type_script = "uid://bmluckfvgm1c2"
+
+[node name="Comms" type="Node" parent="TwitchService/Commands/Links" node_paths=PackedStringArray("eventsub")]
+script = ExtResource("18_korfd")
+command = "comms"
+description = "Links to my comission interest form!"
+eventsub = NodePath("../../../EventSub")
+metadata/_custom_type_script = "uid://bmluckfvgm1c2"
+
+[node name="Constellations" type="Node" parent="TwitchService/Commands"]
+
+[node name="Constellation" type="Node" parent="TwitchService/Commands/Constellations" node_paths=PackedStringArray("eventsub")]
 script = ExtResource("18_korfd")
 command = "constellation"
 aliases = Array[String](["c"])
 description = "See and change info about your constellation!"
-eventsub = NodePath("../../EventSub")
+eventsub = NodePath("../../../EventSub")
 metadata/_custom_type_script = "uid://bmluckfvgm1c2"
 
-[node name="Star" type="Node" parent="TwitchService/Commands" node_paths=PackedStringArray("eventsub")]
+[node name="Star" type="Node" parent="TwitchService/Commands/Constellations" node_paths=PackedStringArray("eventsub")]
 script = ExtResource("18_korfd")
 command = "star"
 aliases = Array[String](["s"])
 description = "See and change info about your star!"
-eventsub = NodePath("../../EventSub")
+eventsub = NodePath("../../../EventSub")
 metadata/_custom_type_script = "uid://bmluckfvgm1c2"
 
-[node name="ResetName" type="Node" parent="TwitchService/Commands" node_paths=PackedStringArray("eventsub")]
+[node name="Mods" type="Node" parent="TwitchService/Commands"]
+
+[node name="ResetName" type="Node" parent="TwitchService/Commands/Mods" node_paths=PackedStringArray("eventsub")]
 script = ExtResource("18_korfd")
 command = "resetname"
 aliases = Array[String](["reset", "rn"])
 description = "Reset someones constellation name if it's bad"
-eventsub = NodePath("../../EventSub")
+eventsub = NodePath("../../../EventSub")
 metadata/_custom_type_script = "uid://bmluckfvgm1c2"
 
-[node name="Followed" type="Node" parent="TwitchService/Commands" node_paths=PackedStringArray("eventsub")]
-script = ExtResource("18_korfd")
-command = "followed"
-aliases = Array[String](["follow", "f"])
-description = "Tells you how long you have been followed"
-eventsub = NodePath("../../EventSub")
-metadata/_custom_type_script = "uid://bmluckfvgm1c2"
-
-[node name="Inspect" type="Node" parent="TwitchService/Commands" node_paths=PackedStringArray("eventsub")]
+[node name="Inspect" type="Node" parent="TwitchService/Commands/Mods" node_paths=PackedStringArray("eventsub")]
 script = ExtResource("18_korfd")
 command = "inspect"
 aliases = Array[String](["i"])
 description = "Print data on a user"
 permission_level = 8
-eventsub = NodePath("../../EventSub")
+eventsub = NodePath("../../../EventSub")
 metadata/_custom_type_script = "uid://bmluckfvgm1c2"
 
 [connection signal="received" from="TwitchService/Follow" to="." method="_on_follow_received"]
-[connection signal="command_received" from="TwitchService/Commands/Discord" to="." method="_on_discord_command_received"]
-[connection signal="command_received" from="TwitchService/Commands/Lurk" to="." method="_on_lurk_command_received"]
-[connection signal="command_received" from="TwitchService/Commands/Timeleft" to="." method="_on_timeleft_command_received"]
-[connection signal="command_received" from="TwitchService/Commands/Music" to="." method="_on_music_command_received"]
-[connection signal="command_received" from="TwitchService/Commands/Constellation" to="." method="_on_constellation_command_received"]
-[connection signal="command_received" from="TwitchService/Commands/Star" to="." method="_on_star_command_received"]
-[connection signal="command_received" from="TwitchService/Commands/ResetName" to="." method="_on_reset_name_command_received"]
-[connection signal="command_received" from="TwitchService/Commands/Followed" to="." method="_on_followed_command_received"]
-[connection signal="command_received" from="TwitchService/Commands/Inspect" to="." method="_on_inspect_command_received"]
+[connection signal="command_received" from="TwitchService/Commands/General/Lurk" to="." method="_on_lurk_command_received"]
+[connection signal="command_received" from="TwitchService/Commands/General/Followed" to="." method="_on_followed_command_received"]
+[connection signal="command_received" from="TwitchService/Commands/General/Timeleft" to="." method="_on_timeleft_command_received"]
+[connection signal="command_received" from="TwitchService/Commands/General/Music" to="." method="_on_music_command_received"]
+[connection signal="command_received" from="TwitchService/Commands/Links/Commands" to="." method="_on_link_command_recived"]
+[connection signal="command_received" from="TwitchService/Commands/Links/Linktree" to="." method="_on_link_command_recived"]
+[connection signal="command_received" from="TwitchService/Commands/Links/Discord" to="." method="_on_link_command_recived"]
+[connection signal="command_received" from="TwitchService/Commands/Links/Youtube" to="." method="_on_link_command_recived"]
+[connection signal="command_received" from="TwitchService/Commands/Links/Vods" to="." method="_on_link_command_recived"]
+[connection signal="command_received" from="TwitchService/Commands/Links/Comms" to="." method="_on_link_command_recived"]
+[connection signal="command_received" from="TwitchService/Commands/Constellations/Constellation" to="." method="_on_constellation_command_received"]
+[connection signal="command_received" from="TwitchService/Commands/Constellations/Star" to="." method="_on_star_command_received"]
+[connection signal="command_received" from="TwitchService/Commands/Mods/ResetName" to="." method="_on_reset_name_command_received"]
+[connection signal="command_received" from="TwitchService/Commands/Mods/Inspect" to="." method="_on_inspect_command_received"]

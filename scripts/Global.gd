@@ -1,6 +1,6 @@
 extends Node
- # General
-const DEBUG = true 
+# General
+const DEBUG = true
 var dummy_usernames = [
 	"pixelNomad",
 	"lunar_kicks",
@@ -211,9 +211,15 @@ var active_ids : Array = []
 var active_temp_ids : Array = []
 
 # Commands
-const DISCORD_LINK = "https://discord.gg/ZSsZxYhRRt"
-const CONSTELLATION_INSTRUCTIONS_LINK = "https://tr.ee/nWqk1n"
-const LINKTREE_LINK = "https://linktr.ee/tunitem"
+const CONSTELLATION_INSTRUCTIONS_LINK = "https://tunicommands.carrd.co/"
+
+const COMMANDS_HELP_LINK : String = "https://tunicommands.carrd.co/"
+const LINKTREE_LINK : String = "https://linktr.ee/tunitem"
+const DISCORD_LINK : String = "https://discord.gg/ZSsZxYhRRt"
+const YOUTUBE_LINK : String = "https://www.youtube.com/@TuniTem"
+const VODS_CHANNEL_LINK : String = "https://www.youtube.com/@TuniTemVODs"
+const COMMS_INTEREST_LINK : String = "https://forms.gle/gMceMfrQbeGdjSZn9"
+
 const CHARACTER_LIMIT : Array = [3, 25]
 
 const LURK_MESSAGES : Array[String] = [
@@ -255,7 +261,7 @@ const CHAR_ORDER : String = "aAb0BcCdD1eEfFg2GhHiI3jJkKl4LmMnN5oOpPq6QrRsS7tTuUv
 const MATCH_WORD : String = "dreaming"
 const MATCH_THRESH = 4
 const BRANCH_COLLISION : bool = true
-const DEBUG_GEN_USERS : int = 2000
+const DEBUG_GEN_USERS : int = 100
 const GEN_TREE : bool = false
 
 var tree : Array[Branch] = []
@@ -322,6 +328,7 @@ var screen_id : String = "brb"
 var debug_draw_pos : Vector2
 var music_widget : Control
 var crosshair : DrawCrosshair
+var main : Control
 
 
 func _ready():
@@ -345,13 +352,19 @@ func _ready():
 		verify_branches()
 	
 	if GEN_STARS:
+		#for i in range(DEBUG_GEN_USERS):
+			#print(i, "/", DEBUG_GEN_USERS)
+			#DB.append("followers" , [str(randi_range(1000, 99999)), dummy_usernames.pick_random() + str(randi_range(1, 1000)), Time.get_unix_time_from_system()])
+		load_constellations()
+		
 		await verify_followers()
 		followers.sort_custom(Util.sort_ascending.bind(2))
-		load_constellations()
+		verify_constellations()
 
 func _input(event: InputEvent) -> void:
-	if Util.input_context != "default" : return
+	#if Util.input_context != "default" : return
 	if DEBUG and event.is_action_pressed("debug"):
+		return
 		#if is_instance_valid(constellation_manager.telescope):
 			#constellation_manager.telescope.queue_free()
 			#
@@ -431,18 +444,32 @@ func verify_followers():
 					print(mismatch[0], "\n", mismatch[1], "\n")
 		
 		print("Break to allow cancellation...")
-		
-		for add : Array in added:
-			followers.erase(add)
-		
-		for miss : Array in missed:
-			followers.append(miss)
-		
-		for idx in mismatched.keys():
-			for mismatch : Array in mismatched[idx]:
-				mismatch[1][idx] = mismatch[0][idx]
-		
-		DB.replace("followers", followers, true, true)
+		var do_fix : bool = true
+		if do_fix:
+			for add : Array in added:
+				followers.erase(add)
+			
+			for miss : Array in missed:
+				followers.append(miss) # these will be added to constellation later
+			
+			for idx in mismatched.keys():
+				for mismatch : Array in mismatched[idx]:
+					mismatch[1][idx] = mismatch[0][idx]
+					
+					match idx:
+						1:
+							for star : Star in get_stars():
+								if star.user_id == mismatch[1][0]:
+									star.username = mismatch[1][1]
+									break
+							
+							for constellation : Constellation in constellations:
+								if constellation.owner_user_id == mismatch[1][0]:
+									constellation.owner_username = mismatch[1][1]
+									break
+			
+			save_constellation(true)
+			DB.replace("followers", followers, true, true)
 
 
 func get_nearby_POIs(position : Vector2, zoom : float, zoom_dependent_distance : bool = true) -> Array:
@@ -470,7 +497,7 @@ func get_nearby_POIs(position : Vector2, zoom : float, zoom_dependent_distance :
 	
 	return [closest_POI, nearby_POIs]
 
-func add_POI(type : String, object_name : String, object_status : String, _owner : String, description : String, location : Vector2, zoom_range : Array[float], bounding_box : Vector2, extra_info : Array = [], dupe_verify : int  = -2, draw_name : bool = false, is_dynamic : bool = false) -> int: 
+func add_POI(type : String, object_name : String, object_status : String, _owner : String, description : String, location : Vector2, zoom_range : Array[float], bounding_box : Vector2, extra_info : Array = [], dupe_verify : int  = -2, draw_name : bool = false, is_dynamic : bool = false, can_select : bool = true) -> int: 
 	if dupe_verify != -2:
 		for POI in POIs:
 			if POI["dupe_verify"]  == dupe_verify:
@@ -492,7 +519,8 @@ func add_POI(type : String, object_name : String, object_status : String, _owner
 		"draw_name" : draw_name,
 		"drawing_name" : false,
 		"dupe_verify": dupe_verify,
-		"dynamic" : is_dynamic
+		"dynamic" : is_dynamic,
+		"can_select": can_select
 	})
 	
 	return id
@@ -563,6 +591,11 @@ func get_stars() -> Array[Star]:
 	
 	return out 
 
+func get_user_star(user_id : String):
+	for star : Star in get_stars():
+		if star.user_id == user_id:
+			return star
+
 func load_constellations():
 	var db_constellations : Array = DB.list("constellations")
 	constellations = []
@@ -570,7 +603,8 @@ func load_constellations():
 		var new_constellation : Constellation = Constellation.new()
 		new_constellation.construct(constellation)
 		constellations.append(new_constellation)
-	
+
+func verify_constellations():
 	var created_ids : Array[String] = []
 	for star : Star in get_stars():
 		created_ids.append(star.user_id)
@@ -581,20 +615,28 @@ func load_constellations():
 			new_followers.append(follower)
 	
 	if new_followers.size() != 0: 
-		printerr("Unstellar followers! Will fix, but breaking to allow cancellation")
+		printerr("Unstellar Followers: Something's up! Printing errors, make the bool below true to auto fix")
+		
+		print_rich("\n[color=pink]Followers that don't own stars:")
 		for follower : Array in new_followers:
-			generate_star(follower[1], follower[0])
-		save_constellation(true)
+			print(follower)
+		
+		print("Break to allow cancellation...")
+		var fix : bool = true
+		if fix:
+			for follower : Array in new_followers:
+				generate_star(follower[1], follower[0])
+			save_constellation(true)
 	
 	for constellation : Constellation in constellations:
 		constellation.add_to_POI()
 
-func save_constellation(backup : bool):
+func save_constellation(backup : bool, mark_start : bool = false):
 	var data : Array[Array] = []
 	for constellation : Constellation in constellations:
 		data.append(constellation.deconstruct())
 	
-	DB.replace("constellations", data, backup)
+	DB.replace("constellations", data, backup, mark_start)
 
 func add_glitched_star(star : Star):
 	# TODO do something fun here
@@ -830,11 +872,8 @@ func _on_follow_received(data: Dictionary) -> void:
 			#generate_branch(data["user_name"], data["user_id"], true)
 			#update_branches()
 		
-	if GEN_STARS and not Global.get_follower_data(data["user_id"]):
+	if GEN_STARS:
 		constellation_manager.add_to_buffer(generate_star(data["user_name"], data["user_id"], true))
-
-func _on_discord_command_received(from_username: String, info: TwitchCommandInfo, args: PackedStringArray) -> void:
-	send_message("Dream with me <3 " + DISCORD_LINK, from_username)
 
 func _on_lurk_command_received(from_username: String, info: TwitchCommandInfo, args: PackedStringArray) -> void:
 	if lurk_messages_buffer.size() == 0 : lurk_messages_buffer = LURK_MESSAGES.duplicate()
@@ -857,14 +896,14 @@ func _on_constellation_command_received(from_username: String, info: TwitchComma
 	if from_username == "nebn3b": from_username = "Desilkan"
 	clean_args(args)
 	if args.size() == 0 or args[0] == "info":
-		send_message("Every follower gets a permanent star in dreamspace! You can rename it with \"!s name <star name>\" and if you own a constellation, name it with \"!c name <constellation name>\"", from_username)
-		await Util.wait(0.5)
-		send_message("You can find more info here: " + CONSTELLATION_INSTRUCTIONS_LINK, from_username)
+		#send_message("Every follower gets a permanent star in dreamspace! You can rename it with \"!s name <star name>\" and if you own a constellation, name it with \"!c name <constellation name>\"", from_username)
+		#await Util.wait(0.5)
+		send_message("You can learn about constellations at the bottom of this page: " + CONSTELLATION_INSTRUCTIONS_LINK, from_username)
 		return
 	
 	var constellation : Constellation
 	for con : Constellation in constellations:
-		if con.owner_username == from_username:
+		if con.owner_username.to_lower() == from_username.to_lower():
 			constellation = con
 			break
 	
@@ -913,6 +952,9 @@ func _on_constellation_command_received(from_username: String, info: TwitchComma
 		"age", "found":
 			send_message("FOUND : " + Time.get_datetime_string_from_unix_time(constellation.creation_unix_time), from_username)
 		
+		"has":
+			send_message("You own a constellation!", from_username)
+		
 		_:
 			send_message("Unknown argument \"" + args[0] + "\"", from_username)
 
@@ -920,14 +962,12 @@ func _on_star_command_received(from_username: String, info: TwitchCommandInfo, a
 	if from_username == "nebn3b": from_username = "Desilkan"
 	clean_args(args)
 	if args.size() == 0 or args[0] == "info":
-		send_message("Every follower gets a permanent star in dreamspace! You can rename it with \"!s name <star name>\" and if you own a constellation, name it with \"!c name <constellation name>\"", from_username)
-		await Util.wait(0.5)
-		send_message("You can find more info here: " + CONSTELLATION_INSTRUCTIONS_LINK, from_username)
+		send_message("You can learn about constellations at the bottom of this page: " + CONSTELLATION_INSTRUCTIONS_LINK, from_username)
 		return
 	
 	var star : Star
 	for s : Star in get_stars():
-		if s.username == from_username:
+		if s.username.to_lower() == from_username.to_lower():
 			star = s
 			break
 	
@@ -1074,6 +1114,20 @@ func _on_inspect_command_received(from_username: String, info: TwitchCommandInfo
 	if args.size() == 0 or args[0] == "͏": return
 	
 	print_rich("[color=purple]", Global.get_follower_data(args[0], "", true))
+
+func _on_link_command_recived(from_username: String, info: TwitchCommandInfo, args: PackedStringArray) -> void:
+	clean_args(args)
+	var ping : String = from_username
+	if args.size() > 0: 
+		ping = args[0]
+	
+	match info.command.command:
+		"commands": send_message("List of commands: " + COMMANDS_HELP_LINK, ping)
+		"linktree": send_message("All socials: " + LINKTREE_LINK, ping)
+		"discord": send_message("Dream with me <3 " + DISCORD_LINK, ping)
+		"youtube": send_message("My fractured dreams <3 " + YOUTUBE_LINK, ping)
+		"vods": send_message("Past streams: " + VODS_CHANNEL_LINK, ping)
+		"comms": send_message("Comission interest form: " + COMMS_INTEREST_LINK, ping)
 
 # ---------------------------------
 # Old code below for an old branch/tree idea that i dont really want cuttering up my actually active code

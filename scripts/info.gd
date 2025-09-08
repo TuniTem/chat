@@ -25,11 +25,17 @@ var line_offset : Vector2:
 func hide_node():
 	if visible:
 		anims.play("InfoHide")
+		_played_show = false
 		await anims.animation_finished
-		hide()
+		if not _played_show:
+			hide()
 
+var _played_show : bool = false
 func display_POI_data(POI : Dictionary, update : bool = false):
+	_played_show = true
 	show()
+	
+	size.y = 0.0 
 	var info : Array[Array] = [["type", POI["type"]], ["name", POI["name"]], ["owner", POI["owner"]], ["status", POI["status"]]]
 	info.append_array(POI["extra_info"])
 	info.append_array([["\n"], ["description", "\n" + POI["description"]]])
