@@ -24,9 +24,9 @@ vec2 distort(vec2 p)
 
 void fragment()
 {
-	vec2 xy = (SCREEN_UV * 2.0 - 1.0); 
+	vec2 xy = (SCREEN_UV * 2.0 - 1.0);
 
-	xy = vec2(xy.x * aspect, xy.y); 
+	xy = vec2(xy.x * aspect, xy.y);
 
 	float d = length(xy);
 

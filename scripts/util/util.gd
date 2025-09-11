@@ -21,7 +21,7 @@ var _breathe_enabled : bool = false
 var _active_promises : Array[Promise]
 var _cooldowns : Dictionary[String, float]
 var _run_every_counts : Dictionary[Array, int]
-var _active_temp_ids : Array[int] = []
+var _uid_generator : UniqueIdentifierGenerator = UniqueIdentifierGenerator.new()
 var _smooth_hide_colors : Dictionary[CanvasItem, Color]
 
 var input_context : String = "default"
@@ -216,14 +216,7 @@ func convert_hms(time : int) -> Array[int]:
 	return [hours, mins, sec]
 
 func create_temp_unique_id() -> int:
-	for i in MAX_ID_GENERATION_ATTEMPTS:
-		var test_id : int = randi()
-		if not _active_temp_ids.has(test_id):
-			_active_temp_ids.append(test_id)
-			return test_id
-	
-	printerr("MAX TUID GENERATION ATTEMPTS EXCEEDED, THIS REALLY SHOULD NOT HAPPEN!! CONTINUING GRACEFULLY AND YOU WILL NOT NOTICE ANYTHING BREAK UNLESS UR REALLY UNLUCKY BUT LIKE TOTTALLY FIX THIS COS THE UID SYSTEM JUST ISNT WORKING")
-	return randi()
+	return _uid_generator.create_unique_id()
 
 func hide_smooth(node : CanvasItem, time : float = 1.0, wait : bool = false, self_modulate : bool = false, fade_color : Color = Color.WHITE):
 	var tween : Tween = create_tween()
@@ -291,6 +284,7 @@ func change_bus_volume_linear(bus: String, change : float, clamp_min : float = 0
 	AudioServer.set_bus_volume_linear(AudioServer.get_bus_index(bus), set_vol)
 	return set_vol
 
+#region Floats
 # Note: these funcs don't use each other in order to run quicker
 ## checks if a == b, accounting for a customizable epsilon
 func fequal(a : float, b : float, epsilon : int = 1) -> bool: 

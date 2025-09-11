@@ -1,6 +1,6 @@
 extends Node
 # General
-const DEBUG = true
+const DEBUG = false
 var dummy_usernames = [
 	"pixelNomad",
 	"lunar_kicks",
@@ -220,6 +220,13 @@ const YOUTUBE_LINK : String = "https://www.youtube.com/@TuniTem"
 const VODS_CHANNEL_LINK : String = "https://www.youtube.com/@TuniTemVODs"
 const COMMS_INTEREST_LINK : String = "https://forms.gle/gMceMfrQbeGdjSZn9"
 
+const DESIGNER_HANDLE : String = "@⁠tamalice_"
+const DESIGNER_LINK : String = "https://vgen.co/tamalice"
+const ARTIST_HANDLE : String = "@⁠ikaumira1410"
+const ARTIST_LINK : String = "https://vgen.co/ikaumira1410"
+const RIGGER_HANDLE : String = "@⁠liushui69"
+const RIGGER_LINK : String = "https://vgen.co/liushui"
+
 const CHARACTER_LIMIT : Array = [3, 25]
 
 const LURK_MESSAGES : Array[String] = [
@@ -308,8 +315,11 @@ const FOLLOWER_VERIFY_INDEXES : Array[int] = [1, 2]
 @onready var chat : TwitchChat = %Chat
 @onready var twitch: TwitchService = %TwitchService
 @onready var api: TwitchAPI = %API
+@onready var media_loader: TwitchMediaLoader = %MediaLoader
 
 var followers : Array = []
+
+var message_sent : bool = false
 
 # Nodes
 var sparkle_holder : Node2D
@@ -812,6 +822,7 @@ func send_message(message : String, mention : String = ""):
 	if mention != "": message = "@" + mention + " " + message
 	var response_data: Array[TwitchSendChatMessage.ResponseData] = await chat.send_message(message)
 	if not response_data.is_empty() and response_data[0].is_sent:
+		message_sent = true
 		print("Sent: " + message)
 	else:
 		printerr("Failed to send " + message + ". Reason: ", response_data[0].drop_reason if not response_data.is_empty() else "Unknown")
@@ -1045,6 +1056,7 @@ func _on_reset_name_command_received(from_username: String, info: TwitchCommandI
 		return
 	
 	var to : String = ""
+	
 	if size >= 3:
 		var new_name : String = ""
 		var temp_args : PackedStringArray = args.duplicate()
@@ -1128,6 +1140,10 @@ func _on_link_command_recived(from_username: String, info: TwitchCommandInfo, ar
 		"youtube": send_message("My fractured dreams <3 " + YOUTUBE_LINK, ping)
 		"vods": send_message("Past streams: " + VODS_CHANNEL_LINK, ping)
 		"comms": send_message("Comission interest form: " + COMMS_INTEREST_LINK, ping)
+		"design": send_message("................. Character Designer ➜ " + DESIGNER_HANDLE + " ⤵ " + DESIGNER_LINK, ping)
+		"artist": send_message("................. Artist ➜ " + ARTIST_HANDLE + " ⤵ " + ARTIST_LINK, ping)
+		"rigger": send_message("................. Rigger ➜ " + RIGGER_HANDLE + " ⤵ " + RIGGER_LINK, ping)
+		"credits": send_message("Credits ⤵ ...... Character Designer ➜ " + DESIGNER_HANDLE + " ...........  Artist ➜ " + ARTIST_HANDLE + " ............................. Rigger ➜ " + RIGGER_HANDLE, ping)
 
 # ---------------------------------
 # Old code below for an old branch/tree idea that i dont really want cuttering up my actually active code

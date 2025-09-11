@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://bjpqbgdvhy5kq"]
+[gd_scene load_steps=28 format=3 uid="uid://bjpqbgdvhy5kq"]
 
 [ext_resource type="Script" uid="uid://c7lx0ls8u6w4s" path="res://scripts/Global.gd" id="1_e7lx3"]
 [ext_resource type="Script" uid="uid://i8st3lv0lidh" path="res://addons/twitcher/twitch_service.gd" id="2_3q7h5"]
@@ -13,9 +13,10 @@
 [ext_resource type="Script" uid="uid://blnbogtrshw4r" path="res://addons/twitcher/auth/twitch_token_handler.gd" id="10_itjjb"]
 [ext_resource type="Script" uid="uid://d4lyup0vy1wtu" path="res://addons/twitcher/media/twitch_media_loader.gd" id="11_suoh8"]
 [ext_resource type="Texture2D" uid="uid://g1dbcjksbotw" path="res://addons/twitcher/assets/fallback_texture.tres" id="12_5uyp2"]
-[ext_resource type="Script" uid="uid://6v8jnfjwbnhm" path="res://addons/twitcher/media/twitch_image_transformer.gd" id="13_vc14n"]
 [ext_resource type="Script" uid="uid://dcq1bvfrqimqq" path="res://addons/twitcher/chat/twitch_chat.gd" id="14_os8aq"]
 [ext_resource type="Script" uid="uid://cnmohrdxqihr0" path="res://addons/twitcher/generated/twitch_user.gd" id="15_121b5"]
+[ext_resource type="Script" uid="uid://dqd4kovdhhy8o" path="res://addons/twitcher/media/magic_image_transformer.gd" id="15_korfd"]
+[ext_resource type="Script" uid="uid://ddwa0dm0qhc3s" path="res://addons/twitcher/media/native_image_transformer.gd" id="16_dxqtg"]
 [ext_resource type="Script" uid="uid://bol5ltrjr6ux8" path="res://addons/twitcher/eventsub/twitch_event_listener.gd" id="17_korfd"]
 [ext_resource type="Script" uid="uid://bmluckfvgm1c2" path="res://addons/twitcher/chat/twitch_command.gd" id="18_korfd"]
 
@@ -60,9 +61,16 @@ metadata/_custom_type_script = "uid://cjug64e3433g0"
 metadata/broadcaster_user_id_user = SubResource("Resource_dxqtg")
 metadata/moderator_user_id_user = SubResource("Resource_dxqtg")
 
-[sub_resource type="Resource" id="Resource_veysc"]
-script = ExtResource("13_vc14n")
+[sub_resource type="Resource" id="Resource_apua7"]
+script = ExtResource("15_korfd")
+imagemagic_path = "C:/Users/Hadey/AppData/Roaming/Godot/app_userdata/Chat/programs/Imagemagik/ImageMagick-7.1.2-Q16-HDRI/magik.exe"
 fallback_texture = ExtResource("12_5uyp2")
+metadata/_custom_type_script = "uid://dqd4kovdhhy8o"
+
+[sub_resource type="Resource" id="Resource_fq2qc"]
+script = ExtResource("16_dxqtg")
+fallback_texture = ExtResource("12_5uyp2")
+metadata/_custom_type_script = "uid://ddwa0dm0qhc3s"
 
 [sub_resource type="Resource" id="Resource_lraed"]
 script = ExtResource("15_121b5")
@@ -132,10 +140,22 @@ script = ExtResource("10_itjjb")
 oauth_setting = ExtResource("3_b18l6")
 token = ExtResource("5_dxqtg")
 
-[node name="MediaLoader" type="Node" parent="TwitchService" node_paths=PackedStringArray("api")]
+[node name="7TVMediaLoader" type="Node" parent="TwitchService" node_paths=PackedStringArray("api")]
 script = ExtResource("11_suoh8")
 api = NodePath("../API")
-image_transformer = SubResource("Resource_veysc")
+image_transformer = SubResource("Resource_apua7")
+cache_emote = "user://cache/emotes"
+cache_badge = "user://cache/badges"
+cache_cheermote = "user://cache/cheermotes"
+
+[node name="MediaLoader" type="Node" parent="TwitchService" node_paths=PackedStringArray("api")]
+unique_name_in_owner = true
+script = ExtResource("11_suoh8")
+api = NodePath("../API")
+image_transformer = SubResource("Resource_fq2qc")
+cache_emote = "user://cache/emotes"
+cache_badge = "user://cache/badges"
+cache_cheermote = "user://cache/cheermotes"
 
 [node name="Chat" type="Node" parent="TwitchService" node_paths=PackedStringArray("media_loader", "eventsub", "api")]
 unique_name_in_owner = true
@@ -236,6 +256,37 @@ description = "Links to my comission interest form!"
 eventsub = NodePath("../../../EventSub")
 metadata/_custom_type_script = "uid://bmluckfvgm1c2"
 
+[node name="Credits" type="Node" parent="TwitchService/Commands/Links" node_paths=PackedStringArray("eventsub")]
+script = ExtResource("18_korfd")
+command = "credits"
+description = "Credits the people who made my model"
+eventsub = NodePath("../../../EventSub")
+metadata/_custom_type_script = "uid://bmluckfvgm1c2"
+
+[node name="Design" type="Node" parent="TwitchService/Commands/Links" node_paths=PackedStringArray("eventsub")]
+script = ExtResource("18_korfd")
+command = "design"
+aliases = Array[String](["designer", "char", "character"])
+description = "Credits the character designer who helped make my model"
+eventsub = NodePath("../../../EventSub")
+metadata/_custom_type_script = "uid://bmluckfvgm1c2"
+
+[node name="Artist" type="Node" parent="TwitchService/Commands/Links" node_paths=PackedStringArray("eventsub")]
+script = ExtResource("18_korfd")
+command = "artist"
+aliases = Array[String](["art"])
+description = "Credits the artist who helped make my model"
+eventsub = NodePath("../../../EventSub")
+metadata/_custom_type_script = "uid://bmluckfvgm1c2"
+
+[node name="Rigger" type="Node" parent="TwitchService/Commands/Links" node_paths=PackedStringArray("eventsub")]
+script = ExtResource("18_korfd")
+command = "rigger"
+aliases = Array[String](["rig"])
+description = "Credits the rigger who helped make my model"
+eventsub = NodePath("../../../EventSub")
+metadata/_custom_type_script = "uid://bmluckfvgm1c2"
+
 [node name="Constellations" type="Node" parent="TwitchService/Commands"]
 
 [node name="Constellation" type="Node" parent="TwitchService/Commands/Constellations" node_paths=PackedStringArray("eventsub")]
@@ -284,6 +335,10 @@ metadata/_custom_type_script = "uid://bmluckfvgm1c2"
 [connection signal="command_received" from="TwitchService/Commands/Links/Youtube" to="." method="_on_link_command_recived"]
 [connection signal="command_received" from="TwitchService/Commands/Links/Vods" to="." method="_on_link_command_recived"]
 [connection signal="command_received" from="TwitchService/Commands/Links/Comms" to="." method="_on_link_command_recived"]
+[connection signal="command_received" from="TwitchService/Commands/Links/Credits" to="." method="_on_link_command_recived"]
+[connection signal="command_received" from="TwitchService/Commands/Links/Design" to="." method="_on_link_command_recived"]
+[connection signal="command_received" from="TwitchService/Commands/Links/Artist" to="." method="_on_link_command_recived"]
+[connection signal="command_received" from="TwitchService/Commands/Links/Rigger" to="." method="_on_link_command_recived"]
 [connection signal="command_received" from="TwitchService/Commands/Constellations/Constellation" to="." method="_on_constellation_command_received"]
 [connection signal="command_received" from="TwitchService/Commands/Constellations/Star" to="." method="_on_star_command_received"]
 [connection signal="command_received" from="TwitchService/Commands/Mods/ResetName" to="." method="_on_reset_name_command_received"]

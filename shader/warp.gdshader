@@ -24,9 +24,9 @@ vec2 rotate(vec2 p, float angle){
 
 void fragment() {
 	vec4 c = COLOR;
-	
+
 	float distMod = invert ? distFromCen(UV) : 0.5 - distFromCen(UV);
-	
+
 	float mod_intensity = intensity * pow(2.0, distFromCen(UV));
 	float angle = intensity * distMod * 6.28318 + rotation_offset + TIME/4.0*10.0;
 	vec2 newp = rotate(UV-vec2(0.5), angle) + vec2(0.5);
@@ -35,7 +35,7 @@ void fragment() {
 	//COLOR = mix(texture(SCREEN_TEXTURE, SCREEN_UV + disp), c, max_blend * 2.0 * (0.5-distFromCen(UV)));
 	//COLOR = c;
 	//Doesn'[t apply effect outside of circle]
-	// + mix(texture(SCREEN_TEXTURE, SCREEN_UV + disp), c, max_blend * 2.0 * (0.5-distFromCen(UV))) * distFromCen(UV) 
+	// + mix(texture(SCREEN_TEXTURE, SCREEN_UV + disp), c, max_blend * 2.0 * (0.5-distFromCen(UV))) * distFromCen(UV)
 	// texture(SCREEN_TEXTURE, SCREEN_UV)
 	float balance = distFromCen(UV);
 	//if balance >

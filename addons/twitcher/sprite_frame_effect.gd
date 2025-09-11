@@ -5,6 +5,7 @@ extends RichTextEffect
 class_name SpriteFrameEffect
 
 const TRANSPARENT = preload("res://addons/twitcher/assets/transparent.tres")
+const SIZE_BUFF = Vector2(8, 8)
 
 static var regex: RegEx = RegEx.create_from_string("\\[sprite id=(?<id>.*?)\\](?<path>.*?)\\[/sprite\\]")
 
@@ -20,7 +21,10 @@ var parent_label: RichTextLabel
 ## If you don't want to have spaces between images (made for Foolbox <3)
 var no_space: bool
 
-func prepare_message(message: String, parent: RichTextLabel) -> String:
+var size_mult : float = 1.0
+
+func prepare_message(message: String, parent: RichTextLabel, emotes : Dictionary[String, SpriteFrames] = {}, _size_mult : float = 1.0) -> String:
+	size_mult = _size_mult
 	parent_label = parent
 	var found_matches = regex.search_all(message) as Array[RegExMatch]
 
@@ -30,16 +34,22 @@ func prepare_message(message: String, parent: RichTextLabel) -> String:
 	for m: RegExMatch in found_matches:
 		var path = m.get_string("path")
 		var id = m.get_string("id")
-		var resource = ResourceLoader.load(path, "SpriteFrames") as SpriteFrames
+		var resource : SpriteFrames
+		var preloaded_emotes : bool = emotes.keys().size() != 0
+		if not preloaded_emotes:
+			resource = ResourceLoader.load(path, "SpriteFrames") as SpriteFrames
+		else:
+			resource = emotes[id]
 		if resource == null: continue
 		var tex = resource.get_frame_texture("default", 0)
-		var size = tex.get_size()
+		var size = tex.get_size() 
 		var start = m.get_start(0)
 		# Add an empty image to make the correct amount of space
-		message = message.replace(path, "[img width=%s height=%s]%s[/img]" % [size.x, size.y, TRANSPARENT.resource_path])
+		message = message.replace(path if not preloaded_emotes else "]" + id, "][img width=%s height=%s]%s[/img]" % [size.x * size_mult, size.y * size_mult, TRANSPARENT.resource_path])
 		var emoji = _create_emoji(resource)
+		emoji.scale *= size_mult
 		emoji.name = id
-		emoji.set_meta("size", size)
+		emoji.set_meta("size", size * size_mult)
 		cache[id] = emoji
 		parent.add_child(emoji)
 	
@@ -56,20 +66,23 @@ func _create_emoji(resource: SpriteFrames):
 	node.play()
 	return node
 
-
+#var _positioned : bool = false
 func _process_custom_fx(char_fx: CharFXTransform) -> bool:
 	if not ready: return true
-	var id = char_fx.env['id']
+	var id : String = str(roundi(char_fx.env['id']))
+	
 	# unknown image just ignore
 	if !cache.has(id): return true
 
 	# Hide the original characters of the [sprite] tag content
 	# (which should just be the placeholder [img] tag now)
 	char_fx.visible = false
-
+	
 	# Only position the sprite once, using the first character's info
 	if char_fx.relative_index != 0: return true
-
+	#if _positioned: return true
+	#
+	#_positioned = true
 	var node: AnimatedSprite2D = cache[id]
 	var image_size: Vector2 = node.get_meta("size") # Already stored in prepare_message
 	
@@ -95,7 +108,6 @@ func _process_custom_fx(char_fx: CharFXTransform) -> bool:
 		font_ascent = scaled_font_size * 0.8 # Estimate
 		font_descent = scaled_font_size * 0.2 # Estimate
 		printerr("SpriteFrameEffect: Could not determine font for ascent/descent calculation, using estimate.")
-
 	# --- Calculate Position ---
 	var baseline_origin: Vector2 = char_fx.transform.get_origin()
 
@@ -111,6 +123,5 @@ func _process_custom_fx(char_fx: CharFXTransform) -> bool:
 	# = baseline - (ascent / 2) + (descent / 2)
 	# = baseline - (ascent - descent) / 2.0
 	var center_y: float = baseline_origin.y - (font_ascent - font_descent) / 2.0
-
 	node.position = Vector2(center_x, center_y)
 	return true

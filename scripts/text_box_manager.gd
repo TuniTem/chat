@@ -3,6 +3,9 @@ extends VBoxContainer
 const DEFAULT_LENGTH = 850
 const TEST_INTERVAL = 10
 const MAX_TEXT_LINES = 15
+const BIG_EMOTE_COUNT_LIMIT : int = 3
+const BIG_EMOTE_SIZE : float = 4.0
+
 const PREFIX = "[pulse freq=0.5 color=#ffffff80 ease=-2.0]"
 const STAR_TEXTURES : Dictionary[Star.Colors, Texture2D] = {
 	Star.Colors.PURPLE : preload("res://art/NewStars/Soft/Soft1001.png"),
@@ -25,7 +28,9 @@ const STAR_TEXTURES : Dictionary[Star.Colors, Texture2D] = {
 @export var mod_color : Color
 
 var USEABLE_CHARS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-=!@#$%^&*_+()[]{}|\\;:\"\'<>?,./ "
-var text : String  = "aaaaaaaasoidujfghbnosierdungosirengoisurengoiuenr"
+var emotes : Dictionary[String, SpriteFrames] 
+var _emote_internal_ids : Dictionary[String, SpriteFrames]
+var text : Array[TwitchChatMessage.Fragment] = []
 var color : Color = Color("#8c6da7")
 var user : String = "Unknown"
 var user_id : String = "-1"
@@ -33,12 +38,16 @@ var badges : Array[TwitchChatMessage.Badge]
 var falling : bool = false
 var big_emote : bool = false
 var sprite_effect = SpriteFrameEffect.new()
+var emote_size_mult : float = 1.0
 
 func _ready():
+	hide()
+	var replace_emotes_result : String = await replace_emotes(text)
+	text_box.text = sprite_effect.prepare_message(PREFIX + replace_emotes_result + " ", text_box, _emote_internal_ids, emote_size_mult)
+	show()
 	color = Color("8c6da7")
 	animation.play("chat")
 	text_box.install_effect(sprite_effect)
-	text_box.text = sprite_effect.prepare_message(PREFIX + replace_emotes(text) + " ", text_box)
 	#text_box.text = sprite_effect.prepare_message("[sprite id=1]res://art/runtime_emotes/AlienDance.gif[/sprite]", text_box)
 	user_label.text = filter(user)
 	
@@ -61,7 +70,7 @@ func _ready():
 	
 	create_tween().tween_property(user_label, "modulate", color, 0.1)
 	call_deferred("trunc_text")
-	free_in_time(60.0)
+	free_in_time(5.0)
 	#for emoji in Global.emojis: 
 		#USEABLE_CHARS += emoji[1]
 
@@ -74,27 +83,71 @@ func trunc_text():
 		else:
 			break
 
-const SMALL_EMOTE_SIZE = 32
-const BIG_EMOTE_SIZE = 112
+#const SMALL_EMOTE_SIZE = 32
+#const BIG_EMOTE_SIZE = 112
 
-func replace_emotes(str : String):
-	var words : Array = str.split(" ")
-	var replaces : Array[String]
-	for word in words:
-		if Global.emote_exists(word) and not replaces.has(word):
-			replaces.append(word)
-			if words.size() == 1: # big emote
-				str = str.replace(word, "[img height=" + str(BIG_EMOTE_SIZE) + "]" + Global.emotes[word] + "[/img]")
-				text_box_pannel.hide()
-				text_box_outline.hide()
-				big_emote = true
-			else:
-				str = str.replace(word, "[img height=" + str(SMALL_EMOTE_SIZE) + "]" + Global.emotes[word] + "[/img]")
+func replace_emotes(fragments : Array[TwitchChatMessage.Fragment]) -> String:
+	var out : String = ""
+	var uid_gen : UniqueIdentifierGenerator = UniqueIdentifierGenerator.new()
+	var only_emotes : bool = true
+	var emote_count : int = 0
+	
+	for fragment : TwitchChatMessage.Fragment in fragments:
+		var sprite_frames : SpriteFrames
+		match fragment.type:
+			TwitchChatMessage.FragmentType.text, TwitchChatMessage.FragmentType.mention:
+				out += fragment.text
+				only_emotes = false
+			
+			TwitchChatMessage.FragmentType.cheermote:
+				sprite_frames = await fragment.cheermote.get_sprite_frames(Global.media_loader, TwitchCheermoteDefinition.SCALE_3)
+				emote_count += 1
+			
+			TwitchChatMessage.FragmentType.emote:
+				emote_count += 1
+				if emotes.has(fragment.emote.id):
+					sprite_frames = emotes[fragment.emote.id]
+				else:
+					sprite_frames = await fragment.emote.get_sprite_frames(Global.media_loader, TwitchEmoteDefinition.SCALE_3)
+		
+		if sprite_frames:
+			var id : String = str(uid_gen.create_unique_id())
+			out += "[sprite id=" + id + "]" + id + "[/sprite]"
+			_emote_internal_ids[id] = sprite_frames
+	
+	if only_emotes and emote_count <= BIG_EMOTE_COUNT_LIMIT:
+		emote_size_mult = 1.0
+		text_box_pannel.hide()
+		text_box_outline.hide()
+		big_emote = true
+	else:
+		emote_size_mult = 0.25
+	
+	
+	
+	return out
+	
+	
+	
+	
+	
+	#var words : Array = str.split(" ")
+	#var replaces : Array[String]
+	#for word in words:
+		#if Global.emote_exists(word) and not replaces.has(word):
+			#replaces.append(word)
+			#if words.size() == 1: # big emote
+				#str = str.replace(word, "[img height=" + str(BIG_EMOTE_SIZE) + "]" + Global.emotes[word] + "[/img]")
+				#text_box_pannel.hide()
+				#text_box_outline.hide()
+				#big_emote = true
+			#else:
+				#str = str.replace(word, "[img height=" + str(SMALL_EMOTE_SIZE) + "]" + Global.emotes[word] + "[/img]")
 			
 			#text_box.add_image(ImageTexture.create_from_image(Image.load_from_file(Global.emotes[word])), 
 				#0, 112, Color(1, 1, 1, 1), INLINE_ALIGNMENT_TO_BASELINE, Rect2(), word)
-	
-	return str
+	#
+	#return str
 
 func fall():
 	if not falling:
@@ -119,10 +172,10 @@ const SPARKLE_1 = preload("res://sparkle/sparkle1.tscn")
 const NUM_SPARKLES = 50
 func sparkle():
 	var bounds : Rect2 = text_box.get_global_rect()
-	var window_pos : Vector2 = Global.main.chat_window.position
+	#var window_pos : Vector2 = Global.main.chat_window.position
 	if big_emote: 
-		bounds.size = Vector2.ONE * (BIG_EMOTE_SIZE - BIG_EMOTE_SIZE * 0.2)
-		bounds.position += Vector2.ONE * (BIG_EMOTE_SIZE * 0.1)
+		bounds.size = Vector2.ONE * 32
+		bounds.position += Vector2.ONE * 16
 		
 	for i in NUM_SPARKLES:
 		var dir : Vector2 = Vector2.from_angle(randf_range(0, TAU))
@@ -133,14 +186,14 @@ func sparkle():
 			2: dir = Vector2(randf_range(bounds.position.x, bounds.position.x + bounds.size.x), bounds.position.y + bounds.size.y)
 			3: dir = Vector2(bounds.position.x, randf_range(bounds.position.y, bounds.position.y + bounds.size.y))
 		var inst = SPARKLE_1.instantiate()
-		inst.position = dir + window_pos
-		inst.center = bounds.position + bounds.size/2 + window_pos
+		inst.position = dir# + window_pos
+		inst.center = bounds.position + bounds.size/2# + window_pos
 		Global.sparkle_holder.add_child(inst)
 	
 
-func filter(text : String):
+func filter(_text : String):
 	var out = ""
-	for char in text:
+	for char in _text:
 		if char in USEABLE_CHARS:
 			out += char
 	
