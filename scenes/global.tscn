@@ -166,10 +166,42 @@ media_loader = NodePath("../MediaLoader")
 eventsub = NodePath("../EventSub")
 api = NodePath("../API")
 
-[node name="Follow" type="Node" parent="TwitchService" node_paths=PackedStringArray("eventsub")]
+[node name="Notifs" type="Node" parent="TwitchService"]
+
+[node name="Follow" type="Node" parent="TwitchService/Notifs" node_paths=PackedStringArray("eventsub")]
 script = ExtResource("17_korfd")
-eventsub = NodePath("../EventSub")
+eventsub = NodePath("../../EventSub")
 subscription = 5
+metadata/_custom_type_script = "uid://bol5ltrjr6ux8"
+
+[node name="Subscription" type="Node" parent="TwitchService/Notifs" node_paths=PackedStringArray("eventsub")]
+script = ExtResource("17_korfd")
+eventsub = NodePath("../../EventSub")
+subscription = 15
+metadata/_custom_type_script = "uid://bol5ltrjr6ux8"
+
+[node name="SubscriptionMessage" type="Node" parent="TwitchService/Notifs" node_paths=PackedStringArray("eventsub")]
+script = ExtResource("17_korfd")
+eventsub = NodePath("../../EventSub")
+subscription = 18
+metadata/_custom_type_script = "uid://bol5ltrjr6ux8"
+
+[node name="Gifted" type="Node" parent="TwitchService/Notifs" node_paths=PackedStringArray("eventsub")]
+script = ExtResource("17_korfd")
+eventsub = NodePath("../../EventSub")
+subscription = 17
+metadata/_custom_type_script = "uid://bol5ltrjr6ux8"
+
+[node name="Cheer" type="Node" parent="TwitchService/Notifs" node_paths=PackedStringArray("eventsub")]
+script = ExtResource("17_korfd")
+eventsub = NodePath("../../EventSub")
+subscription = 19
+metadata/_custom_type_script = "uid://bol5ltrjr6ux8"
+
+[node name="Raid" type="Node" parent="TwitchService/Notifs" node_paths=PackedStringArray("eventsub")]
+script = ExtResource("17_korfd")
+eventsub = NodePath("../../EventSub")
+subscription = 20
 metadata/_custom_type_script = "uid://bol5ltrjr6ux8"
 
 [node name="Commands" type="Node" parent="TwitchService"]
@@ -205,6 +237,13 @@ script = ExtResource("18_korfd")
 command = "music"
 aliases = Array[String](["m", "song"])
 description = "See what music is currently playing"
+eventsub = NodePath("../../../EventSub")
+metadata/_custom_type_script = "uid://bmluckfvgm1c2"
+
+[node name="Code" type="Node" parent="TwitchService/Commands/General" node_paths=PackedStringArray("eventsub")]
+script = ExtResource("18_korfd")
+command = "code"
+description = "See the Lobby code!"
 eventsub = NodePath("../../../EventSub")
 metadata/_custom_type_script = "uid://bmluckfvgm1c2"
 
@@ -324,11 +363,17 @@ permission_level = 8
 eventsub = NodePath("../../../EventSub")
 metadata/_custom_type_script = "uid://bmluckfvgm1c2"
 
-[connection signal="received" from="TwitchService/Follow" to="." method="_on_follow_received"]
+[connection signal="received" from="TwitchService/Notifs/Follow" to="." method="_on_follow_received"]
+[connection signal="received" from="TwitchService/Notifs/Subscription" to="." method="_on_subscription_received"]
+[connection signal="received" from="TwitchService/Notifs/SubscriptionMessage" to="." method="_on_subscription_message_received"]
+[connection signal="received" from="TwitchService/Notifs/Gifted" to="." method="_on_gifted_received"]
+[connection signal="received" from="TwitchService/Notifs/Cheer" to="." method="_on_cheer_received"]
+[connection signal="received" from="TwitchService/Notifs/Raid" to="." method="_on_raid_received"]
 [connection signal="command_received" from="TwitchService/Commands/General/Lurk" to="." method="_on_lurk_command_received"]
 [connection signal="command_received" from="TwitchService/Commands/General/Followed" to="." method="_on_followed_command_received"]
 [connection signal="command_received" from="TwitchService/Commands/General/Timeleft" to="." method="_on_timeleft_command_received"]
 [connection signal="command_received" from="TwitchService/Commands/General/Music" to="." method="_on_music_command_received"]
+[connection signal="command_received" from="TwitchService/Commands/General/Code" to="." method="_on_link_command_recived"]
 [connection signal="command_received" from="TwitchService/Commands/Links/Commands" to="." method="_on_link_command_recived"]
 [connection signal="command_received" from="TwitchService/Commands/Links/Linktree" to="." method="_on_link_command_recived"]
 [connection signal="command_received" from="TwitchService/Commands/Links/Discord" to="." method="_on_link_command_recived"]

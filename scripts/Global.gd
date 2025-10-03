@@ -1,6 +1,8 @@
 extends Node
 # General
 const DEBUG = false
+
+const CODE : String = "JGX7AK"
 var dummy_usernames = [
 	"pixelNomad",
 	"lunar_kicks",
@@ -871,7 +873,6 @@ func _on_chat_message_received(chat_message: TwitchChatMessage):
 
 
 func _on_follow_received(data: Dictionary) -> void:
-	# TODO add ppl to stars
 	prints("follow: " + str(data))
 	var follower_arr : Array = [data["user_id"], data["user_name"], Time.get_unix_time_from_datetime_string(data["followed_at"]), true]
 	DB.update("followers", data["user_id"], follower_arr)
@@ -885,6 +886,107 @@ func _on_follow_received(data: Dictionary) -> void:
 		
 	if GEN_STARS:
 		constellation_manager.add_to_buffer(generate_star(data["user_name"], data["user_id"], true))
+
+func _on_subscription_received(data: Dictionary) -> void:
+	prints("subscribe: " + str(data))
+	var sub_arr : Array = [
+		data["user_id"], # id
+		data["user_name"], # username
+		Time.get_unix_time_from_system(), #sub time
+		data["tier"],  # tier
+		1, # months
+		1, # streak
+		[] # Array[String] subscription messages
+	]
+	var sub = DB.find("subscribers", data["user_id"])
+	if sub != null:
+		printerr("Existing subscriber ", sub[1], " got initital sub notification?")
+		
+	else:
+		DB.update("subscribers", data["user_id"], sub_arr)
+	
+	if not data["is_gift"]:
+		notification_manager.send_notification(NotificationManager.NotificationType.SUB, Time.get_unix_time_from_system(), {"username" : data["user_name"], "tier" : data["tier"]})
+
+func _on_gifted_received(data: Dictionary) -> void:
+	prints("gifted: " + str(data))
+	DB.update("gifted", data["user_id"], [
+		data["user_id"], # id
+		data["user_name"], # username
+		data["cumulative_total"] if data["cumulative_total"] else -1, # total gifted
+		Time.get_unix_time_from_system(), # last time gifted
+	])
+	
+	var username : String = data["user_name"]
+	if data["is_anonymous"]:
+		username = "Unknown"
+	
+	else:
+		notification_manager.send_notification(NotificationManager.NotificationType.GIFT, Time.get_unix_time_from_system(), {"username" : username, "amount" : data["total"], "tier" : data["tier"]})
+
+func _on_subscription_message_received(data: Dictionary) -> void:
+	var sub = DB.find("subscribers", data["user_id"])
+	if sub == null:
+		printerr("Subscriber not found durring resubscribe? Creating new entry")
+		sub = [
+			data["user_id"], # id
+			data["user_name"], # username
+			Time.get_unix_time_from_system(), #sub time
+			data["tier"],  # tier
+			1, # months
+			1, # streak
+			[] # Array[String] subscription messages
+		]
+	
+	sub[3] = data["tier"]
+	sub[4] = data["cumulative_month"]
+	sub[5] = data["streak_months"]
+	sub[6].append(data["message"]["text"])
+	
+	DB.update("subscribers", data["user_id"], sub)
+	
+	notification_manager.send_notification(NotificationManager.NotificationType.SUB_MESSAGE, Time.get_unix_time_from_system(), 
+	{
+		"username" : data["user_name"],
+		"tier" : data["tier"], 
+		"streak" : data["streak_months"], 
+		"message" : data["message"]["text"]
+	})
+	
+	
+
+func _on_cheer_received(data: Dictionary) -> void:
+	if data["is_anonymous"]:
+		notification_manager.send_notification(NotificationManager.NotificationType.CHEER, Time.get_unix_time_from_system(), {
+			"username" : "Unknown", "amount": data["bits"], "message" : data["message"]}
+		)
+	
+	else:
+		var cheerer = DB.find("cheers", data["user_id"])
+		if cheerer == null:
+			cheerer = [
+				data["user_id"], # id
+				data["user_name"], # username
+				0, # total amount cheered
+				[] # Array of cheers in format [amount, message]
+			]
+		
+		cheerer[2] += data["bits"]
+		cheerer[3].append([data["bits"], data["message"]])
+		
+		DB.update("cheers", data["user_id"], cheerer)
+		
+		notification_manager.send_notification(NotificationManager.NotificationType.CHEER, Time.get_unix_time_from_system(), {
+			"username" : data["user_name"],
+			"message" : data["message"],
+			"amount" : data["bits"]
+		})
+
+func _on_raid_received(data: Dictionary) -> void:
+	notification_manager.send_notification(NotificationManager.NotificationType.RAID, Time.get_unix_time_from_system(), {
+		"username" : data["from_broadcaster_user_name"],
+		"amount" : data["viewers"]
+	})
 
 func _on_lurk_command_received(from_username: String, info: TwitchCommandInfo, args: PackedStringArray) -> void:
 	if lurk_messages_buffer.size() == 0 : lurk_messages_buffer = LURK_MESSAGES.duplicate()
@@ -1144,6 +1246,7 @@ func _on_link_command_recived(from_username: String, info: TwitchCommandInfo, ar
 		"artist": send_message("................. Artist ➜ " + ARTIST_HANDLE + " ⤵ " + ARTIST_LINK, ping)
 		"rigger": send_message("................. Rigger ➜ " + RIGGER_HANDLE + " ⤵ " + RIGGER_LINK, ping)
 		"credits": send_message("Credits ⤵ ...... Character Designer ➜ " + DESIGNER_HANDLE + " ...........  Artist ➜ " + ARTIST_HANDLE + " ............................. Rigger ➜ " + RIGGER_HANDLE, ping)
+		"code": send_message("Game code: " + CODE)
 
 # ---------------------------------
 # Old code below for an old branch/tree idea that i dont really want cuttering up my actually active code

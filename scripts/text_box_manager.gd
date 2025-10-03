@@ -70,7 +70,7 @@ func _ready():
 	
 	create_tween().tween_property(user_label, "modulate", color, 0.1)
 	call_deferred("trunc_text")
-	free_in_time(5.0)
+	free_in_time(60.0)
 	#for emoji in Global.emojis: 
 		#USEABLE_CHARS += emoji[1]
 
