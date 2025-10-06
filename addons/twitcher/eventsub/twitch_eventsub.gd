@@ -303,9 +303,10 @@ func _data_received(data : PackedByteArray) -> void:
 
 	if(_message_got_processed(id) || _message_is_to_old(timestamp)):
 		return
-	#print(message_json)
+
 	eventsub_messages[id] = timestamp
 	last_keepalive = Time.get_ticks_msec()
+
 	match metadata.message_type:
 		"session_welcome":
 			var welcome_message = TwitchWelcomeMessage.new(message_json)
@@ -328,7 +329,6 @@ func _data_received(data : PackedByteArray) -> void:
 			events_revoked.emit(revocation_message.payload.subscription.type,
 				revocation_message.payload.subscription.status)
 		"notification":
-			#print(message_json)
 			var notification_message = TwitchNotificationMessage.new(message_json)
 			message_received.emit(notification_message)
 			event.emit(notification_message.payload.subscription.type,

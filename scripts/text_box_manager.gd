@@ -100,8 +100,9 @@ func replace_emotes(fragments : Array[TwitchChatMessage.Fragment]) -> String:
 				only_emotes = false
 			
 			TwitchChatMessage.FragmentType.cheermote:
-				sprite_frames = await fragment.cheermote.get_sprite_frames(Global.media_loader, TwitchCheermoteDefinition.SCALE_3)
-				emote_count += 1
+				out += "Cheer" + str(fragment.cheermote.bits)
+				#sprite_frames = await fragment.cheermote.get_sprite_frames(Global.media_loader, TwitchCheermoteDefinition.SCALE_3)
+				#emote_count += 1
 			
 			TwitchChatMessage.FragmentType.emote:
 				emote_count += 1

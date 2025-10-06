@@ -1,58 +1,17 @@
-[gd_scene load_steps=20 format=3 uid="uid://djt5lvmwxbq4a"]
+[gd_scene load_steps=14 format=3 uid="uid://djt5lvmwxbq4a"]
 
 [ext_resource type="Script" uid="uid://i8st3lv0lidh" path="res://addons/twitcher/twitch_service.gd" id="1_6jm7q"]
 [ext_resource type="Script" uid="uid://cw30cwveway65" path="res://addons/twitcher/generated/twitch_api.gd" id="1_yq54x"]
 [ext_resource type="Resource" uid="uid://ry64ckbckh6m" path="res://addons/twitcher/twitch_oauth_setting.tres" id="2_v2pwk"]
-[ext_resource type="Script" uid="uid://b3n3et8mebjcc" path="res://addons/twitcher/auth/twitch_oauth_scopes.gd" id="3_v2pwk"]
+[ext_resource type="Resource" uid="uid://fcmfkstye4bq" path="res://addons/twitcher/auth/preset_overlay_scopes.tres" id="3_n5rs1"]
 [ext_resource type="Script" uid="uid://blmhj3j00yk45" path="res://addons/twitcher/eventsub/twitch_eventsub.gd" id="3_x3t7l"]
 [ext_resource type="Resource" uid="uid://m7epy882axmp" path="res://addons/twitcher/default_oauth_token.tres" id="4_j0p3d"]
-[ext_resource type="Script" uid="uid://cjug64e3433g0" path="res://addons/twitcher/eventsub/twitch_eventsub_config.gd" id="6_j0p3d"]
-[ext_resource type="Script" uid="uid://cnmohrdxqihr0" path="res://addons/twitcher/generated/twitch_user.gd" id="7_uvps8"]
 [ext_resource type="Script" uid="uid://bf0wi70haua35" path="res://addons/twitcher/lib/oOuch/oauth.gd" id="8_v2pwk"]
 [ext_resource type="Script" uid="uid://blnbogtrshw4r" path="res://addons/twitcher/auth/twitch_token_handler.gd" id="9_n5rs1"]
 [ext_resource type="Script" uid="uid://iv0mgv0lu8b0" path="res://addons/twitcher/auth/twitch_auth.gd" id="10_bqnqx"]
 [ext_resource type="Texture2D" uid="uid://g1dbcjksbotw" path="res://addons/twitcher/assets/fallback_texture.tres" id="11_j0p3d"]
 [ext_resource type="Script" uid="uid://d4lyup0vy1wtu" path="res://addons/twitcher/media/twitch_media_loader.gd" id="12_2tq2g"]
 [ext_resource type="Script" uid="uid://6v8jnfjwbnhm" path="res://addons/twitcher/media/twitch_image_transformer.gd" id="12_uvps8"]
-
-[sub_resource type="Resource" id="Resource_n5rs1"]
-script = ExtResource("3_v2pwk")
-used_scopes = Array[StringName]([&"user:read:chat", &"user:write:chat", &"moderator:read:followers", &"bits:read", &"channel:read:redemptions", &"channel:manage:redemptions", &"channel:bot", &"user:bot"])
-metadata/_custom_type_script = "uid://b3n3et8mebjcc"
-
-[sub_resource type="Resource" id="Resource_seu75"]
-script = ExtResource("7_uvps8")
-id = "1050685508"
-login = "tunitemvt"
-display_name = "TuniTemVT"
-type = ""
-broadcaster_type = ""
-description = "Sharing fragments of shattered dreams 💜"
-profile_image_url = "https://static-cdn.jtvnw.net/jtv_user_pictures/53875e6e-3c9f-4199-a980-1c2cb896d61e-profile_image-300x300.png"
-offline_image_url = ""
-view_count = 0
-email = ""
-created_at = "2024-03-12T05:23:13Z"
-
-[sub_resource type="Resource" id="Resource_e4oo5"]
-script = ExtResource("6_j0p3d")
-type = 9
-condition = {
-&"broadcaster_user_id": "1050685508",
-&"user_id": "1050685508"
-}
-metadata/_custom_type_script = "uid://cjug64e3433g0"
-metadata/broadcaster_user_id_user = SubResource("Resource_seu75")
-metadata/user_id_user = SubResource("Resource_seu75")
-
-[sub_resource type="Resource" id="Resource_vxgdn"]
-script = ExtResource("6_j0p3d")
-type = 19
-condition = {
-&"broadcaster_user_id": "1050685508"
-}
-metadata/_custom_type_script = "uid://cjug64e3433g0"
-metadata/broadcaster_user_id_user = SubResource("Resource_seu75")
 
 [sub_resource type="Resource" id="Resource_nmcm3"]
 script = ExtResource("12_uvps8")
@@ -61,14 +20,13 @@ fallback_texture = ExtResource("11_j0p3d")
 [node name="TwitchService" type="Node"]
 script = ExtResource("1_6jm7q")
 oauth_setting = ExtResource("2_v2pwk")
-scopes = SubResource("Resource_n5rs1")
+scopes = ExtResource("3_n5rs1")
 token = ExtResource("4_j0p3d")
 
 [node name="EventSub" type="Node" parent="." node_paths=PackedStringArray("api")]
 script = ExtResource("3_x3t7l")
 api = NodePath("../API")
-_subscriptions = Array[ExtResource("6_j0p3d")]([SubResource("Resource_e4oo5"), SubResource("Resource_vxgdn")])
-scopes = SubResource("Resource_n5rs1")
+scopes = ExtResource("3_n5rs1")
 
 [node name="API" type="Node" parent="."]
 script = ExtResource("1_yq54x")
@@ -79,12 +37,12 @@ oauth_setting = ExtResource("2_v2pwk")
 script = ExtResource("10_bqnqx")
 oauth_setting = ExtResource("2_v2pwk")
 token = ExtResource("4_j0p3d")
-scopes = SubResource("Resource_n5rs1")
+scopes = ExtResource("3_n5rs1")
 
 [node name="OAuth" type="Node" parent="Auth" node_paths=PackedStringArray("token_handler")]
 script = ExtResource("8_v2pwk")
 oauth_setting = ExtResource("2_v2pwk")
-scopes = SubResource("Resource_n5rs1")
+scopes = ExtResource("3_n5rs1")
 token_handler = NodePath("../TokenHandler")
 
 [node name="TokenHandler" type="Node" parent="Auth"]

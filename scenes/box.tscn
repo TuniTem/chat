@@ -366,11 +366,11 @@ layout_mode = 2
 
 [node name="Shine" type="AudioStreamPlayer" parent="."]
 stream = SubResource("AudioStreamRandomizer_amiuo")
-volume_db = -27.0671
+volume_db = -19.5813
 pitch_scale = 3.42
 bus = &"rev"
 
 [node name="Popup" type="AudioStreamPlayer" parent="."]
 stream = SubResource("AudioStreamRandomizer_3d203")
-volume_db = -33.0201
+volume_db = -16.1769
 pitch_scale = 0.4

@@ -20,7 +20,6 @@ static var instance: TwitchChat
 	set(val):
 		eventsub = val
 		update_configuration_warnings()
-	
 @export var api: TwitchAPI:
 	set(val):
 		api = val
@@ -35,24 +34,14 @@ signal message_received(message: TwitchChatMessage)
 
 
 func _ready() -> void:
-	print("a", eventsub.get_instance_id())
 	_log.d("is ready")
 	if media_loader == null: media_loader = TwitchMediaLoader.instance
 	if api == null: api = TwitchAPI.instance
 	if eventsub == null: eventsub = TwitchEventsub.instance
 	eventsub.event.connect(_on_event_received)
-	#eventsub.event.connect(func a(): print("ermm!"))
-	
 	if not Engine.is_editor_hint() && subscribe_on_ready:
 		subscribe()
-
-func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("exit"):
-		Util.input_context = "default"
 	
-	if Util.input_context != "default" : return
-	#if event.is_action_pressed("debug"):
-		#print(eventsub.get_instance_id())
 
 func _enter_tree() -> void:
 	if instance == null: instance = self
@@ -67,7 +56,7 @@ func subscribe() -> void:
 	if broadcaster_user == null:
 		printerr("BroadcasterUser is not set. Can't subscribe to chat.")
 		return
-	
+		
 	if is_instance_valid(media_loader):
 		media_loader.preload_badges(broadcaster_user.id)
 		media_loader.preload_emotes(broadcaster_user.id)
@@ -89,15 +78,15 @@ func subscribe() -> void:
 		"user_id": sender_user.id
 	}
 	eventsub.subscribe(config)
-	print("Listen to Chat of %s (%s)" % [broadcaster_user.display_name, broadcaster_user.id])
 	_log.i("Listen to Chat of %s (%s)" % [broadcaster_user.display_name, broadcaster_user.id])
 
 
 func _on_event_received(type: StringName, data: Dictionary) -> void:
 	if type != TwitchEventsubDefinition.CHANNEL_CHAT_MESSAGE.value: return
 	var message: TwitchChatMessage = TwitchChatMessage.from_json(data)
-	#if message.broadcaster_user_id == broadcaster_user.id:
-	message_received.emit(message)
+	#File.save_var("test_msg", data)
+	if message.broadcaster_user_id == broadcaster_user.id:
+		message_received.emit(message)
 
 
 func send_message(message: String, reply_parent_message_id: String = "") -> Array[TwitchSendChatMessage.ResponseData]:

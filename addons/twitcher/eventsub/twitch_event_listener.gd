@@ -27,6 +27,7 @@ signal received(data: Dictionary)
 
 
 func _ready() -> void:
+	if eventsub == null: eventsub = TwitchEventsub.instance
 	_update_eventsub(eventsub)
 
 
@@ -59,9 +60,7 @@ func _update_eventsub(val: TwitchEventsub):
 
 
 func _on_received(type: String, data: Dictionary):
-	#print("a")
 	if type == subscription_definition.value:
-		#print("b")
 		received.emit(data)
 
 
