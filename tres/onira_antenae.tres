@@ -1,0 +1,74 @@
+[gd_resource type="ShaderMaterial" load_steps=10 format=3 uid="uid://befjt5mlnyfk5"]
+
+[ext_resource type="Shader" uid="uid://cgiujyy8hr2fg" path="res://shader/onira_skin3.gdshader" id="1_c3f8h"]
+[ext_resource type="Shader" uid="uid://d4iq25362j2ot" path="res://shader/onira_skin2.gdshader" id="2_tgj2e"]
+[ext_resource type="Shader" uid="uid://5p4edl3if3jc" path="res://shader/onira_skin.gdshader" id="3_1undy"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_5y2fv"]
+noise_type = 3
+frequency = 0.0094
+domain_warp_type = 2
+domain_warp_amplitude = 32.574
+domain_warp_frequency = 0.0085
+domain_warp_fractal_octaves = 1
+domain_warp_fractal_lacunarity = 7.2855
+domain_warp_fractal_gain = 1.549
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_0jdvv"]
+width = 2048
+height = 2048
+in_3d_space = true
+seamless = true
+noise = SubResource("FastNoiseLite_5y2fv")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_lf85h"]
+render_priority = 0
+shader = ExtResource("1_c3f8h")
+shader_parameter/color = Color(0.436927, 0.510232, 0.818438, 1)
+shader_parameter/thickness = 0.0125
+shader_parameter/offset = -0.0105
+shader_parameter/height_scale = -0.0025
+shader_parameter/displacement = SubResource("NoiseTexture2D_0jdvv")
+shader_parameter/speed = 0.256
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_s61bb"]
+render_priority = 0
+next_pass = SubResource("ShaderMaterial_lf85h")
+shader = ExtResource("2_tgj2e")
+shader_parameter/intirior_color = Color(0.531977, 0.601385, 0.842507, 1)
+shader_parameter/height_scale = -0.0025
+shader_parameter/displacement = SubResource("NoiseTexture2D_0jdvv")
+shader_parameter/speed = 0.256
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_c7px0"]
+noise_type = 3
+frequency = 0.0094
+domain_warp_type = 2
+domain_warp_amplitude = 32.574
+domain_warp_frequency = 0.0085
+domain_warp_fractal_octaves = 1
+domain_warp_fractal_lacunarity = 7.2855
+domain_warp_fractal_gain = 1.549
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_p8pet"]
+width = 2048
+height = 2048
+in_3d_space = true
+seamless = true
+noise = SubResource("FastNoiseLite_c7px0")
+
+[resource]
+render_priority = 0
+next_pass = SubResource("ShaderMaterial_s61bb")
+shader = ExtResource("3_1undy")
+shader_parameter/Specular = 1.0
+shader_parameter/Hardness = 511.0
+shader_parameter/BaseColor = Color(0.780392, 0.607843, 0.933333, 1)
+shader_parameter/HighlightColor = Color(1, 0.94902, 0.6, 1)
+shader_parameter/Opacity = 0.083
+shader_parameter/refraction = 10000.0
+shader_parameter/height_scale = -0.0025
+shader_parameter/displacement = SubResource("NoiseTexture2D_p8pet")
+shader_parameter/speed = 0.256
+shader_parameter/offset = 0.0
+shader_parameter/thickness = 0.0

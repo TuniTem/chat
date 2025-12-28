@@ -1,0 +1,14 @@
+[gd_resource type="StandardMaterial3D" load_steps=3 format=3 uid="uid://cfyn8w3fke3r1"]
+
+[ext_resource type="Texture2D" uid="uid://cysjxbky05ccj" path="res://art/3D/Onira/v0.92/Onirav0_OniraBodyTexture.png" id="1_tc2ab"]
+[ext_resource type="Texture2D" uid="uid://c7rpabfauqtqp" path="res://art/3D/Onira/v0.92/OniraBodyGlow.png" id="2_jcpcn"]
+
+[resource]
+resource_name = "Cloak"
+cull_mode = 2
+albedo_color = Color(0, 0, 0, 1)
+albedo_texture = ExtResource("1_tc2ab")
+metallic = 1.0
+emission_enabled = true
+emission = Color(0.114897, 0.114897, 0.114897, 1)
+emission_texture = ExtResource("2_jcpcn")

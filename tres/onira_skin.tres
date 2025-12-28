@@ -1,0 +1,50 @@
+[gd_resource type="ShaderMaterial" load_steps=9 format=3 uid="uid://cd3qmcuqbsv7d"]
+
+[ext_resource type="Shader" uid="uid://d4iq25362j2ot" path="res://shader/onira_skin2.gdshader" id="1_hattu"]
+[ext_resource type="Shader" uid="uid://cgiujyy8hr2fg" path="res://shader/onira_skin3.gdshader" id="1_p45dc"]
+[ext_resource type="Shader" uid="uid://5p4edl3if3jc" path="res://shader/onira_skin.gdshader" id="1_vpyns"]
+[ext_resource type="Texture2D" uid="uid://c4otr3hkdb2jo" path="res://tres/onira_skin_noise.tres" id="2_p45dc"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_b0j68"]
+render_priority = 0
+shader = ExtResource("1_p45dc")
+shader_parameter/color = Color(0.407289, 0.464858, 0.759291, 1)
+shader_parameter/thickness = 0.0125
+shader_parameter/offset = -0.004
+shader_parameter/height_scale = -0.0225
+shader_parameter/displacement = ExtResource("2_p45dc")
+shader_parameter/speed = 0.1235
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6oysw"]
+render_priority = 0
+next_pass = SubResource("ShaderMaterial_b0j68")
+shader = ExtResource("1_hattu")
+shader_parameter/intirior_color = Color(0.531977, 0.601385, 0.842507, 1)
+shader_parameter/height_scale = -0.0225
+shader_parameter/displacement = ExtResource("2_p45dc")
+shader_parameter/speed = 0.1235
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_p45dc"]
+noise_type = 2
+frequency = 0.0001
+cellular_distance_function = 1
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_b0j68"]
+noise = SubResource("FastNoiseLite_p45dc")
+
+[resource]
+render_priority = 0
+next_pass = SubResource("ShaderMaterial_6oysw")
+shader = ExtResource("1_vpyns")
+shader_parameter/tex = SubResource("NoiseTexture2D_b0j68")
+shader_parameter/Specular = 0.0
+shader_parameter/Hardness = 1.0
+shader_parameter/BaseColor = Color(0.6, 0.67451, 1, 1)
+shader_parameter/HighlightColor = Color(0.780392, 0.607843, 0.933333, 1)
+shader_parameter/Opacity = 0.444
+shader_parameter/refraction = 10000.0
+shader_parameter/height_scale = -0.012
+shader_parameter/displacement = ExtResource("2_p45dc")
+shader_parameter/speed = 0.1235
+shader_parameter/offset = 0.0
+shader_parameter/thickness = 0.0

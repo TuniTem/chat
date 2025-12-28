@@ -40,4 +40,5 @@ void fragment() {
 	float balance = distFromCen(UV);
 	//if balance >
 	COLOR = mix(texture(SCREEN_TEXTURE, SCREEN_UV + disp), c, max_blend) * balance * 1.5 + texture(SCREEN_TEXTURE, SCREEN_UV);
+	COLOR.a = COLOR.b;
 }

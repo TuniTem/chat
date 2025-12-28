@@ -3,8 +3,8 @@ const CHAT_BUBBLE = preload("res://scenes/box.tscn")
 
 
 func _ready() -> void:
-	var test_msg_data : Dictionary = File.load_var("test_msg")
-	chat(TwitchChatMessage.from_json(test_msg_data))
+	#var test_msg_data : Dictionary = File.load_var("test_msg")
+	#chat(TwitchChatMessage.from_json(test_msg_data))
 	
 	for child in get_children():
 		child.queue_free()

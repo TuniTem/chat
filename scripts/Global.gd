@@ -212,6 +212,14 @@ const MAX_ID_GENERATION_ATTEMPTS = 1000
 var active_ids : Array = []
 var active_temp_ids : Array = []
 
+const GLOBAL_PRESS_EXECUTABLE_PATH : String = "res://py/output/GlobalKeypress.exe"
+
+# Sounds
+const WHATEVER_COOLDOWN = 10.0
+const WHATEVER_WORDS = ["whateva", "whatever", "whatevah"]
+
+var whatever : float = -1.0
+
 # Commands
 const CONSTELLATION_INSTRUCTIONS_LINK = "https://tunicommands.carrd.co/"
 
@@ -249,6 +257,26 @@ const TIME_OF_ARRIVAL = 1773306000
 
 var lurk_messages_buffer : Array[String]
 
+# Redeems
+const REDEEM_IDS : Dictionary = {
+	"hydrate" : "d69c52e2-35d3-4d34-b712-e957f3aa57d7",
+	
+	#votv
+	"ragdoll" : "b48cb663-20af-47c2-8535-f9e0174bd610",
+	"honk" : "e580a4a4-ffae-4f72-958e-ed83b6128cc6",
+	"save" : "76a9dd9c-7193-4804-937e-f441c21db6be",
+	"flashlight" : "d96cafab-55d3-419a-8bcd-00b7826cfc3f",
+	
+	# Factorio
+	"exo" : "3ef7b160-2aaa-4cb9-a3ee-72715cc973bf",
+	"switch_shoot" : "eb1a2c0d-c18a-4808-a33f-e33868549adb",
+	"vehicle" : "c12a64b4-cd1e-4228-b8a6-e32f89dd5b49",
+	"alt" : "9938b2bf-ae2e-4a3a-8fee-c7a1d2e7ee30",
+	"drop" : "92945d7a-45c4-413a-a718-618754ef232e",
+	"undo" : "261dc74c-3c36-4f7d-9de1-7424071064ae"
+}
+
+
 # Emotes
 const GLOBAL_EMOTES_PATH : String = "C:/ASSETS/Emotes/Twitch/all/"
 const CUSTOM_EMOTES_PATH : String = "C:/ASSETS/Emotes/Twitch/custom/"
@@ -268,7 +296,7 @@ const RARITY : float = 144.0
 const BRANCH_SPLITS : int = 3
 const CHAR_ORDER : String = "aAb0BcCdD1eEfFg2GhHiI3jJkKl4LmMnN5oOpPq6QrRsS7tTuUv8VwWxX9yYzZ_"
 const MATCH_WORD : String = "dreaming"
-const MATCH_THRESH = 4
+const MATCH_THRESH = 5
 const BRANCH_COLLISION : bool = true
 const DEBUG_GEN_USERS : int = 100
 const GEN_TREE : bool = false
@@ -372,10 +400,13 @@ func _ready():
 		await verify_followers()
 		followers.sort_custom(Util.sort_ascending.bind(2))
 		verify_constellations()
+	
+	
 
 func _input(event: InputEvent) -> void:
 	#if Util.input_context != "default" : return
 	if DEBUG and event.is_action_pressed("debug"):
+		global_keypress("c")
 		return
 		#if is_instance_valid(constellation_manager.telescope):
 			#constellation_manager.telescope.queue_free()
@@ -388,6 +419,12 @@ func _input(event: InputEvent) -> void:
 			"user_name" : dummy_usernames.pick_random() + str(randi_range(1, 1000)),
 			"followed_at": Time.get_datetime_string_from_system()
 		})
+
+func global_keypress(key : String):
+	#return
+	print("Simulated press of " + key + " key")
+	#await Util.wait(5.0)
+	OS.create_process(ProjectSettings.globalize_path(GLOBAL_PRESS_EXECUTABLE_PATH), [key])
 
 func verify_followers():
 	print("Fetching followers...")
@@ -482,7 +519,6 @@ func verify_followers():
 			
 			save_constellation(true)
 			DB.replace("followers", followers, true, true)
-
 
 func get_nearby_POIs(position : Vector2, zoom : float, zoom_dependent_distance : bool = true) -> Array:
 	var closest_POI_dist : float = INF
@@ -858,10 +894,20 @@ func clean_args(args : PackedStringArray):
 		if args[i] == NULL_ARG_CHAR:
 			args.remove_at(i)
 			break
-	
+
+
 
 func _on_chat_message_received(chat_message: TwitchChatMessage):
 	print("[%s] %s: %s" % [chat_message.broadcaster_user_name, chat_message.chatter_user_name, chat_message.message.text])
+	for word : String in chat_message.message.text.split(" "):
+		for whatever_word in WHATEVER_WORDS:
+			if whatever_word.to_lower() in word.to_lower() and whatever < 0.0:
+				%Whateva.play()
+				whatever = WHATEVER_COOLDOWN
+				var tween : Tween = create_tween()
+				tween.tween_property(self, "whatever", -1.0, WHATEVER_COOLDOWN + 1.0)
+	
+	
 	#notification_manager.send_notification(NotificationManager.NotificationType.FOLLOW, Time.get_unix_time_from_system(), chat_message.chatter_user_name)
 	# Example: Reply "Hello!" to any message containing "hi"
 	#if "hi" in chat_message.message.text.to_lower():
@@ -987,6 +1033,46 @@ func _on_raid_received(data: Dictionary) -> void:
 		"username" : data["from_broadcaster_user_name"],
 		"amount" : data["viewers"]
 	})
+
+func _on_redeem_received(data: Dictionary) -> void:
+	print("Redeem: " + data["reward"]["id"])
+	
+	match data["reward"]["id"]:
+		REDEEM_IDS["hydrate"]:
+			%Hydrate.play()
+		
+		REDEEM_IDS["ragdoll"]:
+			global_keypress("c")
+		
+		REDEEM_IDS["save"]:
+			global_keypress("o")
+		
+		REDEEM_IDS["flashlight"]:
+			global_keypress("f")
+		
+		REDEEM_IDS["honk"]:
+			global_keypress("p")
+		
+		REDEEM_IDS["drop"]:
+			global_keypress("n")
+		
+		REDEEM_IDS["undo"]:
+			global_keypress("ctrl+z")
+		
+		REDEEM_IDS["alt"]:
+			global_keypress("alt")
+		
+		REDEEM_IDS["exo"]:
+			global_keypress("p")
+		
+		REDEEM_IDS["switch_shoot"]:
+			global_keypress("c")
+			await Util.wait(0.5)
+			global_keypress(" ")
+		
+		REDEEM_IDS["vehicle"]:
+			global_keypress("enter")
+			
 
 func _on_lurk_command_received(from_username: String, info: TwitchCommandInfo, args: PackedStringArray) -> void:
 	if lurk_messages_buffer.size() == 0 : lurk_messages_buffer = LURK_MESSAGES.duplicate()

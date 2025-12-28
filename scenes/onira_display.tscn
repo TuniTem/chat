@@ -1,0 +1,34 @@
+[gd_scene load_steps=5 format=3 uid="uid://cm80kd3xu77jn"]
+
+[ext_resource type="Shader" uid="uid://bq43mxo7qukb7" path="res://shader/edge_fade.gdshader" id="1_ii3uv"]
+[ext_resource type="PackedScene" uid="uid://bm2tuqs62ifs7" path="res://scenes/onira.tscn" id="1_jswwn"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_eqvop"]
+shader = ExtResource("1_ii3uv")
+shader_parameter/radial_cut = false
+shader_parameter/screen_size = Vector2(1920, 1080)
+shader_parameter/amount = 0.0
+shader_parameter/feather = 0.134
+shader_parameter/xoffset = 0.0
+shader_parameter/yoffset = 0.0
+shader_parameter/enabled = true
+shader_parameter/top = true
+shader_parameter/bottom = false
+shader_parameter/left = false
+shader_parameter/right = false
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_ii3uv"]
+viewport_path = NodePath("SubViewport")
+
+[node name="OniraDisplay" type="Sprite2D"]
+material = SubResource("ShaderMaterial_eqvop")
+texture = SubResource("ViewportTexture_ii3uv")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+transparent_bg = true
+size = Vector2i(1024, 1024)
+
+[node name="Onira" parent="SubViewport" instance=ExtResource("1_jswwn")]
+
+[node name="Camera3D2" type="Camera3D" parent="SubViewport"]
+transform = Transform3D(0.907288, -0.0586943, -0.416394, -0.172982, 0.850456, -0.496792, 0.383283, 0.522761, 0.761455, -0.278737, -0.186931, 0.600797)

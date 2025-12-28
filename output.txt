@@ -1,0 +1,1 @@
+['C:\\git\\chat\\py\\output\\GlobalKeypress.exe', 'a']

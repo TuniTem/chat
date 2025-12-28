@@ -1,8 +1,10 @@
-[gd_scene load_steps=39 format=3 uid="uid://e6smj52fq76u"]
+[gd_scene load_steps=50 format=3 uid="uid://e6smj52fq76u"]
 
 [ext_resource type="Script" uid="uid://bt67igeh5arjf" path="res://scripts/twitch.gd" id="1_0xm2m"]
 [ext_resource type="Script" uid="uid://d0253vbx2k6gk" path="res://scripts/chat.gd" id="1_h2yge"]
+[ext_resource type="Shader" uid="uid://bkbu5tjjfgnjb" path="res://shader/filmnoise.gdshader" id="1_muem4"]
 [ext_resource type="PackedScene" uid="uid://tjxc40mmgxnw" path="res://scenes/box.tscn" id="3_h2yge"]
+[ext_resource type="FontFile" uid="uid://bupu2v14iq1fp" path="res://art/Fonts/Pangolin-Regular.ttf" id="4_gqmmt"]
 [ext_resource type="PackedScene" uid="uid://drdfcb02hdnqa" path="res://scenes/notification_manager.tscn" id="4_jyhfs"]
 [ext_resource type="Script" uid="uid://cw7oufo6137br" path="res://scripts/screen_controller.gd" id="5_tipki"]
 [ext_resource type="Script" uid="uid://cft8h5tsgesgg" path="res://scenes/constellation_controller.gd" id="7_85g3d"]
@@ -14,6 +16,16 @@
 [ext_resource type="Material" uid="uid://4g836krgspte" path="res://shader/warbletext.tres" id="10_ya4ey"]
 [ext_resource type="FontVariation" uid="uid://cljbpt32qtdf0" path="res://tres/notif_font.tres" id="11_eb6dy"]
 [ext_resource type="FontFile" uid="uid://lud2b8n4baea" path="res://art/Fonts/CodeSaver-Regular.otf" id="13_jkv2x"]
+[ext_resource type="FontFile" uid="uid://cgqsikfqux854" path="res://art/Fonts/AMORIA.otf" id="15_jbj1t"]
+[ext_resource type="Script" uid="uid://csl2xvh5lc4ld" path="res://scripts/text_float.gd" id="16_muem4"]
+[ext_resource type="Shader" uid="uid://bawjwyrartuhu" path="res://shader/fishy.gdshader" id="18_dp3eg"]
+[ext_resource type="PackedScene" uid="uid://cm80kd3xu77jn" path="res://scenes/onira_display.tscn" id="19_0ld40"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dp3eg"]
+shader = ExtResource("1_muem4")
+shader_parameter/strength = 16.0
+shader_parameter/blur_amount = 1.0
+shader_parameter/mix_amount = 0.5
 
 [sub_resource type="Environment" id="Environment_1bvp3"]
 background_mode = 3
@@ -23,6 +35,68 @@ glow_bloom = 1.0
 glow_hdr_threshold = 0.0
 glow_hdr_scale = 0.0
 glow_hdr_luminance_cap = 1.95
+
+[sub_resource type="Animation" id="Animation_y6deb"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible_ratio")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.86]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../RichTextLabel2:visible_ratio")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.86]
+}
+
+[sub_resource type="Animation" id="Animation_pm3ni"]
+resource_name = "loop"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible_ratio")
+tracks/0/interp = 1
+tracks/0/loop_wrap = false
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.83, 1.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../RichTextLabel2:visible_ratio")
+tracks/1/interp = 1
+tracks/1/loop_wrap = false
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.83, 1.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_og1vs"]
+_data = {
+&"RESET": SubResource("Animation_y6deb"),
+&"loop": SubResource("Animation_pm3ni")
+}
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_a8y0u"]
 shader = ExtResource("7_choun")
@@ -658,69 +732,26 @@ _data = {
 &"open": SubResource("Animation_dp3eg")
 }
 
-[sub_resource type="Animation" id="Animation_y6deb"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:visible_ratio")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.86]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("../RichTextLabel2:visible_ratio")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.86]
-}
+[sub_resource type="RichTextEffect" id="RichTextEffect_dp3eg"]
+script = ExtResource("16_muem4")
+metadata/_custom_type_script = "uid://csl2xvh5lc4ld"
 
-[sub_resource type="Animation" id="Animation_pm3ni"]
-resource_name = "loop"
-length = 2.0
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:visible_ratio")
-tracks/0/interp = 1
-tracks/0/loop_wrap = false
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 1.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [0.8, 1.0]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("../RichTextLabel2:visible_ratio")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 1.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [0.8, 1.0]
-}
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0ld40"]
+shader = ExtResource("18_dp3eg")
+shader_parameter/aspect = 1.035
+shader_parameter/distortion = 0.711
+shader_parameter/radius = 1.076
+shader_parameter/alpha = 1.0
+shader_parameter/crop = 1.004
+shader_parameter/crop_color = Color(0, 0, 0, 1)
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_og1vs"]
-_data = {
-&"RESET": SubResource("Animation_y6deb"),
-&"loop": SubResource("Animation_pm3ni")
-}
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gqmmt"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_gqmmt"]
+viewport_path = NodePath("SubViewport")
 
 [node name="Main" type="Control"]
+material = SubResource("ShaderMaterial_dp3eg")
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -732,6 +763,71 @@ script = ExtResource("1_0xm2m")
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_1bvp3")
 
+[node name="Control" type="Control" parent="."]
+visible = false
+anchors_preset = 0
+offset_left = 1317.0
+offset_top = -67.0
+offset_right = 1357.0
+offset_bottom = -27.0
+
+[node name="RichTextLabel2" type="RichTextLabel" parent="Control"]
+visible = false
+modulate = Color(0.92549, 0.847059, 0.0745098, 1)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 42.0
+offset_top = 1008.0
+offset_right = 546.0
+offset_bottom = 1087.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_colors/font_shadow_color = Color(1, 1, 1, 0.374)
+theme_override_constants/shadow_outline_size = 10
+theme_override_fonts/normal_font = ExtResource("13_jkv2x")
+theme_override_font_sizes/normal_font_size = 51
+text = "STARTING SOON..."
+autowrap_mode = 0
+vertical_alignment = 1
+visible_characters = 13
+visible_ratio = 0.86
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Control"]
+modulate = Color(0.219501, 0.219501, 0.219501, 1)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 127.0
+offset_top = 1030.0
+offset_right = 631.0
+offset_bottom = 1109.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_colors/font_outline_color = Color(1, 1, 1, 0.561)
+theme_override_colors/font_shadow_color = Color(1, 1, 1, 0.374)
+theme_override_constants/outline_size = 6
+theme_override_constants/shadow_outline_size = 10
+theme_override_fonts/normal_font = ExtResource("4_gqmmt")
+theme_override_font_sizes/normal_font_size = 51
+text = "STARTING SOON..."
+autowrap_mode = 0
+vertical_alignment = 1
+visible_characters = 13
+visible_ratio = 0.86
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Control/RichTextLabel"]
+libraries = {
+&"": SubResource("AnimationLibrary_og1vs")
+}
+autoplay = "loop"
+
 [node name="ChatWindow" type="TextureRect" parent="."]
 unique_name_in_owner = true
 material = SubResource("ShaderMaterial_a8y0u")
@@ -739,15 +835,17 @@ layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_top = -700.0
-offset_right = 600.0
+offset_left = 1.0
+offset_top = -699.0
+offset_right = 1001.0
+offset_bottom = 1.0
 grow_vertical = 0
 texture = SubResource("ViewportTexture_jkv2x")
 
 [node name="ChatViewport" type="SubViewport" parent="ChatWindow"]
 transparent_bg = true
 use_hdr_2d = true
-size = Vector2i(600, 700)
+size = Vector2i(1000, 700)
 
 [node name="Chat" type="VBoxContainer" parent="ChatWindow/ChatViewport"]
 unique_name_in_owner = true
@@ -804,7 +902,7 @@ layout_mode = 2
 
 [node name="PromoWidget" parent="TopLeft/VBoxContainer" instance=ExtResource("8_a8y0u")]
 layout_mode = 2
-messages = Array[String](["Join the discord  ➜  !discord", "Read the list of commands  ➜  !help", "Comission me for overlays  ➜  !comms", "Watch past streams  ➜  !vods", "See your star on stream!  ➜  !s locate", "Discover my world  ➜  !yt", "See what's currently playing  ➜  !music", "Check out my socials  ➜  !links", "I stream on Mondays and Thursdays @ 6PM PST!", "I stream on Mondays and Thursdays @ 6PM PST!", "Check out my mama & papa 💜  ➜  !credits"])
+messages = Array[String](["Join the discord  ➜  !discord", "Read the list of commands  ➜  !help", "Comission me for overlays  ➜  !comms", "Watch past streams  ➜  !vods", "See your star on stream!  ➜  !s locate", "Discover my world  ➜  !yt", "See what's currently playing  ➜  !music", "Check out my socials  ➜  !links", "I stream on Mondays and Thursdays @ 7PM PST!", "I stream on Mondays and Thursdays @ 7PM PST!", "Check out my mama & papa 💜  ➜  !credits"])
 
 [node name="Constellations" type="Node2D" parent="." node_paths=PackedStringArray("preview_viewport", "preview_animations", "preview_title", "preview_username", "preview_info", "preview_window", "main_viewport", "main_window", "main_animations")]
 script = ExtResource("7_85g3d")
@@ -820,8 +918,8 @@ main_animations = NodePath("MainWindow/MainAnimation")
 
 [node name="PreviewWindow" type="Sprite2D" parent="Constellations"]
 material = SubResource("ShaderMaterial_ya4ey")
-position = Vector2(1613, 232)
-scale = Vector2(0.3683, 0.3683)
+position = Vector2(1672, 195)
+scale = Vector2(0.3073, 0.3073)
 texture = SubResource("ViewportTexture_tipki")
 
 [node name="SubViewport" type="SubViewport" parent="Constellations/PreviewWindow"]
@@ -948,7 +1046,6 @@ visible_characters_behavior = 1
 visible_ratio = 0.0
 
 [node name="MainWindow" type="Sprite2D" parent="Constellations"]
-modulate = Color(1, 1, 1, 0.796078)
 z_index = -65
 material = SubResource("ShaderMaterial_jbj1t")
 texture = SubResource("ViewportTexture_eb6dy")
@@ -964,66 +1061,40 @@ libraries = {
 &"": SubResource("AnimationLibrary_yc10j")
 }
 
-[node name="Control" type="Control" parent="."]
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
 visible = false
-anchors_preset = 0
-offset_left = -57.0
-offset_top = -62.0
-offset_right = -17.0
-offset_bottom = -22.0
+z_index = -3
+clip_contents = false
+layout_mode = 0
+offset_left = 411.0
+offset_top = 77.0
+offset_right = 1461.0
+offset_bottom = 447.0
+theme_override_colors/default_color = Color(0.823529, 0.494118, 0.67451, 1)
+theme_override_colors/font_outline_color = Color(0.213555, 0.0781061, 0.156689, 1)
+theme_override_constants/outline_size = 50
+theme_override_fonts/normal_font = ExtResource("15_jbj1t")
+theme_override_font_sizes/normal_font_size = 106
+bbcode_enabled = true
+text = "[float]S O 0 N"
+horizontal_alignment = 1
+vertical_alignment = 1
+custom_effects = [SubResource("RichTextEffect_dp3eg")]
 
-[node name="RichTextLabel2" type="RichTextLabel" parent="Control"]
-modulate = Color(1, 0, 0, 0.388235)
+[node name="ColorRect" type="ColorRect" parent="."]
+visible = false
+material = SubResource("ShaderMaterial_0ld40")
 layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 1096.0
-offset_top = 956.0
-offset_right = 1600.0
-offset_bottom = 1035.0
-grow_horizontal = 0
-grow_vertical = 0
-theme_override_colors/font_shadow_color = Color(1, 1, 1, 0.374)
-theme_override_constants/shadow_outline_size = 10
-theme_override_fonts/normal_font = ExtResource("13_jkv2x")
-theme_override_font_sizes/normal_font_size = 51
-text = "Starting Soon ..."
-autowrap_mode = 0
-vertical_alignment = 1
-visible_characters = 14
-visible_ratio = 0.86
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="RichTextLabel" type="RichTextLabel" parent="Control"]
-modulate = Color(0.703, 0.95, 0.95, 1)
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 1094.0
-offset_top = 959.0
-offset_right = 1598.0
-offset_bottom = 1038.0
-grow_horizontal = 0
-grow_vertical = 0
-theme_override_colors/font_outline_color = Color(1, 1, 1, 0.561)
-theme_override_colors/font_shadow_color = Color(1, 1, 1, 0.374)
-theme_override_constants/outline_size = 6
-theme_override_constants/shadow_outline_size = 10
-theme_override_fonts/normal_font = ExtResource("13_jkv2x")
-theme_override_font_sizes/normal_font_size = 51
-text = "Starting Soon ..."
-autowrap_mode = 0
-vertical_alignment = 1
-visible_characters = 14
-visible_ratio = 0.86
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Control/RichTextLabel"]
-libraries = {
-&"": SubResource("AnimationLibrary_og1vs")
-}
-autoplay = "loop"
+[node name="OniraDisplay" parent="." instance=ExtResource("19_0ld40")]
+modulate = Color(2, 2, 2, 1)
+self_modulate = Color(0.60933, 0.60933, 0.60933, 1)
+material = SubResource("ShaderMaterial_gqmmt")
+position = Vector2(229, 211)
+scale = Vector2(0.423642, 0.423642)
+texture = SubResource("ViewportTexture_gqmmt")

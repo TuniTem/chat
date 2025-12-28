@@ -1,0 +1,91 @@
+[gd_resource type="ShaderMaterial" load_steps=12 format=3 uid="uid://dqep4si378ceq"]
+
+[ext_resource type="Shader" uid="uid://cgiujyy8hr2fg" path="res://shader/onira_skin3.gdshader" id="1_x1bbu"]
+[ext_resource type="Shader" uid="uid://d4iq25362j2ot" path="res://shader/onira_skin2.gdshader" id="2_4mj27"]
+[ext_resource type="Shader" uid="uid://5p4edl3if3jc" path="res://shader/onira_skin.gdshader" id="3_rplt7"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_lf85h"]
+noise_type = 3
+frequency = 0.0094
+domain_warp_type = 2
+domain_warp_amplitude = 32.574
+domain_warp_frequency = 0.0085
+domain_warp_fractal_octaves = 1
+domain_warp_fractal_lacunarity = 7.2855
+domain_warp_fractal_gain = 1.549
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_cmcqk"]
+width = 2048
+height = 2048
+in_3d_space = true
+seamless = true
+noise = SubResource("FastNoiseLite_lf85h")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6fos0"]
+render_priority = 0
+shader = ExtResource("1_x1bbu")
+shader_parameter/color = Color(1, 0.94902, 0.6, 1)
+shader_parameter/thickness = 0.0125
+shader_parameter/offset = 0.0
+shader_parameter/height_scale = -0.0225
+shader_parameter/displacement = SubResource("NoiseTexture2D_cmcqk")
+shader_parameter/speed = 0.4455
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_vwryy"]
+noise_type = 3
+frequency = 0.0094
+domain_warp_type = 2
+domain_warp_amplitude = 32.574
+domain_warp_frequency = 0.0085
+domain_warp_fractal_octaves = 1
+domain_warp_fractal_lacunarity = 7.2855
+domain_warp_fractal_gain = 1.549
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_lrkni"]
+width = 2048
+height = 2048
+in_3d_space = true
+seamless = true
+noise = SubResource("FastNoiseLite_vwryy")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_egfcg"]
+render_priority = 0
+next_pass = SubResource("ShaderMaterial_6fos0")
+shader = ExtResource("2_4mj27")
+shader_parameter/intirior_color = Color(0.342053, 0.225198, 0.0508957, 1)
+shader_parameter/height_scale = -0.011
+shader_parameter/displacement = SubResource("NoiseTexture2D_lrkni")
+shader_parameter/speed = 0.4455
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_0jdvv"]
+noise_type = 3
+frequency = 0.0094
+domain_warp_type = 2
+domain_warp_amplitude = 32.574
+domain_warp_frequency = 0.0085
+domain_warp_fractal_octaves = 1
+domain_warp_fractal_lacunarity = 7.2855
+domain_warp_fractal_gain = 1.549
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_s61bb"]
+width = 2048
+height = 2048
+in_3d_space = true
+seamless = true
+noise = SubResource("FastNoiseLite_0jdvv")
+
+[resource]
+render_priority = 0
+next_pass = SubResource("ShaderMaterial_egfcg")
+shader = ExtResource("3_rplt7")
+shader_parameter/Specular = 0.0
+shader_parameter/Hardness = 1.0
+shader_parameter/BaseColor = Color(1, 0.94902, 0.6, 1)
+shader_parameter/HighlightColor = Color(1, 0.94902, 0.6, 1)
+shader_parameter/Opacity = 0.444
+shader_parameter/refraction = 10000.0
+shader_parameter/height_scale = -0.012
+shader_parameter/displacement = SubResource("NoiseTexture2D_s61bb")
+shader_parameter/speed = 0.4455
+shader_parameter/offset = 0.0
+shader_parameter/thickness = 0.0

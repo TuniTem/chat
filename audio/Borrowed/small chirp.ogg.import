@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://dto6t175foj6"
+path="res://.godot/imported/small chirp.ogg-c572c4319f2b1da170ec4d8d48ed1e18.oggvorbisstr"
+
+[deps]
+
+source_file="res://audio/Borrowed/small chirp.ogg"
+dest_files=["res://.godot/imported/small chirp.ogg-c572c4319f2b1da170ec4d8d48ed1e18.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

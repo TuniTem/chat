@@ -32,33 +32,33 @@ void fragment() {
 				uv.y = 1.0 - uv.y;
 			}
 			uv.x *= screen_ratio;
-			
+
 			float intensity = uv.x  - xoffset;
-			
+
 			if(intensity < amount){
 				COLOR = vec4(0.0);
 			} else if (intensity < amount + feather){
 				COLOR *= (intensity - amount) / feather;
 			}
-			
+
 			intensity = uv.y - yoffset;
-			
+
 			if(intensity < amount){
 				COLOR = vec4(0.0);
 			} else if (intensity < amount + feather){
 				COLOR *= (intensity - amount) / feather;
 			}
-			
+
 		} else {
 			uv.x *= screen_ratio;
 			float intensity = 1.0-distance(vec2(0.5 * screen_size.x / screen_size.y, 0.5), uv);
-			
+
 			if(intensity < amount){
 				COLOR = vec4(0.0);
 			} else if (intensity < amount + feather){
 				COLOR *= (intensity - amount) / feather;
 			}
-			
+
 		}
 	}
 }

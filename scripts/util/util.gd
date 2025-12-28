@@ -166,6 +166,14 @@ func is_alphanumeric(str : String) -> bool:
 	
 	return true
 
+func is_numeric(str : String) -> bool:
+	for number in str.to_lower():
+		if not number in "1234567890":
+			return false
+	
+	return true
+
+
 func open_file_dialog(parent : Node, type : FileDialog.FileMode = FileDialog.FileMode.FILE_MODE_OPEN_FILE, extentions : PackedStringArray = [], directory : String = "last", title : String = ""):
 	var dialog : FileDialog = FileDialog.new()
 	dialog.access =FileDialog.ACCESS_FILESYSTEM

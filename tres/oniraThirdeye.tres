@@ -1,0 +1,29 @@
+[gd_resource type="ArrayMesh" load_steps=3 format=4 uid="uid://c38yb3fq3355c"]
+
+[ext_resource type="Texture2D" uid="uid://6s1c03wb34w1" path="res://art/3D/Onira/v0.1/Onirav0_ThirdEye.png" id="1_bxce1"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_75c0u"]
+resource_name = "ThirdEye"
+transparency = 4
+cull_mode = 2
+shading_mode = 0
+albedo_texture = ExtResource("1_bxce1")
+
+[resource]
+resource_name = "Onirav0_11_Plane_004"
+_surfaces = [{
+"aabb": AABB(-0.0336031, 0.146323, 0.0469445, 0.0672063, 0.0309698, 0.0304591),
+"attribute_data": PackedByteArray("YrEBP4wa/j6+s3g/AMCVufhKeD+SGv4+OrIBPwDQlblgxxI9iBr+PjqyAT8A0JW5YrEBP4wa/j4gOww9AOCVuaBTGT1ELX4/YrEBP4wa/j6KsAE/Ry1+P2DHEj2IGv4+irABP0ctfj/4Sng/khr+PjTidz9ILX4/YrEBP4wa/j4="),
+"bone_aabbs": [AABB(0, 0, 0, -1, -1, -1), AABB(0, 0, 0, -1, -1, -1), AABB(0, 0, 0, -1, -1, -1), AABB(0, 0, 0, -1, -1, -1), AABB(0, 0, 0, -1, -1, -1), AABB(0, 0, 0, -1, -1, -1), AABB(0, 0, 0, -1, -1, -1), AABB(0, 0, 0, -1, -1, -1), AABB(0, 0, 0, -1, -1, -1), AABB(0, 0, 0, -1, -1, -1), AABB(0, 0, 0, -1, -1, -1), AABB(0, 0, 0, -1, -1, -1), AABB(0, 0, 0, -1, -1, -1), AABB(0, 0, 0, -1, -1, -1), AABB(-0.0336031, 0.146323, 0.0469445, 0.0672063, 0.0309698, 0.0304591)],
+"format": 34359745559,
+"index_count": 24,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0A"),
+"material": SubResource("StandardMaterial3D_75c0u"),
+"name": "ThirdEye",
+"primitive": 3,
+"skin_data": PackedByteArray("DgAAAAAAAAD//wAAAAAAAA4AAAAAAAAA//8AAAAAAAAOAAAAAAAAAP//AAAAAAAADgAAAAAAAAD//wAAAAAAAA4AAAAAAAAA//8AAAAAAAAOAAAAAAAAAP//AAAAAAAADgAAAAAAAAD//wAAAAAAAA4AAAAAAAAA//8AAAAAAAAOAAAAAAAAAP//AAAAAAAADgAAAAAAAAD//wAAAAAAAA4AAAAAAAAA//8AAAAAAAAOAAAAAAAAAP//AAAAAAAADgAAAAAAAAD//wAAAAAAAA4AAAAAAAAA//8AAAAAAAAOAAAAAAAAAP//AAAAAAAADgAAAAAAAAD//wAAAAAAAA=="),
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 16,
+"vertex_data": PackedByteArray("2OyMuQKxJT4uA409b6MJvbzVFT6wUZM9PCsJvQKxJT64GYU9VWiNubzVFT6I8JU9PCsJPQKxJT7M64o9VWiNubzVFT6I8JU92OyMuQKxJT4uA409b6MJPbzVFT7DhZ49CrMIPUmMNT7eSEA92OyMuQKxJT4uA409WnGMuUmMNT6PhkU9PCsJPQKxJT7M64o9WnGMuUmMNT6PhkU9PCsJvQKxJT64GYU9CrMIvUmMNT7eSEA92OyMuQKxJT4uA409JHlooJoAOrskeWigogD9xCR5aKB1AYPFJHlooHkB+Lr9e3SmggHow/17dKZYAce8/Xt0pnoDN7z9e3SmXQMxxdaBQcg2BATA1oFByE8E+r/WgUHIvwThv9aBQcglBBzAu3u3xHYAFsW7e7fEYQBvu7t7t8RCAqe7u3u3xCcC2cY=")
+}]
+blend_shape_mode = 0

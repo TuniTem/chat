@@ -1,13 +1,15 @@
-[gd_scene load_steps=27 format=3 uid="uid://bjpqbgdvhy5kq"]
+[gd_scene load_steps=45 format=3 uid="uid://bjpqbgdvhy5kq"]
 
 [ext_resource type="Script" uid="uid://c7lx0ls8u6w4s" path="res://scripts/Global.gd" id="1_e7lx3"]
 [ext_resource type="Script" uid="uid://i8st3lv0lidh" path="res://addons/twitcher/twitch_service.gd" id="2_3q7h5"]
-[ext_resource type="Resource" uid="uid://ry64ckbckh6m" path="res://addons/twitcher/twitch_oauth_setting.tres" id="3_b18l6"]
+[ext_resource type="Script" uid="uid://dcrliedgr6eol" path="res://addons/twitcher/lib/oOuch/crypto_key_provider.gd" id="3_apua7"]
 [ext_resource type="Resource" uid="uid://cwuh7qfatyjnr" path="res://tres/oauth_scopes.tres" id="4_dxqtg"]
-[ext_resource type="Resource" uid="uid://m7epy882axmp" path="res://addons/twitcher/default_oauth_token.tres" id="5_dxqtg"]
+[ext_resource type="Script" uid="uid://00xbijwpi8xa" path="res://addons/twitcher/lib/oOuch/oauth_setting.gd" id="4_fq2qc"]
+[ext_resource type="Resource" uid="uid://c4scwuk8q0r40" path="res://addons/twitcher/lib/oOuch/default_key_provider.tres" id="6_ntttm"]
 [ext_resource type="Script" uid="uid://blmhj3j00yk45" path="res://addons/twitcher/eventsub/twitch_eventsub.gd" id="6_wafyw"]
 [ext_resource type="Script" uid="uid://cw30cwveway65" path="res://addons/twitcher/generated/twitch_api.gd" id="7_apua7"]
 [ext_resource type="Script" uid="uid://cjug64e3433g0" path="res://addons/twitcher/eventsub/twitch_eventsub_config.gd" id="7_b18l6"]
+[ext_resource type="Script" uid="uid://b52xp7c23ucfk" path="res://addons/twitcher/lib/oOuch/oauth_token.gd" id="7_itjjb"]
 [ext_resource type="Script" uid="uid://iv0mgv0lu8b0" path="res://addons/twitcher/auth/twitch_auth.gd" id="8_fq2qc"]
 [ext_resource type="Script" uid="uid://bf0wi70haua35" path="res://addons/twitcher/lib/oOuch/oauth.gd" id="9_ntttm"]
 [ext_resource type="Script" uid="uid://blnbogtrshw4r" path="res://addons/twitcher/auth/twitch_token_handler.gd" id="10_itjjb"]
@@ -19,6 +21,36 @@
 [ext_resource type="Script" uid="uid://ddwa0dm0qhc3s" path="res://addons/twitcher/media/native_image_transformer.gd" id="16_dxqtg"]
 [ext_resource type="Script" uid="uid://bol5ltrjr6ux8" path="res://addons/twitcher/eventsub/twitch_event_listener.gd" id="17_korfd"]
 [ext_resource type="Script" uid="uid://bmluckfvgm1c2" path="res://addons/twitcher/chat/twitch_command.gd" id="18_korfd"]
+[ext_resource type="AudioStream" uid="uid://dto6t175foj6" path="res://audio/Borrowed/small chirp.ogg" id="22_fq2qc"]
+[ext_resource type="AudioStream" uid="uid://b6w7sk25dd7e8" path="res://audio/SFX/whateva/whatevuh1.wav" id="23_os8aq"]
+[ext_resource type="AudioStream" uid="uid://c1ay87l0jvk7p" path="res://audio/SFX/whateva/whatevuh2.wav" id="24_121b5"]
+[ext_resource type="AudioStream" uid="uid://ddses4gx4nddk" path="res://audio/SFX/whateva/whatevuh3.wav" id="25_vwpdc"]
+[ext_resource type="AudioStream" uid="uid://cbbqmqja6ijw2" path="res://audio/SFX/whateva/whatevuh4.wav" id="26_x621q"]
+[ext_resource type="AudioStream" uid="uid://cov3qbfgr6saj" path="res://audio/SFX/whateva/whatevuh5.wav" id="27_jolvf"]
+[ext_resource type="AudioStream" uid="uid://cwa2bsbas6kdm" path="res://audio/SFX/whateva/whatevuh6.wav" id="28_r3few"]
+
+[sub_resource type="Resource" id="Resource_ss7yp"]
+script = ExtResource("3_apua7")
+encrpytion_secret_location = "user://encryption_key.cfg"
+
+[sub_resource type="Resource" id="Resource_suoh8"]
+script = ExtResource("4_fq2qc")
+redirect_url = "http://localhost:7170"
+well_known_url = ""
+token_url = "https://id.twitch.tv/oauth2/token"
+authorization_url = "https://id.twitch.tv/oauth2/authorize"
+device_authorization_url = "https://id.twitch.tv/oauth2/device"
+cache_file = "user://auth.conf"
+client_id = "a1qcyy22vf4ms52xfoo6izc73fx0yo"
+authorization_flow = 0
+_encryption_key_provider = SubResource("Resource_ss7yp")
+client_secret = "L3q5gwjnp+3nMsBbnIIgvcWaU9pdb6oVSpOhs3KHZZg="
+
+[sub_resource type="Resource" id="Resource_5uyp2"]
+script = ExtResource("7_itjjb")
+_crypto_key_provider = ExtResource("6_ntttm")
+_identifier = "DefaultAuth"
+_cache_path = "user://auth.conf"
 
 [sub_resource type="Resource" id="Resource_dxqtg"]
 script = ExtResource("15_121b5")
@@ -45,16 +77,54 @@ metadata/_custom_type_script = "uid://cjug64e3433g0"
 metadata/broadcaster_user_id_user = SubResource("Resource_dxqtg")
 metadata/moderator_user_id_user = SubResource("Resource_dxqtg")
 
-[sub_resource type="Resource" id="Resource_b18l6"]
+[sub_resource type="Resource" id="Resource_vc14n"]
 script = ExtResource("7_b18l6")
-type = 0
+type = 15
 condition = {
-&"broadcaster_user_id": "1050685508",
-&"moderator_user_id": "1050685508"
+&"broadcaster_user_id": "1050685508"
 }
 metadata/_custom_type_script = "uid://cjug64e3433g0"
-metadata/broadcaster_user_id_user = SubResource("Resource_dxqtg")
-metadata/moderator_user_id_user = SubResource("Resource_dxqtg")
+
+[sub_resource type="Resource" id="Resource_os8aq"]
+script = ExtResource("7_b18l6")
+type = 18
+condition = {
+&"broadcaster_user_id": "1050685508"
+}
+metadata/_custom_type_script = "uid://cjug64e3433g0"
+
+[sub_resource type="Resource" id="Resource_121b5"]
+script = ExtResource("7_b18l6")
+type = 17
+condition = {
+&"broadcaster_user_id": "1050685508"
+}
+metadata/_custom_type_script = "uid://cjug64e3433g0"
+
+[sub_resource type="Resource" id="Resource_vwpdc"]
+script = ExtResource("7_b18l6")
+type = 19
+condition = {
+&"broadcaster_user_id": "1050685508"
+}
+metadata/_custom_type_script = "uid://cjug64e3433g0"
+
+[sub_resource type="Resource" id="Resource_x621q"]
+script = ExtResource("7_b18l6")
+type = 20
+condition = {
+&"to_broadcaster_user_id": "1050685508"
+}
+metadata/_custom_type_script = "uid://cjug64e3433g0"
+
+[sub_resource type="Resource" id="Resource_jolvf"]
+script = ExtResource("7_b18l6")
+type = 37
+condition = {
+&"broadcaster_user_id": "1050685508",
+&"reward_id": ""
+}
+metadata/_custom_type_script = "uid://cjug64e3433g0"
 
 [sub_resource type="Resource" id="Resource_apua7"]
 script = ExtResource("15_korfd")
@@ -95,45 +165,55 @@ view_count = 0
 email = ""
 created_at = "2024-03-12T05:23:13Z"
 
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_6f3kq"]
+random_pitch = 1.27
+streams_count = 6
+stream_0/stream = ExtResource("23_os8aq")
+stream_1/stream = ExtResource("24_121b5")
+stream_2/stream = ExtResource("25_vwpdc")
+stream_3/stream = ExtResource("26_x621q")
+stream_4/stream = ExtResource("27_jolvf")
+stream_5/stream = ExtResource("28_r3few")
+
 [node name="Node" type="Node"]
 script = ExtResource("1_e7lx3")
 
 [node name="TwitchService" type="Node" parent="."]
 unique_name_in_owner = true
 script = ExtResource("2_3q7h5")
-oauth_setting = ExtResource("3_b18l6")
+oauth_setting = SubResource("Resource_suoh8")
 scopes = ExtResource("4_dxqtg")
-token = ExtResource("5_dxqtg")
+token = SubResource("Resource_5uyp2")
 
 [node name="EventSub" type="Node" parent="TwitchService" node_paths=PackedStringArray("api")]
 unique_name_in_owner = true
 script = ExtResource("6_wafyw")
 api = NodePath("../API")
-_subscriptions = Array[ExtResource("7_b18l6")]([SubResource("Resource_wafyw"), SubResource("Resource_b18l6")])
+_subscriptions = Array[ExtResource("7_b18l6")]([SubResource("Resource_wafyw"), SubResource("Resource_vc14n"), SubResource("Resource_os8aq"), SubResource("Resource_121b5"), SubResource("Resource_vwpdc"), SubResource("Resource_x621q"), SubResource("Resource_jolvf")])
 scopes = ExtResource("4_dxqtg")
 
 [node name="API" type="Node" parent="TwitchService"]
 unique_name_in_owner = true
 script = ExtResource("7_apua7")
-token = ExtResource("5_dxqtg")
-oauth_setting = ExtResource("3_b18l6")
+token = SubResource("Resource_5uyp2")
+oauth_setting = SubResource("Resource_suoh8")
 
 [node name="Auth" type="Node" parent="TwitchService"]
 script = ExtResource("8_fq2qc")
-oauth_setting = ExtResource("3_b18l6")
-token = ExtResource("5_dxqtg")
+oauth_setting = SubResource("Resource_suoh8")
+token = SubResource("Resource_5uyp2")
 scopes = ExtResource("4_dxqtg")
 
 [node name="OAuth" type="Node" parent="TwitchService/Auth" node_paths=PackedStringArray("token_handler")]
 script = ExtResource("9_ntttm")
-oauth_setting = ExtResource("3_b18l6")
+oauth_setting = SubResource("Resource_suoh8")
 scopes = ExtResource("4_dxqtg")
 token_handler = NodePath("../TokenHandler")
 
 [node name="TokenHandler" type="Node" parent="TwitchService/Auth"]
 script = ExtResource("10_itjjb")
-oauth_setting = ExtResource("3_b18l6")
-token = ExtResource("5_dxqtg")
+oauth_setting = SubResource("Resource_suoh8")
+token = SubResource("Resource_5uyp2")
 
 [node name="7TVMediaLoader" type="Node" parent="TwitchService" node_paths=PackedStringArray("api")]
 script = ExtResource("11_suoh8")
@@ -197,6 +277,12 @@ metadata/_custom_type_script = "uid://bol5ltrjr6ux8"
 script = ExtResource("17_korfd")
 eventsub = NodePath("../../EventSub")
 subscription = 20
+metadata/_custom_type_script = "uid://bol5ltrjr6ux8"
+
+[node name="Redeem" type="Node" parent="TwitchService/Notifs" node_paths=PackedStringArray("eventsub")]
+script = ExtResource("17_korfd")
+eventsub = NodePath("../../EventSub")
+subscription = 37
 metadata/_custom_type_script = "uid://bol5ltrjr6ux8"
 
 [node name="Commands" type="Node" parent="TwitchService"]
@@ -358,12 +444,28 @@ permission_level = 8
 eventsub = NodePath("../../../EventSub")
 metadata/_custom_type_script = "uid://bmluckfvgm1c2"
 
+[node name="SFX" type="Node" parent="."]
+
+[node name="Hydrate" type="AudioStreamPlayer" parent="SFX"]
+unique_name_in_owner = true
+stream = ExtResource("22_fq2qc")
+volume_db = -0.0001
+pitch_scale = 0.45
+bus = &"SFX"
+
+[node name="Whateva" type="AudioStreamPlayer" parent="SFX"]
+unique_name_in_owner = true
+stream = SubResource("AudioStreamRandomizer_6f3kq")
+volume_db = -15.8644
+bus = &"SFX"
+
 [connection signal="received" from="TwitchService/Notifs/Follow" to="." method="_on_follow_received"]
 [connection signal="received" from="TwitchService/Notifs/Subscription" to="." method="_on_subscription_received"]
 [connection signal="received" from="TwitchService/Notifs/SubscriptionMessage" to="." method="_on_subscription_message_received"]
 [connection signal="received" from="TwitchService/Notifs/Gifted" to="." method="_on_gifted_received"]
 [connection signal="received" from="TwitchService/Notifs/Cheer" to="." method="_on_cheer_received"]
 [connection signal="received" from="TwitchService/Notifs/Raid" to="." method="_on_raid_received"]
+[connection signal="received" from="TwitchService/Notifs/Redeem" to="." method="_on_redeem_received"]
 [connection signal="command_received" from="TwitchService/Commands/General/Lurk" to="." method="_on_lurk_command_received"]
 [connection signal="command_received" from="TwitchService/Commands/General/Followed" to="." method="_on_followed_command_received"]
 [connection signal="command_received" from="TwitchService/Commands/General/Timeleft" to="." method="_on_timeleft_command_received"]

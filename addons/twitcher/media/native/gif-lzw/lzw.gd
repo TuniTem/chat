@@ -190,7 +190,8 @@ func decompress_lzw(code_stream_data: PackedByteArray, min_code_size: int, color
 			var k: CodeEntry = CodeEntry.new([code_entry.sequence[0]])
 			# warning-ignore:return_value_discarded
 			# add {PREVCODE} + k to the code table
-			code_table.add(code_table.get_entry(prevcode).add(k))
+			if code_table and code_table.get_entry(prevcode):
+				code_table.add(code_table.get_entry(prevcode).add(k))
 			# set PREVCODE = CODE
 			prevcode = code
 		else:  # if NO

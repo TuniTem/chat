@@ -15,6 +15,7 @@ var color: String
 func _init(ctx_name: String, active: bool = false, should_debug: bool = false) -> void:
 	context_name = ctx_name
 	enabled = active
+	enabled = true
 	debug = should_debug
 	color = string_to_hex_color(ctx_name)
 	TwitchLoggerManager.register(self)
