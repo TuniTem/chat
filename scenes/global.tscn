@@ -328,6 +328,22 @@ description = "See the Lobby code!"
 eventsub = NodePath("../../../EventSub")
 metadata/_custom_type_script = "uid://bmluckfvgm1c2"
 
+[node name="Raid" type="Node" parent="TwitchService/Commands/General" node_paths=PackedStringArray("eventsub")]
+script = ExtResource("18_korfd")
+command = "raid"
+description = "Sends raid message"
+eventsub = NodePath("../../../EventSub")
+metadata/_custom_type_script = "uid://bmluckfvgm1c2"
+
+[node name="Shoutout" type="Node" parent="TwitchService/Commands/General" node_paths=PackedStringArray("eventsub")]
+script = ExtResource("18_korfd")
+command = "so"
+aliases = Array[String](["shoutout"])
+description = "Shows a clip on stream!"
+permission_level = 12
+eventsub = NodePath("../../../EventSub")
+metadata/_custom_type_script = "uid://bmluckfvgm1c2"
+
 [node name="Links" type="Node" parent="TwitchService/Commands"]
 
 [node name="Commands" type="Node" parent="TwitchService/Commands/Links" node_paths=PackedStringArray("eventsub")]
@@ -471,6 +487,8 @@ bus = &"SFX"
 [connection signal="command_received" from="TwitchService/Commands/General/Timeleft" to="." method="_on_timeleft_command_received"]
 [connection signal="command_received" from="TwitchService/Commands/General/Music" to="." method="_on_music_command_received"]
 [connection signal="command_received" from="TwitchService/Commands/General/Code" to="." method="_on_link_command_recived"]
+[connection signal="command_received" from="TwitchService/Commands/General/Raid" to="." method="_on_link_command_recived"]
+[connection signal="command_received" from="TwitchService/Commands/General/Shoutout" to="." method="_on_shoutout_command_received"]
 [connection signal="command_received" from="TwitchService/Commands/Links/Commands" to="." method="_on_link_command_recived"]
 [connection signal="command_received" from="TwitchService/Commands/Links/Linktree" to="." method="_on_link_command_recived"]
 [connection signal="command_received" from="TwitchService/Commands/Links/Discord" to="." method="_on_link_command_recived"]

@@ -27,7 +27,7 @@ func _on_message_received(message: TwitchChatMessage):
 		#print(frag.type)
 	#
 	if not Global.DEBUG:
-		if not message.chatter_user_name in HIDDEN_USERS and not message.message.text.begins_with("!"):
+		if not message.chatter_user_name in HIDDEN_USERS and not message.message.text.begins_with("!") and not message.message.text.contains("https://"):
 			if not Global.message_sent or message.chatter_user_name.to_lower() != Global.STREAMER_USERNAME.to_lower():
 				chat.chat(message)
 			

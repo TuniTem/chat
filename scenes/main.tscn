@@ -1,4 +1,4 @@
-[gd_scene load_steps=50 format=3 uid="uid://e6smj52fq76u"]
+[gd_scene load_steps=51 format=3 uid="uid://e6smj52fq76u"]
 
 [ext_resource type="Script" uid="uid://bt67igeh5arjf" path="res://scripts/twitch.gd" id="1_0xm2m"]
 [ext_resource type="Script" uid="uid://d0253vbx2k6gk" path="res://scripts/chat.gd" id="1_h2yge"]
@@ -20,6 +20,7 @@
 [ext_resource type="Script" uid="uid://csl2xvh5lc4ld" path="res://scripts/text_float.gd" id="16_muem4"]
 [ext_resource type="Shader" uid="uid://bawjwyrartuhu" path="res://shader/fishy.gdshader" id="18_dp3eg"]
 [ext_resource type="PackedScene" uid="uid://cm80kd3xu77jn" path="res://scenes/onira_display.tscn" id="19_0ld40"]
+[ext_resource type="Script" uid="uid://bsbv1i7tu5im5" path="res://scripts/tv_manager.gd" id="21_yc10j"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_dp3eg"]
 shader = ExtResource("1_muem4")
@@ -1046,6 +1047,7 @@ visible_characters_behavior = 1
 visible_ratio = 0.0
 
 [node name="MainWindow" type="Sprite2D" parent="Constellations"]
+modulate = Color(1, 1, 1, 0.708)
 z_index = -65
 material = SubResource("ShaderMaterial_jbj1t")
 texture = SubResource("ViewportTexture_eb6dy")
@@ -1098,3 +1100,7 @@ material = SubResource("ShaderMaterial_gqmmt")
 position = Vector2(229, 211)
 scale = Vector2(0.423642, 0.423642)
 texture = SubResource("ViewportTexture_gqmmt")
+
+[node name="TVManager" type="Node2D" parent="."]
+position = Vector2(960, 540)
+script = ExtResource("21_yc10j")

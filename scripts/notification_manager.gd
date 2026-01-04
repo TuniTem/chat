@@ -45,34 +45,35 @@ func _attempt_notif():
 			
 			NotificationType.SUB:
 				inst.title_text = "New Subscriber!"
-				inst.sub_text = content["username"] + " at tier " + str(content["tier"]) + " !!"
+				float()
+				inst.sub_text = content["username"] + " at tier " + str(roundf(float(content["tier"]))) + " !!"
 			
 			NotificationType.SUB_MESSAGE:
 				if content["message"] != null and content["message"] != "":
-					inst.title_text = content["username"] + " subbed \nat tier " + str(content["tier"]) + " for " + str(content["streak"]) + " months!"
+					inst.title_text = content["username"] + " subbed \nat tier " + str(roundf(float(content["tier"]))) + " for " + str(roundf(float(content["streak"]))) + " months!"
 					inst.sub_text = content["message"]
 				else:
 					inst.title_text = "~ Subscriber ~"
-					inst.sub_text = content["username"] + " subbed \nat tier " + str(content["tier"]) + " for " + str(content["streak"]) + " months!"
+					inst.sub_text = content["username"] + " subbed \nat tier " + str(roundf(float(content["tier"]))) + " for " + str(roundf(float(content["streak"]))) + " months!"
 			
 			NotificationType.GIFT:
 				inst.title_text = content["username"]
 				if str(content["tier"]) == "1":
-					inst.sub_text = "Gifted " + str(content["amount"]) + " subs! \nThank you 💜"
+					inst.sub_text = "Gifted " + str(roundf(float(content["amount"]))) + " subs! \nThank you 💜"
 				else:
-					inst.sub_text = "Gifted " + str(content["amount"]) + " subs at tier " + str(content["tier"]) + "! \nThank you 💜"
+					inst.sub_text = "Gifted " + str(roundf(float(content["amount"]))) + " subs at tier " + str(roundf(float(content["tier"]))) + "! \nThank you 💜"
 			
 			NotificationType.CHEER: # "username" : "Unknown", "amount": data["bits"], "message" : data["message"]}
 				if content["message"] and content["message"] != "":
-					inst.title_text = content["username"] + " cheered " + str(content["amount"]) + "!"
+					inst.title_text = content["username"] + " cheered " + str(roundf(float(content["amount"]))) + "!"
 					inst.sub_text = content["message"]
 				else:
 					inst.title_text = content["username"]
-					inst.sub_text = "Cheered " + str(content["amount"]) + " bits!"
+					inst.sub_text = "Cheered " + str(roundf(float(content["amount"]))) + " bits!"
 		
 			NotificationType.RAID:
 				inst.title_text = "Incoming raid!"
-				inst.sub_text = content["username"] + " with " + str(content["amount"]) + " viewers!"
+				inst.sub_text = content["username"] + " with " + str(roundf(float(content["amount"]))) + " viewers!"
 		
 		inst.on_complete.connect(_delayed_attempt)
 		location.add_child(inst)

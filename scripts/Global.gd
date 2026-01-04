@@ -358,6 +358,7 @@ var notification_manager : NotificationManager
 
 var constellation_manager : Node2D
 
+var tv_manager : Node2D
 
 
 # Util
@@ -1100,6 +1101,8 @@ func _on_constellation_command_received(from_username: String, info: TwitchComma
 		send_message("You can learn about constellations at the bottom of this page: " + CONSTELLATION_INSTRUCTIONS_LINK, from_username)
 		return
 	
+	if args.size() == 2 and args[0] == "locate": from_username = args[1]
+	
 	var constellation : Constellation
 	for con : Constellation in constellations:
 		if con.owner_username.to_lower() == from_username.to_lower():
@@ -1160,9 +1163,12 @@ func _on_constellation_command_received(from_username: String, info: TwitchComma
 func _on_star_command_received(from_username: String, info: TwitchCommandInfo, args: PackedStringArray) -> void:
 	if from_username == "nebn3b": from_username = "Desilkan"
 	clean_args(args)
+	
 	if args.size() == 0 or args[0] == "info":
 		send_message("You can learn about constellations at the bottom of this page: " + CONSTELLATION_INSTRUCTIONS_LINK, from_username)
 		return
+	
+	if args.size() == 2 and args[0] == "locate": from_username = args[1]
 	
 	var star : Star
 	for s : Star in get_stars():
@@ -1333,6 +1339,11 @@ func _on_link_command_recived(from_username: String, info: TwitchCommandInfo, ar
 		"rigger": send_message("................. Rigger ➜ " + RIGGER_HANDLE + " ⤵ " + RIGGER_LINK, ping)
 		"credits": send_message("Credits ⤵ ...... Character Designer ➜ " + DESIGNER_HANDLE + " ...........  Artist ➜ " + ARTIST_HANDLE + " ............................. Rigger ➜ " + RIGGER_HANDLE, ping)
 		"code": send_message("Game code: " + CODE)
+		"raid": send_message("TUNI RAID 💫💤 TUNI RAID 💫💤 TUNI RAID 💫💤 TUNI RAID 💫💤 TUNI RAID 💫💤 TUNI RAID 💫💤 TUNI RAID 💫💤TUNI RAID 💫💤TUNI RAID 💫💤 From dreamspace to your streamspace!! ᶻ 𝗓 𐰁")
+
+func _on_shoutout_command_received(from_username: String, info: TwitchCommandInfo, args: PackedStringArray) -> void:
+	await Util.wait(3.0)
+	tv_manager.show_tv()
 
 # ---------------------------------
 # Old code below for an old branch/tree idea that i dont really want cuttering up my actually active code

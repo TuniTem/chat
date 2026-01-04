@@ -1,16 +1,17 @@
-[gd_scene load_steps=92 format=4 uid="uid://bm2tuqs62ifs7"]
+[gd_scene load_steps=93 format=4 uid="uid://bm2tuqs62ifs7"]
 
+[ext_resource type="Script" uid="uid://cdp71moanskia" path="res://scripts/onira.gd" id="1_01lkk"]
 [ext_resource type="Material" uid="uid://dcrqf6vvvrr7i" path="res://tres/onira_button.tres" id="1_6fos0"]
 [ext_resource type="Material" uid="uid://cd3qmcuqbsv7d" path="res://tres/onira_skin.tres" id="2_3c0pi"]
 [ext_resource type="Material" uid="uid://befjt5mlnyfk5" path="res://tres/onira_antenae.tres" id="3_vwryy"]
 [ext_resource type="Material" uid="uid://dqep4si378ceq" path="res://tres/onira_fire.tres" id="4_lrkni"]
 [ext_resource type="Material" uid="uid://cfyn8w3fke3r1" path="res://tres/onira_cloak.tres" id="5_egfcg"]
 [ext_resource type="Material" uid="uid://cb16612hxvckj" path="res://tres/onira_hands.tres" id="9_5y2fv"]
-[ext_resource type="Texture2D" uid="uid://di6ctct03nohc" path="res://art/3D/Onira/v0.92/Eyes/blink.png" id="10_4q0fx"]
+[ext_resource type="Texture2D" uid="uid://cgpd15cms15x1" path="res://art/3D/Onira/v0.92/Face/Eyes/blink.png" id="10_4q0fx"]
 [ext_resource type="Animation" uid="uid://bx5qv2ohmws45" path="res://art/3D/Onira/v0.92/Anims/RotateLoad.res" id="12_qvc8r"]
 [ext_resource type="Animation" uid="uid://ci3bqogm1a7dp" path="res://art/3D/Onira/v0.92/Anims/BallsReset.res" id="13_4q0fx"]
 [ext_resource type="Texture2D" uid="uid://b51awj1f87y4g" path="res://art/3D/Onira/v0.92/Onirav0_Neutral.png" id="14_01lkk"]
-[ext_resource type="Texture2D" uid="uid://12s2257uco5v" path="res://art/3D/Onira/v0.92/Mouth/colonthree.png" id="14_3x66l"]
+[ext_resource type="Texture2D" uid="uid://bnb745vnv0c0g" path="res://art/3D/Onira/v0.92/Face/Mouth/colonthree.png" id="14_3x66l"]
 [ext_resource type="Shader" uid="uid://cgiujyy8hr2fg" path="res://shader/onira_skin3.gdshader" id="14_put5i"]
 [ext_resource type="Texture2D" uid="uid://pue4nk5yko5x" path="res://art/3D/Onira/v0.92/Onirav0_MoonGlowSketch1.png" id="16_3x66l"]
 [ext_resource type="Shader" uid="uid://bhyrxsmsjmjb0" path="res://shader/onira_fire.gdshader" id="16_put5i"]
@@ -23,7 +24,7 @@
 [ext_resource type="Animation" uid="uid://b1r8jpsipm1ce" path="res://art/3D/Onira/v0.92/Anims/CloakIdle.res" id="22_84bh4"]
 [ext_resource type="Animation" uid="uid://bfjucecy1isd7" path="res://art/3D/Onira/v0.92/Anims/CloakReset.res" id="23_diu5d"]
 [ext_resource type="ArrayMesh" uid="uid://64ghj2f5gwfy" path="res://art/3D/Onira/v0.92/Oniraeye.obj" id="23_hq8nl"]
-[ext_resource type="Texture2D" uid="uid://wjymuwtvyyw8" path="res://art/3D/Onira/v0.92/ThirdEye/Flat/Idle/Eye.png" id="24_t7wx6"]
+[ext_resource type="Texture2D" uid="uid://74g0onidytd4" path="res://art/3D/Onira/v0.92/Face/ThirdEye/Flat/Idle/Eye.png" id="24_t7wx6"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_ydrdu"]
 material = ExtResource("2_3c0pi")
@@ -1017,12 +1018,12 @@ volumetric_fog_length = 76.95
 volumetric_fog_detail_spread = 6.0
 
 [node name="Onira" type="Node3D"]
+script = ExtResource("1_01lkk")
 
 [node name="CPUParticles3D" type="CPUParticles3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00502832, 0.111585, -0.0219538)
 lifetime = 9.0
 lifetime_randomness = 0.2
-fixed_fps = 24
 mesh = SubResource("SphereMesh_ydrdu")
 emission_shape = 1
 emission_sphere_radius = 0.05
@@ -1050,22 +1051,22 @@ bones/0/name = "Ball.002"
 bones/0/parent = -1
 bones/0/rest = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 bones/0/enabled = true
-bones/0/position = Vector3(-0.270974, 0.123358, 0.18323)
-bones/0/rotation = Quaternion(0.197503, 0.099104, 0.635379, 0.739909)
+bones/0/position = Vector3(-0.272497, 0.12403, 0.17998)
+bones/0/rotation = Quaternion(0.18725, 0.0973695, 0.637447, 0.741025)
 bones/0/scale = Vector3(1, 1, 1)
 bones/1/name = "Ball.003"
 bones/1/parent = -1
 bones/1/rest = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 bones/1/enabled = true
-bones/1/position = Vector3(-0.287996, 0.0917188, 0.086869)
-bones/1/rotation = Quaternion(0.0054326, 0.0452164, 0.661158, 0.748863)
+bones/1/position = Vector3(-0.288064, 0.091541, 0.0846408)
+bones/1/rotation = Quaternion(0.00249814, 0.0436367, 0.661341, 0.748811)
 bones/1/scale = Vector3(1, 1, 1)
 bones/2/name = "Ball.001"
 bones/2/parent = -1
 bones/2/rest = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 bones/2/enabled = true
-bones/2/position = Vector3(-0.196486, 0.022751, 0.219192)
-bones/2/rotation = Quaternion(0.524313, 0.175567, 0.528455, 0.644211)
+bones/2/position = Vector3(-0.228084, 0.0433976, 0.208044)
+bones/2/rotation = Quaternion(0.35709, 0.130058, 0.593522, 0.709438)
 bones/2/scale = Vector3(1, 1, 1)
 
 [node name="Sphere_001" type="MeshInstance3D" parent="Onirav0_92/Onirav0_92-balls/Balls/Skeleton3D"]
@@ -1642,7 +1643,7 @@ skin = SubResource("Skin_j8om3")
 surface_material_override/0 = SubResource("StandardMaterial3D_i3i1c")
 
 [node name="UpperLegConnectorR" type="BoneAttachment3D" parent="Onirav0_92/Onirav0_92-body/BodyArmature/Skeleton3D"]
-transform = Transform3D(-0.0911653, -0.534755, -0.840075, -0.500959, -0.704448, 0.502785, -0.860656, 0.46668, -0.203669, -0.0208637, -0.10672, -0.0186213)
+transform = Transform3D(-0.0911646, -0.534755, -0.840075, -0.50096, -0.704448, 0.502785, -0.860656, 0.46668, -0.20367, -0.0208637, -0.10672, -0.0186213)
 bone_name = "UpperLeg.R"
 bone_idx = 62
 
@@ -1652,7 +1653,7 @@ mesh = ExtResource("20_01lkk")
 surface_material_override/0 = SubResource("StandardMaterial3D_4e8cj")
 
 [node name="UpperLegConnectorL" type="BoneAttachment3D" parent="Onirav0_92/Onirav0_92-body/BodyArmature/Skeleton3D"]
-transform = Transform3D(-0.0109161, 0.470511, 0.882327, 0.598349, -0.703897, 0.382764, 0.801161, 0.532117, -0.273846, 0.0208637, -0.10672, -0.0186213)
+transform = Transform3D(-0.0109159, 0.470512, 0.882326, 0.598349, -0.703896, 0.382764, 0.801161, 0.532118, -0.273847, 0.0208637, -0.10672, -0.0186213)
 bone_name = "UpperLeg.L"
 bone_idx = 11
 
@@ -1662,7 +1663,7 @@ mesh = ExtResource("20_01lkk")
 surface_material_override/0 = SubResource("StandardMaterial3D_4e8cj")
 
 [node name="UpperArmConnectorL" type="BoneAttachment3D" parent="Onirav0_92/Onirav0_92-body/BodyArmature/Skeleton3D"]
-transform = Transform3D(0.0743724, 0.879813, -0.469466, 0.202477, -0.474286, -0.856771, -0.976459, -0.0313357, -0.213415, 0.0648288, -0.027877, -0.0203785)
+transform = Transform3D(0.0743722, 0.879812, -0.469467, 0.202477, -0.474287, -0.85677, -0.976459, -0.0313362, -0.213415, 0.0648288, -0.027877, -0.0203785)
 bone_name = "UpperArm.L"
 bone_idx = 5
 
@@ -1672,7 +1673,7 @@ mesh = ExtResource("20_01lkk")
 surface_material_override/0 = SubResource("StandardMaterial3D_4e8cj")
 
 [node name="UpperArmConnectorR" type="BoneAttachment3D" parent="Onirav0_92/Onirav0_92-body/BodyArmature/Skeleton3D"]
-transform = Transform3D(0.0766318, -0.882194, 0.464608, -0.198491, -0.470149, -0.859977, 0.977102, -0.0263188, -0.211136, -0.0648288, -0.027877, -0.0203785)
+transform = Transform3D(0.0766312, -0.882195, 0.464608, -0.198491, -0.470149, -0.859978, 0.977102, -0.0263193, -0.211135, -0.0648288, -0.027877, -0.0203785)
 bone_name = "UpperArm.R"
 bone_idx = 56
 

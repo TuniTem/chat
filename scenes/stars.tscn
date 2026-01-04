@@ -449,7 +449,6 @@ volume_db = 3.6996
 bus = &"Constellation"
 
 [node name="Warp" type="ColorRect" parent="Camera2D"]
-visible = false
 z_index = 10
 material = ExtResource("8_ck6na")
 anchors_preset = 15
@@ -465,6 +464,7 @@ scale = Vector2(0.913, 1)
 pivot_offset = Vector2(960, 540)
 
 [node name="Warp2" type="ColorRect" parent="Camera2D"]
+visible = false
 material = ExtResource("9_ysfd5")
 anchors_preset = 15
 anchor_right = 1.0

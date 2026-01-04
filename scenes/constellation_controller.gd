@@ -258,7 +258,7 @@ func display_new_star(star : Variant):
 			
 			await telescope.stop_loop(true)
 			
-			await telescope.stars.move_to_location(star.global_position[1] if is_star else star["location"], PREVIEW_ZOOM, true)
+			await telescope.stars.move_to_location(star.global_position[1] if is_star else star["location"], PREVIEW_ZOOM if is_star else (CONST_PREVIEW_ZOOM if star["type"] == "Fragment" else star["zoom_range"][0] + Util.EPSILON), true)
 			
 			if is_star:
 				var tween : Tween = create_tween()

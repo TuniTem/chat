@@ -2123,7 +2123,6 @@ animations = [{
 script = ExtResource("1_sfocn")
 
 [node name="Mag" type="Label" parent="."]
-visible = false
 z_index = -5
 offset_left = -437.0
 offset_top = -3.0
@@ -2135,7 +2134,6 @@ mag"
 horizontal_alignment = 1
 
 [node name="Location" type="Label" parent="."]
-visible = false
 z_index = -5
 offset_left = 493.0
 offset_top = -2.0
@@ -2195,7 +2193,6 @@ libraries = {
 }
 
 [node name="Scope" type="Sprite2D" parent="."]
-visible = false
 z_index = -5
 scale = Vector2(1.4, 1.4)
 texture = ExtResource("1_6gvpi")
