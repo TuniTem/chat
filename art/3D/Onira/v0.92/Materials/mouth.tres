@@ -1,0 +1,10 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://pvnuhg3g4035"]
+
+[ext_resource type="Texture2D" uid="uid://c800u6umkn7ms" path="res://art/3D/Onira/v0.92/Face/Mouth/frown.png" id="1_wxxch"]
+
+[resource]
+resource_name = "Mouth"
+transparency = 4
+cull_mode = 2
+shading_mode = 0
+albedo_texture = ExtResource("1_wxxch")

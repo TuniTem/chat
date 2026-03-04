@@ -2,7 +2,7 @@ shader_type spatial;
 
 uniform float height_scale = 0.5;
 uniform sampler2D displacement;
-uniform float speed = 0.0; 
+uniform float speed = 0.0;
 
 uniform sampler2D Noise_Texture : source_color;
 
@@ -128,4 +128,3 @@ void fragment() {
 ALPHA = ALBEDO.b;
 
 }
-

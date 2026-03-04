@@ -370,7 +370,7 @@ var debug_draw_pos : Vector2
 var music_widget : Control
 var crosshair : DrawCrosshair
 var main : Control
-
+var dragable_held : bool
 
 func _ready():
 	DisplayServer.window_set_title("Overlay")
@@ -402,12 +402,14 @@ func _ready():
 		followers.sort_custom(Util.sort_ascending.bind(2))
 		verify_constellations()
 	
-	
+func crash():
+	OS.crash("Intentional crash")
 
 func _input(event: InputEvent) -> void:
 	#if Util.input_context != "default" : return
-	if DEBUG and event.is_action_pressed("debug"):
-		global_keypress("c")
+	if event.is_action_pressed("debug"):
+		crash()
+		#global_keypress("c")
 		return
 		#if is_instance_valid(constellation_manager.telescope):
 			#constellation_manager.telescope.queue_free()

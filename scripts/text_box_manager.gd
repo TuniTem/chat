@@ -11,7 +11,8 @@ const STAR_TEXTURES : Dictionary[Star.Colors, Texture2D] = {
 	Star.Colors.PURPLE : preload("res://art/NewStars/Soft/Soft1001.png"),
 	Star.Colors.PINK : preload("res://art/NewStars/Soft/Soft1000.png"),
 	Star.Colors.YELLOW : preload("res://art/NewStars/Soft/Soft1002.png"),
-	Star.Colors.WHITE : preload("res://art/NewStars/Soft/Soft1003.png")
+	Star.Colors.WHITE : preload("res://art/NewStars/Soft/Soft1003.png"),
+	Star.Colors.DARK : preload("res://art/NewStars/Soft/Soft1003.png"),
 }
 
 @export var animation: AnimationPlayer

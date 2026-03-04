@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="8fb19742-295b-4a9c-b83c-bce021046fe3" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../art/3D/Onira/v0.92/Face/Eyes/eyes2.png.import" beforeDir="false" afterPath="$PROJECT_DIR$/../art/3D/Onira/v0.92/Face/Eyes/eyes2.png.import" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../art/3D/Onira/v0.92/Face/Mouth/ColonD.png.import" beforeDir="false" afterPath="$PROJECT_DIR$/../art/3D/Onira/v0.92/Face/Mouth/ColonD.png.import" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../art/3D/Onira/v0.92/Face/Mouth/Smile2.png.import" beforeDir="false" afterPath="$PROJECT_DIR$/../art/3D/Onira/v0.92/Face/Mouth/Smile2.png.import" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../art/3D/Onira/v0.92/Face/Mouth/pout.png.import" beforeDir="false" afterPath="$PROJECT_DIR$/../art/3D/Onira/v0.92/Face/Mouth/pout.png.import" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../scenes/floaty_guy.tscn" beforeDir="false" afterPath="$PROJECT_DIR$/../scenes/floaty_guy.tscn" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../scenes/onira.tscn" beforeDir="false" afterPath="$PROJECT_DIR$/../scenes/onira.tscn" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../scenes/shoutout_tv.tscn" beforeDir="false" afterPath="$PROJECT_DIR$/../scenes/shoutout_tv.tscn" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../shader/onira_fire.gdshader" beforeDir="false" afterPath="$PROJECT_DIR$/../shader/onira_fire.gdshader" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectId" id="38fdK9uEH7REBQHtdAc2qbV5DcQ" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "C:/git/Timelapse"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="8fb19742-295b-4a9c-b83c-bce021046fe3" name="Changes" comment="" />
+      <created>1769194492773</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1769194492773</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

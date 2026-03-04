@@ -1,4 +1,4 @@
-[gd_scene load_steps=93 format=4 uid="uid://bm2tuqs62ifs7"]
+[gd_scene load_steps=140 format=4 uid="uid://bm2tuqs62ifs7"]
 
 [ext_resource type="Script" uid="uid://cdp71moanskia" path="res://scripts/onira.gd" id="1_01lkk"]
 [ext_resource type="Material" uid="uid://dcrqf6vvvrr7i" path="res://tres/onira_button.tres" id="1_6fos0"]
@@ -7,24 +7,78 @@
 [ext_resource type="Material" uid="uid://dqep4si378ceq" path="res://tres/onira_fire.tres" id="4_lrkni"]
 [ext_resource type="Material" uid="uid://cfyn8w3fke3r1" path="res://tres/onira_cloak.tres" id="5_egfcg"]
 [ext_resource type="Material" uid="uid://cb16612hxvckj" path="res://tres/onira_hands.tres" id="9_5y2fv"]
-[ext_resource type="Texture2D" uid="uid://cgpd15cms15x1" path="res://art/3D/Onira/v0.92/Face/Eyes/blink.png" id="10_4q0fx"]
+[ext_resource type="Material" uid="uid://c5ily5njs00du" path="res://art/3D/Onira/v0.92/Materials/eyebrows.tres" id="10_01lkk"]
+[ext_resource type="Material" uid="uid://bitm2k4dnch6c" path="res://art/3D/Onira/v0.92/Materials/Eyes.tres" id="11_put5i"]
 [ext_resource type="Animation" uid="uid://bx5qv2ohmws45" path="res://art/3D/Onira/v0.92/Anims/RotateLoad.res" id="12_qvc8r"]
 [ext_resource type="Animation" uid="uid://ci3bqogm1a7dp" path="res://art/3D/Onira/v0.92/Anims/BallsReset.res" id="13_4q0fx"]
-[ext_resource type="Texture2D" uid="uid://b51awj1f87y4g" path="res://art/3D/Onira/v0.92/Onirav0_Neutral.png" id="14_01lkk"]
-[ext_resource type="Texture2D" uid="uid://bnb745vnv0c0g" path="res://art/3D/Onira/v0.92/Face/Mouth/colonthree.png" id="14_3x66l"]
 [ext_resource type="Shader" uid="uid://cgiujyy8hr2fg" path="res://shader/onira_skin3.gdshader" id="14_put5i"]
+[ext_resource type="Material" uid="uid://pvnuhg3g4035" path="res://art/3D/Onira/v0.92/Materials/mouth.tres" id="15_3x66l"]
+[ext_resource type="Texture2D" uid="uid://bpq0217rhhgou" path="res://art/3D/Onira/v0.92/Face/MoonGlow/MoonGlow1.png" id="16_2j45l"]
 [ext_resource type="Texture2D" uid="uid://pue4nk5yko5x" path="res://art/3D/Onira/v0.92/Onirav0_MoonGlowSketch1.png" id="16_3x66l"]
+[ext_resource type="Material" uid="uid://rvox31ogcmgc" path="res://art/3D/Onira/v0.92/Materials/expresion.tres" id="16_4e8cj"]
 [ext_resource type="Shader" uid="uid://bhyrxsmsjmjb0" path="res://shader/onira_fire.gdshader" id="16_put5i"]
-[ext_resource type="Texture2D" uid="uid://cvkka8an4a5ml" path="res://art/3D/Onira/v0.92/Onirav0_!!.png" id="19_t7wx6"]
+[ext_resource type="Texture2D" uid="uid://dn4gkbfto3ip4" path="res://art/3D/Onira/v0.92/Face/MoonGlow/MoonGlow2.png" id="17_8mo11"]
+[ext_resource type="Material" uid="uid://bkhdwu2d6vc8o" path="res://art/3D/Onira/v0.92/Materials/third_eye.tres" id="18_01lkk"]
 [ext_resource type="ArrayMesh" uid="uid://cqtg5h1u881jd" path="res://art/3D/Onira/v0.92/connector.obj" id="20_01lkk"]
-[ext_resource type="Shader" uid="uid://cfr7ydoox0u4e" path="res://shader/SparkleWiggle.gdshader" id="20_3x66l"]
 [ext_resource type="Shader" uid="uid://d4iq25362j2ot" path="res://shader/onira_skin2.gdshader" id="20_4q0fx"]
 [ext_resource type="Animation" uid="uid://d2duao38k77p5" path="res://art/3D/Onira/v0.92/Anims/BodyReset.res" id="20_i3i1c"]
+[ext_resource type="Texture2D" uid="uid://cjobg37w0sl88" path="res://art/3D/Onira/v0.92/Face/ThirdEye/Close/frame0000.png" id="20_s2pbs"]
+[ext_resource type="Texture2D" uid="uid://bg2pqp078b647" path="res://art/3D/Onira/v0.92/Face/ThirdEye/Close/frame0001.png" id="21_5qbdj"]
 [ext_resource type="Animation" uid="uid://co684xfenqvpe" path="res://art/3D/Onira/v0.92/Anims/BodyIdle.res" id="21_qfmsw"]
+[ext_resource type="Texture2D" uid="uid://c8x2tyltqny58" path="res://art/3D/Onira/v0.92/Face/ThirdEye/Close/frame0002.png" id="22_0ftje"]
 [ext_resource type="Animation" uid="uid://b1r8jpsipm1ce" path="res://art/3D/Onira/v0.92/Anims/CloakIdle.res" id="22_84bh4"]
+[ext_resource type="Texture2D" uid="uid://b76eofpebaaad" path="res://art/3D/Onira/v0.92/Face/ThirdEye/Close/frame0003.png" id="23_2p5vb"]
 [ext_resource type="Animation" uid="uid://bfjucecy1isd7" path="res://art/3D/Onira/v0.92/Anims/CloakReset.res" id="23_diu5d"]
 [ext_resource type="ArrayMesh" uid="uid://64ghj2f5gwfy" path="res://art/3D/Onira/v0.92/Oniraeye.obj" id="23_hq8nl"]
 [ext_resource type="Texture2D" uid="uid://74g0onidytd4" path="res://art/3D/Onira/v0.92/Face/ThirdEye/Flat/Idle/Eye.png" id="24_t7wx6"]
+[ext_resource type="Texture2D" uid="uid://p6at6dynx3qd" path="res://art/3D/Onira/v0.92/Face/ThirdEye/Close/frame0004.png" id="24_yensu"]
+[ext_resource type="Texture2D" uid="uid://bsvbvgkuaitny" path="res://art/3D/Onira/v0.92/Face/ThirdEye/Close/frame0005.png" id="25_0pv03"]
+[ext_resource type="Texture2D" uid="uid://rukw0lgwqvj8" path="res://art/3D/Onira/v0.92/Face/ThirdEye/Close/frame0006.png" id="26_i8bho"]
+[ext_resource type="Texture2D" uid="uid://yeriy2nr33hb" path="res://art/3D/Onira/v0.92/Face/ThirdEye/Close/frame0007.png" id="27_i4q8c"]
+[ext_resource type="Texture2D" uid="uid://b3fya5oja3syb" path="res://art/3D/Onira/v0.92/Face/ThirdEye/Close/frame0008.png" id="28_jwh83"]
+[ext_resource type="Texture2D" uid="uid://d3jpxq6muftqy" path="res://art/3D/Onira/v0.92/Face/ThirdEye/Close/frame0009.png" id="29_b24kh"]
+[ext_resource type="Texture2D" uid="uid://d27d6gt35o0au" path="res://art/3D/Onira/v0.92/Face/ThirdEye/Close/frame0010.png" id="30_uukx7"]
+[ext_resource type="Texture2D" uid="uid://d12fy80o7ycj8" path="res://art/3D/Onira/v0.92/Face/ThirdEye/Close/frame0011.png" id="31_v6sdc"]
+[ext_resource type="Texture2D" uid="uid://cr3pcq0ddf3lp" path="res://art/3D/Onira/v0.92/Face/ThirdEye/Close/frame0012.png" id="32_qqysy"]
+[ext_resource type="Texture2D" uid="uid://dq2mdmyspoc8g" path="res://art/3D/Onira/v0.92/Face/ThirdEye/Close/frame0013.png" id="33_x4u8b"]
+[ext_resource type="Texture2D" uid="uid://c3uxrfasgp8v5" path="res://art/3D/Onira/v0.92/Face/ThirdEye/Close/frame0014.png" id="34_nduk6"]
+[ext_resource type="Texture2D" uid="uid://bd7wv0jt3yl6g" path="res://art/3D/Onira/v0.92/Face/ThirdEye/Close/frame0015.png" id="35_v7h8k"]
+[ext_resource type="Texture2D" uid="uid://dv1kuvvu7h7h7" path="res://art/3D/Onira/v0.92/Face/ThirdEye/Close/frame0016.png" id="36_s2f1n"]
+[ext_resource type="Texture2D" uid="uid://bod1ndvksf0jv" path="res://art/3D/Onira/v0.92/Face/ThirdEye/Close/frame0017.png" id="37_l2707"]
+[ext_resource type="Texture2D" uid="uid://ciac2j33qyl0f" path="res://art/3D/Onira/v0.92/Face/ThirdEye/Close/frame0018.png" id="38_tq3ul"]
+[ext_resource type="Texture2D" uid="uid://ka30pr3hqej1" path="res://art/3D/Onira/v0.92/Face/ThirdEye/Close/frame0019.png" id="39_53b2h"]
+[ext_resource type="Texture2D" uid="uid://djywtqf32r8m1" path="res://art/3D/Onira/v0.92/Face/ThirdEye/Close/frame0020.png" id="40_xwkkt"]
+[ext_resource type="Texture2D" uid="uid://b82hqorll78t4" path="res://art/3D/Onira/v0.92/Face/ThirdEye/Close/frame0021.png" id="41_6kon7"]
+[ext_resource type="Texture2D" uid="uid://b7flqib78gy8l" path="res://art/3D/Onira/v0.92/Face/ThirdEye/Close/frame0022.png" id="42_wcwlw"]
+[ext_resource type="Texture2D" uid="uid://cxa0kv1npem4v" path="res://art/3D/Onira/v0.92/Face/ThirdEye/Flat/Idle/Eye2.png" id="43_hntw3"]
+[ext_resource type="Texture2D" uid="uid://dgw7u7lit22c6" path="res://art/3D/Onira/v0.92/Face/ThirdEye/Open/frame0000.png" id="45_tte2t"]
+[ext_resource type="Texture2D" uid="uid://cyotpsgean6fl" path="res://art/3D/Onira/v0.92/Face/ThirdEye/Open/frame0001.png" id="46_cvnra"]
+[ext_resource type="Texture2D" uid="uid://bvkqgo6rqxmto" path="res://art/3D/Onira/v0.92/Face/ThirdEye/Open/frame0002.png" id="47_qk82d"]
+[ext_resource type="Texture2D" uid="uid://d27bu4l83kl4t" path="res://art/3D/Onira/v0.92/Face/ThirdEye/Open/frame0003.png" id="48_2jtoj"]
+[ext_resource type="Texture2D" uid="uid://dymj1ctkoki1k" path="res://art/3D/Onira/v0.92/Face/ThirdEye/Open/frame0004.png" id="49_dyogb"]
+[ext_resource type="Texture2D" uid="uid://cclh1s26rfgtp" path="res://art/3D/Onira/v0.92/Face/ThirdEye/Open/frame0005.png" id="50_xrvqg"]
+[ext_resource type="Texture2D" uid="uid://iu5v47jecq3k" path="res://art/3D/Onira/v0.92/Face/ThirdEye/Open/frame0006.png" id="51_kl8jv"]
+[ext_resource type="Texture2D" uid="uid://dqo08s612mhse" path="res://art/3D/Onira/v0.92/Face/ThirdEye/Open/frame0007.png" id="52_r18qi"]
+[ext_resource type="Texture2D" uid="uid://6lccbfesdc1u" path="res://art/3D/Onira/v0.92/Face/ThirdEye/Open/frame0008.png" id="53_mp8ds"]
+[ext_resource type="Texture2D" uid="uid://dsxglc805ebgc" path="res://art/3D/Onira/v0.92/Face/ThirdEye/Open/frame0009.png" id="54_05io3"]
+[ext_resource type="Texture2D" uid="uid://d3r1c5qbtknbb" path="res://art/3D/Onira/v0.92/Face/ThirdEye/Open/frame0010.png" id="55_7npgm"]
+[ext_resource type="Texture2D" uid="uid://bvluseg0dj2kw" path="res://art/3D/Onira/v0.92/Face/ThirdEye/Open/frame0011.png" id="56_ymll3"]
+[ext_resource type="Texture2D" uid="uid://gdkr6s253w2r" path="res://art/3D/Onira/v0.92/Face/ThirdEye/Open/frame0012.png" id="57_0hggp"]
+[ext_resource type="Texture2D" uid="uid://o1fs8k0jf0mr" path="res://art/3D/Onira/v0.92/Face/ThirdEye/Open/frame0013.png" id="58_u12nt"]
+[ext_resource type="Texture2D" uid="uid://bxecvhhdkqxjv" path="res://art/3D/Onira/v0.92/Face/ThirdEye/Open/frame0014.png" id="59_tthnm"]
+[ext_resource type="Texture2D" uid="uid://dml2dfovpum1j" path="res://art/3D/Onira/v0.92/Face/ThirdEye/Open/frame0015.png" id="60_kax5m"]
+[ext_resource type="Texture2D" uid="uid://c7ekhejufqdty" path="res://art/3D/Onira/v0.92/Face/ThirdEye/Open/frame0016.png" id="61_xdaq5"]
+[ext_resource type="Texture2D" uid="uid://wevckayncuj2" path="res://art/3D/Onira/v0.92/Face/ThirdEye/Open/frame0017.png" id="62_dd22r"]
+[ext_resource type="Texture2D" uid="uid://b0moq4r4cbtlj" path="res://art/3D/Onira/v0.92/Face/ThirdEye/Open/frame0018.png" id="63_efert"]
+[ext_resource type="Texture2D" uid="uid://bbm38ejbvj37w" path="res://art/3D/Onira/v0.92/Face/ThirdEye/Open/frame0019.png" id="64_sq6ne"]
+[ext_resource type="Texture2D" uid="uid://cokktsfb8wpfl" path="res://art/3D/Onira/v0.92/Face/ThirdEye/Open/frame0020.png" id="65_5id2j"]
+[ext_resource type="Texture2D" uid="uid://cvp5weosn83" path="res://art/3D/Onira/v0.92/Face/ThirdEye/Open/frame0021.png" id="66_l6bk7"]
+[ext_resource type="Texture2D" uid="uid://bew5xspse703i" path="res://art/3D/Onira/v0.92/Face/ThirdEye/Open/frame0022.png" id="67_t7xp1"]
+[ext_resource type="Texture2D" uid="uid://kav4b04wxvmj" path="res://art/3D/Onira/v0.92/Face/ThirdEye/Open/frame0023.png" id="68_vt5qf"]
+[ext_resource type="Texture2D" uid="uid://dbf5jpqdqxjjj" path="res://art/3D/Onira/v0.92/Face/ThirdEye/Open/frame0024.png" id="69_teqch"]
+[ext_resource type="Texture2D" uid="uid://ve6je4bxu7yq" path="res://art/3D/Onira/v0.92/Face/ThirdEye/Open/frame0025.png" id="70_hygbw"]
+[ext_resource type="Texture2D" uid="uid://brlfuo8u86k61" path="res://art/3D/Onira/v0.92/Face/ThirdEye/Open/frame0026.png" id="71_vw5cy"]
+[ext_resource type="Texture2D" uid="uid://cdn2ymmfa4aqj" path="res://art/3D/Onira/v0.92/Face/ThirdEye/Open/frame0027.png" id="72_yfjra"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_ydrdu"]
 material = ExtResource("2_3c0pi")
@@ -515,13 +569,6 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0es3e"]
-resource_name = "ThirdEye.001"
-transparency = 4
-cull_mode = 2
-shading_mode = 0
-albedo_texture = ExtResource("14_01lkk")
-
 [sub_resource type="ArrayMesh" id="ArrayMesh_odvra"]
 resource_name = "Onirav0_92-body_Plane_003"
 _surfaces = [{
@@ -531,7 +578,7 @@ _surfaces = [{
 "format": 34359745559,
 "index_count": 12,
 "index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUA"),
-"material": SubResource("StandardMaterial3D_0es3e"),
+"material": ExtResource("10_01lkk"),
 "name": "ThirdEye.001",
 "primitive": 3,
 "skin_data": PackedByteArray("DwAAAAAAAAD//wAAAAAAAA8AAAAAAAAA//8AAAAAAAAPAAAAAAAAAP//AAAAAAAADwAAAAAAAAD//wAAAAAAAA8AAAAAAAAA//8AAAAAAAAPAAAAAAAAAP//AAAAAAAADwAAAAAAAAD//wAAAAAAAA8AAAAAAAAA//8AAAAAAAA="),
@@ -541,14 +588,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lspwg"]
-resource_name = "Eyes"
-transparency = 4
-cull_mode = 2
-shading_mode = 0
-albedo_texture = ExtResource("10_4q0fx")
-
-[sub_resource type="ArrayMesh" id="ArrayMesh_gyx0a"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_01lkk"]
 resource_name = "Onirav0_92-body_Plane_002"
 _surfaces = [{
 "aabb": AABB(-0.101624, 0.024282, 0.0470672, 0.203248, 0.0910421, 0.0382796),
@@ -557,7 +597,7 @@ _surfaces = [{
 "format": 34359745559,
 "index_count": 48,
 "index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUAGAAZABoAGAAbABkAHAAdAB4AHAAfAB0A"),
-"material": SubResource("StandardMaterial3D_lspwg"),
+"material": ExtResource("11_put5i"),
 "name": "Eyes",
 "primitive": 3,
 "skin_data": PackedByteArray("DwAAAAAAAAD//wAAAAAAAA8AAAAAAAAA//8AAAAAAAAPAAAAAAAAAP//AAAAAAAADwAAAAAAAAD//wAAAAAAAA8AAAAAAAAA//8AAAAAAAAPAAAAAAAAAP//AAAAAAAADwAAAAAAAAD//wAAAAAAAA8AAAAAAAAA//8AAAAAAAAPAAAAAAAAAP//AAAAAAAADwAAAAAAAAD//wAAAAAAAA8AAAAAAAAA//8AAAAAAAAPAAAAAAAAAP//AAAAAAAADwAAAAAAAAD//wAAAAAAAA8AAAAAAAAA//8AAAAAAAAPAAAAAAAAAP//AAAAAAAADwAAAAAAAAD//wAAAAAAAA8AAAAAAAAA//8AAAAAAAAPAAAAAAAAAP//AAAAAAAADwAAAAAAAAD//wAAAAAAAA8AAAAAAAAA//8AAAAAAAAPAAAAAAAAAP//AAAAAAAADwAAAAAAAAD//wAAAAAAAA8AAAAAAAAA//8AAAAAAAAPAAAAAAAAAP//AAAAAAAADwAAAAAAAAD//wAAAAAAAA8AAAAAAAAA//8AAAAAAAAPAAAAAAAAAP//AAAAAAAADwAAAAAAAAD//wAAAAAAAA8AAAAAAAAA//8AAAAAAAAPAAAAAAAAAP//AAAAAAAADwAAAAAAAAD//wAAAAAAAA8AAAAAAAAA//8AAAAAAAA="),
@@ -702,7 +742,7 @@ albedo_color = Color(0, 0, 0, 1)
 metallic = 1.0
 emission_enabled = true
 emission = Color(1, 0.94902, 0.6, 1)
-emission_energy_multiplier = 5.96
+emission_energy_multiplier = 2.47
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_1seth"]
 resource_name = "Onirav0_92-body_Cylinder_003"
@@ -724,15 +764,12 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_put5i"]
-load_path = "res://.godot/imported/Onirav0_MoonGlowSketch1.png-9ee60cecd260fe35d841ee79c8e94d5f.s3tc.ctex"
-
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3x66l"]
 resource_name = "MoonGlow"
 transparency = 4
 cull_mode = 2
 shading_mode = 0
-albedo_texture = SubResource("CompressedTexture2D_put5i")
+albedo_color = Color(1, 1, 1, 0)
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_q04oj"]
 resource_name = "Onirav0_92-body_Plane"
@@ -753,42 +790,6 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_3x66l"]
-frequency = 0.0036
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_4e8cj"]
-noise = SubResource("FastNoiseLite_3x66l")
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_3x66l"]
-resource_name = "MoonGlow"
-render_priority = 0
-shader = ExtResource("20_3x66l")
-shader_parameter/albedo = Color(1, 1, 1, 1)
-shader_parameter/texture_albedo = SubResource("CompressedTexture2D_put5i")
-shader_parameter/albedo_texture_size = Vector2i(540, 540)
-shader_parameter/point_size = 1.0
-shader_parameter/roughness = 1.0
-shader_parameter/metallic_texture_channel = Vector4(1, 0, 0, 0)
-shader_parameter/texture_roughness = SubResource("NoiseTexture2D_4e8cj")
-shader_parameter/specular = 0.5
-shader_parameter/metallic = 0.0
-shader_parameter/uv1_scale = Vector3(1, 1, 1)
-shader_parameter/uv1_offset = Vector3(0, 0, 0)
-shader_parameter/uv2_scale = Vector3(1, 1, 1)
-shader_parameter/uv2_offset = Vector3(0, 0, 0)
-shader_parameter/time_factor = 3.6505
-shader_parameter/amplitude = Vector2(0.01, 0.01)
-shader_parameter/pos_factor = 0.0
-shader_parameter/Strength = 0.017
-shader_parameter/RandomOffset = 2.216
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xwxyf"]
-resource_name = "Mouth"
-transparency = 4
-cull_mode = 2
-shading_mode = 0
-albedo_texture = ExtResource("14_3x66l")
-
 [sub_resource type="ArrayMesh" id="ArrayMesh_i0phn"]
 resource_name = "Onirav0_92-body_Plane_005"
 _surfaces = [{
@@ -798,7 +799,7 @@ _surfaces = [{
 "format": 34359745559,
 "index_count": 12,
 "index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUA"),
-"material": SubResource("StandardMaterial3D_xwxyf"),
+"material": ExtResource("15_3x66l"),
 "name": "Mouth",
 "primitive": 3,
 "skin_data": PackedByteArray("DwAAAAAAAAD//wAAAAAAAA8AAAAAAAAA//8AAAAAAAAPAAAAAAAAAP//AAAAAAAADwAAAAAAAAD//wAAAAAAAA8AAAAAAAAA//8AAAAAAAAPAAAAAAAAAP//AAAAAAAADwAAAAAAAAD//wAAAAAAAA8AAAAAAAAA//8AAAAAAAA="),
@@ -807,13 +808,6 @@ _surfaces = [{
 "vertex_data": PackedByteArray("AAAAAAIOgT0dMJk97+Qyveb1tTyD/Eg9fKwxvQIOgT2BzI89AAAAAOb1tTySI0Y9fKwxPQIOgT3Kppg9AAAAAOb1tTySI0Y9AAAAAAIOgT0dMJk97+QyPeb1tTwUsVo9e3wqUhkA0EJ7fCpSOQA2PXt8KlIdAxhFe3wqUjMDnjy7e2tSOQCkPLt7a1IXAGFDu3trUisDDzy7e2tSDAOZRQ==")
 }]
 blend_shape_mode = 0
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_va73a"]
-resource_name = "emote"
-transparency = 4
-cull_mode = 2
-shading_mode = 0
-albedo_texture = ExtResource("19_t7wx6")
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_g1k7a"]
 resource_name = "Onirav0_92-body_Plane_006"
@@ -824,7 +818,7 @@ _surfaces = [{
 "format": 34359745559,
 "index_count": 6,
 "index_data": PackedByteArray("AAABAAIAAAADAAEA"),
-"material": SubResource("StandardMaterial3D_va73a"),
+"material": ExtResource("16_4e8cj"),
 "name": "emote",
 "primitive": 3,
 "skin_data": PackedByteArray("DwAAAAAAAAD//wAAAAAAAA8AAAAAAAAA//8AAAAAAAAPAAAAAAAAAP//AAAAAAAADwAAAAAAAAD//wAAAAAAAA=="),
@@ -833,13 +827,6 @@ _surfaces = [{
 "vertex_data": PackedByteArray("zoyrPc0ewD1LM6I9pbJbPqf7ZT5LM6I9pbJbPs0ewD1LM6I9zoyrPaf7ZT5LM6I9/3//f////7//f/9/////v/9//3////+//3//f////78=")
 }]
 blend_shape_mode = 0
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_i3i1c"]
-transparency = 1
-albedo_texture = ExtResource("24_t7wx6")
-emission_enabled = true
-emission_energy_multiplier = 1.8
-emission_texture = ExtResource("24_t7wx6")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_01lkk"]
 render_priority = 0
@@ -856,6 +843,197 @@ albedo_color = Color(0, 0, 0, 0.0156863)
 emission_enabled = true
 emission = Color(1, 1, 1, 1)
 emission_energy_multiplier = 16.0
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_viho7"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("20_s2pbs")
+}, {
+"duration": 1.0,
+"texture": ExtResource("21_5qbdj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("22_0ftje")
+}, {
+"duration": 1.0,
+"texture": ExtResource("23_2p5vb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("24_yensu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("25_0pv03")
+}, {
+"duration": 1.0,
+"texture": ExtResource("26_i8bho")
+}, {
+"duration": 1.0,
+"texture": ExtResource("27_i4q8c")
+}, {
+"duration": 1.0,
+"texture": ExtResource("28_jwh83")
+}, {
+"duration": 1.0,
+"texture": ExtResource("29_b24kh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("30_uukx7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("31_v6sdc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("32_qqysy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("33_x4u8b")
+}, {
+"duration": 1.0,
+"texture": ExtResource("34_nduk6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("35_v7h8k")
+}, {
+"duration": 1.0,
+"texture": ExtResource("36_s2f1n")
+}, {
+"duration": 1.0,
+"texture": ExtResource("37_l2707")
+}, {
+"duration": 1.0,
+"texture": ExtResource("38_tq3ul")
+}, {
+"duration": 1.0,
+"texture": ExtResource("39_53b2h")
+}, {
+"duration": 1.0,
+"texture": ExtResource("40_xwkkt")
+}, {
+"duration": 1.0,
+"texture": ExtResource("41_6kon7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("42_wcwlw")
+}],
+"loop": false,
+"name": &"close",
+"speed": 27.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("43_hntw3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("24_t7wx6")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 2.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("45_tte2t")
+}, {
+"duration": 1.0,
+"texture": ExtResource("46_cvnra")
+}, {
+"duration": 1.0,
+"texture": ExtResource("47_qk82d")
+}, {
+"duration": 1.0,
+"texture": ExtResource("48_2jtoj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("49_dyogb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("50_xrvqg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("51_kl8jv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("52_r18qi")
+}, {
+"duration": 1.0,
+"texture": ExtResource("53_mp8ds")
+}, {
+"duration": 1.0,
+"texture": ExtResource("54_05io3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("55_7npgm")
+}, {
+"duration": 1.0,
+"texture": ExtResource("56_ymll3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("57_0hggp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("58_u12nt")
+}, {
+"duration": 1.0,
+"texture": ExtResource("59_tthnm")
+}, {
+"duration": 1.0,
+"texture": ExtResource("60_kax5m")
+}, {
+"duration": 1.0,
+"texture": ExtResource("61_xdaq5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("62_dd22r")
+}, {
+"duration": 1.0,
+"texture": ExtResource("63_efert")
+}, {
+"duration": 1.0,
+"texture": ExtResource("64_sq6ne")
+}, {
+"duration": 1.0,
+"texture": ExtResource("65_5id2j")
+}, {
+"duration": 1.0,
+"texture": ExtResource("66_l6bk7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("67_t7xp1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("68_vt5qf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("69_teqch")
+}, {
+"duration": 1.0,
+"texture": ExtResource("70_hygbw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("71_vw5cy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("72_yfjra")
+}],
+"loop": false,
+"name": &"open",
+"speed": 24.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_mkt1i"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("16_2j45l")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_8mo11")
+}],
+"loop": true,
+"name": &"glow",
+"speed": 1.75
+}]
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_xr5p8"]
 _data = {
@@ -1017,8 +1195,14 @@ volumetric_fog_anisotropy = 0.9
 volumetric_fog_length = 76.95
 volumetric_fog_detail_spread = 6.0
 
-[node name="Onira" type="Node3D"]
+[node name="Onira" type="Node3D" node_paths=PackedStringArray("emote_mesh", "third_eye")]
 script = ExtResource("1_01lkk")
+eyes_material = ExtResource("11_put5i")
+eyebrows_material = ExtResource("10_01lkk")
+mouth_material = ExtResource("15_3x66l")
+emote_material = ExtResource("16_4e8cj")
+emote_mesh = NodePath("Onirav0_92/Onirav0_92-body/BodyArmature/Skeleton3D/Emote")
+third_eye = NodePath("Onirav0_92/Onirav0_92-body/BodyArmature/Skeleton3D/HeadConnector/Node3D/ThirdEye")
 
 [node name="CPUParticles3D" type="CPUParticles3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00502832, 0.111585, -0.0219538)
@@ -1575,6 +1759,7 @@ mesh = SubResource("ArrayMesh_83570")
 skin = SubResource("Skin_j8om3")
 
 [node name="Body" type="MeshInstance3D" parent="Onirav0_92/Onirav0_92-body/BodyArmature/Skeleton3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.015475, 0)
 mesh = SubResource("ArrayMesh_r3k1d")
 skin = SubResource("Skin_j8om3")
 
@@ -1587,10 +1772,11 @@ mesh = SubResource("ArrayMesh_odvra")
 skin = SubResource("Skin_j8om3")
 
 [node name="Eyes" type="MeshInstance3D" parent="Onirav0_92/Onirav0_92-body/BodyArmature/Skeleton3D"]
-mesh = SubResource("ArrayMesh_gyx0a")
+mesh = SubResource("ArrayMesh_01lkk")
 skin = SubResource("Skin_j8om3")
 
 [node name="EyeSparkles" type="MeshInstance3D" parent="Onirav0_92/Onirav0_92-body/BodyArmature/Skeleton3D"]
+visible = false
 mesh = SubResource("ArrayMesh_f26k2")
 skin = SubResource("Skin_j8om3")
 
@@ -1623,24 +1809,24 @@ skin = SubResource("Skin_j8om3")
 
 [node name="MoonSparkles" type="MeshInstance3D" parent="Onirav0_92/Onirav0_92-body/BodyArmature/Skeleton3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0050197, 0.00199243, 0.0157767)
+visible = false
 mesh = SubResource("ArrayMesh_q04oj")
 skin = SubResource("Skin_j8om3")
-surface_material_override/0 = SubResource("ShaderMaterial_3x66l")
 
 [node name="Mouth" type="MeshInstance3D" parent="Onirav0_92/Onirav0_92-body/BodyArmature/Skeleton3D"]
 mesh = SubResource("ArrayMesh_i0phn")
 skin = SubResource("Skin_j8om3")
 
-[node name="Plane" type="MeshInstance3D" parent="Onirav0_92/Onirav0_92-body/BodyArmature/Skeleton3D"]
-visible = false
+[node name="Emote" type="MeshInstance3D" parent="Onirav0_92/Onirav0_92-body/BodyArmature/Skeleton3D"]
 mesh = SubResource("ArrayMesh_g1k7a")
 skin = SubResource("Skin_j8om3")
 
 [node name="ThirdEye" type="MeshInstance3D" parent="Onirav0_92/Onirav0_92-body/BodyArmature/Skeleton3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.00476609, 0)
+visible = false
 mesh = ExtResource("23_hq8nl")
 skin = SubResource("Skin_j8om3")
-surface_material_override/0 = SubResource("StandardMaterial3D_i3i1c")
+surface_material_override/0 = ExtResource("18_01lkk")
 
 [node name="UpperLegConnectorR" type="BoneAttachment3D" parent="Onirav0_92/Onirav0_92-body/BodyArmature/Skeleton3D"]
 transform = Transform3D(-0.0911646, -0.534755, -0.840075, -0.50096, -0.704448, 0.502785, -0.860656, 0.46668, -0.20367, -0.0208637, -0.10672, -0.0186213)
@@ -1681,6 +1867,69 @@ bone_idx = 56
 transform = Transform3D(0.00698846, 0, 0, 0, 0.00393845, 0, 0, 0, 0.00698846, 0, 0.0729055, 0)
 mesh = ExtResource("20_01lkk")
 surface_material_override/0 = SubResource("StandardMaterial3D_4e8cj")
+
+[node name="HeadConnector" type="BoneAttachment3D" parent="Onirav0_92/Onirav0_92-body/BodyArmature/Skeleton3D"]
+transform = Transform3D(-0.170148, -8.9407e-08, -0.985418, -0.431187, 0.899186, 0.074451, 0.886074, 0.437567, -0.152995, 0, 0.0133423, 0)
+bone_name = "Head_2"
+bone_idx = 15
+
+[node name="Node3D" type="Node3D" parent="Onirav0_92/Onirav0_92-body/BodyArmature/Skeleton3D/HeadConnector"]
+transform = Transform3D(0.99909, 0.0149193, -0.0399835, -0.0179514, 0.996902, -0.0765813, 0.0387172, 0.0772293, 0.996261, 0.0745643, 0.12943, -0.0168917)
+
+[node name="ThirdEye" type="AnimatedSprite3D" parent="Onirav0_92/Onirav0_92-body/BodyArmature/Skeleton3D/HeadConnector/Node3D"]
+transform = Transform3D(-0.00161203, -0.00203246, 0.00703708, -0.000485888, 0.00721929, 0.00197378, -0.00730858, -3.16571e-05, -0.00168337, -0.00121476, -0.000479326, 0.00451622)
+modulate = Color(2, 2, 2, 1)
+sprite_frames = SubResource("SpriteFrames_viho7")
+animation = &"open"
+frame = 27
+frame_progress = 1.0
+
+[node name="Sparkles3" type="AnimatedSprite3D" parent="Onirav0_92/Onirav0_92-body/BodyArmature/Skeleton3D/HeadConnector/Node3D"]
+unique_name_in_owner = true
+transform = Transform3D(-0.00469383, -0.00342252, 0.00968031, -0.00287088, 0.00666792, 0.00475223, -0.0112239, -0.000274243, -0.00526384, -0.00606298, -0.00378168, -0.0276279)
+visible = false
+sprite_frames = SubResource("SpriteFrames_mkt1i")
+animation = &"glow"
+autoplay = "glow"
+frame_progress = 0.411456
+
+[node name="Sparkles4" type="AnimatedSprite3D" parent="Onirav0_92/Onirav0_92-body/BodyArmature/Skeleton3D/HeadConnector/Node3D"]
+unique_name_in_owner = true
+transform = Transform3D(0.00120021, -0.00125303, 0.0117751, 6.74749e-06, 0.00739367, 0.00201354, 0.0124423, 0.00011686, -0.00113694, 0.00680431, -0.00279337, 0.0375901)
+visible = false
+sprite_frames = SubResource("SpriteFrames_mkt1i")
+animation = &"glow"
+autoplay = "glow"
+frame_progress = 0.875628
+
+[node name="Camera3D" type="Camera3D" parent="Onirav0_92/Onirav0_92-body/BodyArmature/Skeleton3D/HeadConnector/Node3D"]
+transform = Transform3D(0.053605, -0.491068, 0.869469, -0.446691, 0.766952, 0.460707, -0.893081, -0.413081, -0.178243, 0.403446, 0.217334, -0.0814167)
+current = true
+fov = 15.8
+
+[node name="AntenaeConnectorR" type="BoneAttachment3D" parent="Onirav0_92/Onirav0_92-body/BodyArmature/Skeleton3D"]
+transform = Transform3D(-0.724964, 0.132956, -0.675832, 0.175317, -0.913258, -0.367727, -0.666101, -0.385074, 0.63877, -0.117541, -0.0089525, 0.125669)
+bone_name = "AntenaeMoon.R"
+bone_idx = 33
+
+[node name="Sparkles" type="AnimatedSprite3D" parent="Onirav0_92/Onirav0_92-body/BodyArmature/Skeleton3D/AntenaeConnectorR"]
+transform = Transform3D(0.0105858, 0.00122919, 0.00551631, -0.00152464, 0.0118996, 0.000274213, 0.00544207, 0.000942768, -0.0106534, 0.00789193, 0.0167847, 0.00289616)
+sprite_frames = SubResource("SpriteFrames_mkt1i")
+animation = &"glow"
+autoplay = "glow"
+frame_progress = 0.642189
+
+[node name="AntenaeConnectorL" type="BoneAttachment3D" parent="Onirav0_92/Onirav0_92-body/BodyArmature/Skeleton3D"]
+transform = Transform3D(-0.724965, -0.132955, 0.675832, -0.17532, -0.913257, -0.367729, 0.6661, -0.385077, 0.63877, 0.117541, -0.00895254, 0.125669)
+bone_name = "AntenaeMoon.L"
+bone_idx = 28
+
+[node name="Sparkles" type="AnimatedSprite3D" parent="Onirav0_92/Onirav0_92-body/BodyArmature/Skeleton3D/AntenaeConnectorL"]
+transform = Transform3D(-0.00972758, -0.000275043, 0.00702131, 0.000770018, 0.0118769, 0.00153208, 0.00698438, -0.0016925, 0.00961012, -0.00609605, 0.0194439, 0.00296076)
+sprite_frames = SubResource("SpriteFrames_mkt1i")
+animation = &"glow"
+autoplay = "glow"
+frame_progress = 0.348444
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Onirav0_92/Onirav0_92-body"]
 libraries = {

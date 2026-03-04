@@ -176,8 +176,10 @@ func decompress_lzw(code_stream_data: PackedByteArray, min_code_size: int, color
 			code_table = initialize_color_code_table(colors)
 			current_code_size = min_code_size + 1
 			code = binary_code_stream.read_bits(current_code_size)
-			index_stream.append_array(code_table.get_entry(code).sequence)
-			prevcode = code
+			if code_table.get_entry(code) != null:
+				index_stream.append_array(code_table.get_entry(code).sequence)
+				prevcode = code
+			
 			continue
 		elif code == clear_code_index + 1:  # Stop when detected EOI Code.
 			break

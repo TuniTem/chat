@@ -1,0 +1,10 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://rvox31ogcmgc"]
+
+[ext_resource type="Texture2D" uid="uid://cvkka8an4a5ml" path="res://art/3D/Onira/v0.92/Onirav0_!!.png" id="1_d8af1"]
+
+[resource]
+resource_name = "emote"
+transparency = 4
+cull_mode = 2
+shading_mode = 0
+albedo_texture = ExtResource("1_d8af1")

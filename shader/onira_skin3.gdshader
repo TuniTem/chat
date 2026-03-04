@@ -8,7 +8,7 @@ uniform float offset;
 group_uniforms displacement;
 uniform float height_scale = 0.5;
 uniform sampler2D displacement;
-uniform float speed = 0.0; 
+uniform float speed = 0.0;
 varying vec2 tex_position;
 
 void vertex() {

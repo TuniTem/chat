@@ -63,7 +63,7 @@ z_index = -6
 scale = Vector2(0.15, 0.15)
 sprite_frames = ExtResource("1_usaqv")
 autoplay = "default"
-frame_progress = 0.539004
+frame_progress = 0.46681
 script = ExtResource("2_f6mlj")
 
 [node name="Fade" type="AnimationPlayer" parent="."]

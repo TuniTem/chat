@@ -650,10 +650,16 @@ func get_chatters(opt: TwitchGetChatters.Opt, moderator_id: String, broadcaster_
 func get_channel_emotes(broadcaster_id: String) -> TwitchGetChannelEmotes.Response:
 	var path = "/chat/emotes?"
 	path += "broadcaster_id=" + str(broadcaster_id) + "&"
+	var result: Variant 
+	var response: BufferedHTTPClient.ResponseData 
 	
-	var response: BufferedHTTPClient.ResponseData = await request(path, HTTPClient.METHOD_GET, "", "")
+	while result == null:
+		response = await request(path, HTTPClient.METHOD_GET, "", "")
+		result = JSON.parse_string(response.response_data.get_string_from_utf8())
+		if result == null:
+			await Util.wait(0.5)
 	
-	var result: Variant = JSON.parse_string(response.response_data.get_string_from_utf8())
+	
 	var parsed_result: TwitchGetChannelEmotes.Response = TwitchGetChannelEmotes.Response.from_json(result)
 	parsed_result.response = response
 	return parsed_result
@@ -1387,10 +1393,14 @@ func update_extension_bits_product(body: TwitchUpdateExtensionBitsProduct.Body) 
 ## https://dev.twitch.tv/docs/api/reference#create-eventsub-subscription
 func create_eventsub_subscription(body: TwitchCreateEventSubSubscription.Body) -> TwitchCreateEventSubSubscription.Response:
 	var path = "/eventsub/subscriptions?"
+	var result: Variant
+	var response: BufferedHTTPClient.ResponseData
+	while result == null:
+		response = await request(path, HTTPClient.METHOD_POST, body, "application/json")
+		result = JSON.parse_string(response.response_data.get_string_from_utf8())
+		if result == null:
+			await Util.wait(0.5)
 	
-	var response: BufferedHTTPClient.ResponseData = await request(path, HTTPClient.METHOD_POST, body, "application/json")
-	
-	var result: Variant = JSON.parse_string(response.response_data.get_string_from_utf8())
 	var parsed_result: TwitchCreateEventSubSubscription.Response = TwitchCreateEventSubSubscription.Response.from_json(result)
 	parsed_result.response = response
 	return parsed_result

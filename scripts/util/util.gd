@@ -173,6 +173,13 @@ func is_numeric(str : String) -> bool:
 	
 	return true
 
+func randf_array(interval : Array):
+	return randf_range(interval[0], interval[1])
+
+func tween_value(object : Object, property : NodePath, final_val : Variant, duration : float, easing : Tween.EaseType = Tween.EaseType.EASE_IN_OUT, trans : Tween.TransitionType = Tween.TransitionType.TRANS_LINEAR, delay : float = 0.0) -> Tween:
+	var tween : Tween = create_tween()
+	tween.tween_property(object, property, final_val, duration).set_ease(easing).set_trans(trans).set_delay(delay)
+	return tween
 
 func open_file_dialog(parent : Node, type : FileDialog.FileMode = FileDialog.FileMode.FILE_MODE_OPEN_FILE, extentions : PackedStringArray = [], directory : String = "last", title : String = ""):
 	var dialog : FileDialog = FileDialog.new()

@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://78lh55juy6l6"]
+
+[ext_resource type="Script" uid="uid://bqfuoffiycmsa" path="res://scripts/dragable.gd" id="1_a3u2j"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jscy8"]
+size = Vector2(1159.63, 1566.95)
+
+[node name="Dragable" type="Area2D"]
+script = ExtResource("1_a3u2j")
+unique_id = "onira"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(76.8926, 160.02)
+shape = SubResource("RectangleShape2D_jscy8")
+debug_color = Color(0, 0.6, 0.7, 0)
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
