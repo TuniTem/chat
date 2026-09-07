@@ -45,15 +45,21 @@ const emote_expressions : Dictionary = {
 @onready var third_eye_sparkles: Array[AnimatedSprite3D] = [%Sparkles3, %Sparkles4]
 
 const emotions : Dictionary = {
-	"neutral" :  {"eyes" : "omg", "eyebrows" : "angy", "mouth" : "woah", "emote" : "anger", "third_eye" : true},# {"eyes" : "normal", "eyebrows" : "neutral", "mouth" : "smile", "emote" : "none", "third_eye" : false},
+	"neutral" : {"eyes" : "normal", "eyebrows" : "neutral", "mouth" : "smile", "emote" : "none", "third_eye" : false},
 	"hurt" : {"eyes" : "omg", "eyebrows" : "awh", "mouth" : "frown", "emote" : "none", "third_eye" : false},
 	"supprised" : {"eyes" : "pls", "eyebrows" : "neutral", "mouth" : "woah", "emote" : "!!", "third_eye" : false},
-	#"silly" : {"eyes" : "omg", "eyebrows" : "neutral", "mouth" : "tounge", "emote" : "none", "third_eye" : false},
+	"silly" : {"eyes" : "omg", "eyebrows" : "neutral", "mouth" : "tounge", "emote" : "none", "third_eye" : false},
 	"rage" : {"eyes" : "omg", "eyebrows" : "angy", "mouth" : "woah", "emote" : "anger", "third_eye" : true},
 	"sad" : {"eyes" : "pls", "eyebrows" : "awh", "mouth" : "frown", "emote" : "none", "third_eye" : true},
-	#"cry" : {"eyes" : "cry", "eyebrows" : "awh", "mouth" : "frown", "emote" : "none", "third_eye" : true},
-	#"yay" : {"eyes" : "happy", "eyebrows" : "neutral", "mouth" : "colond", "emote" : "none", "third_eye" : true},
-	"asleep" : {"eyes" : "closed", "eyebrows" : "neutral", "mouth" : "colonthree", "emote" : "zzz", "third_eye" : true}
+	"cry" : {"eyes" : "cry", "eyebrows" : "awh", "mouth" : "frown", "emote" : "none", "third_eye" : true},
+	"yay" : {"eyes" : "happy", "eyebrows" : "neutral", "mouth" : "colond", "emote" : "none", "third_eye" : true},
+	"asleep" : {"eyes" : "closed", "eyebrows" : "neutral", "mouth" : "colonthree", "emote" : "zzz", "third_eye" : true},
+	"sigh" : {"eyes" : "blink", "eyebrows" : "awh", "mouth" : "woah", "emote" : "none", "third_eye" : false},
+	"proud" : {"eyes" : "why", "eyebrows" : "awh", "mouth" : "smile", "emote" : "none", "third_eye" : true},
+	"disapointed" : {"eyes" : "closed", "eyebrows" : "awh", "mouth" : "frown", "emote" : "none", "third_eye" : false},
+	"nefarious" : {"eyes" : "pls", "eyebrows" : "angy", "mouth" : "colond", "emote" : "none", "third_eye" : true},
+	"pout_sad" : {"eyes" : "pls", "eyebrows" : "awh", "mouth" : "pout", "emote" : "none", "third_eye" : false},
+	"pout_mad" : {"eyes" : "normal", "eyebrows" : "angy", "mouth" : "pout", "emote" : "anger", "third_eye" : true},
 }
 
 # emotion

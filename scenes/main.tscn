@@ -1,4 +1,4 @@
-[gd_scene load_steps=56 format=3 uid="uid://e6smj52fq76u"]
+[gd_scene load_steps=74 format=3 uid="uid://e6smj52fq76u"]
 
 [ext_resource type="Script" uid="uid://bt67igeh5arjf" path="res://scripts/twitch.gd" id="1_0xm2m"]
 [ext_resource type="Script" uid="uid://d0253vbx2k6gk" path="res://scripts/chat.gd" id="1_h2yge"]
@@ -23,6 +23,12 @@
 [ext_resource type="PackedScene" uid="uid://cm80kd3xu77jn" path="res://scenes/onira_display.tscn" id="19_0ld40"]
 [ext_resource type="PackedScene" uid="uid://78lh55juy6l6" path="res://scenes/dragable.tscn" id="21_jscy8"]
 [ext_resource type="Script" uid="uid://bsbv1i7tu5im5" path="res://scripts/tv_manager.gd" id="21_yc10j"]
+[ext_resource type="Script" uid="uid://bk1bq3t0lv3mj" path="res://scripts/facts.gd" id="24_2f3dj"]
+[ext_resource type="Shader" uid="uid://b4k8jk7jqpaxo" path="res://shader/WobbleText.gdshader" id="25_yq6so"]
+[ext_resource type="FontFile" uid="uid://0cmifa12t8eo" path="res://art/Fonts/Comfy Feeling.otf" id="26_fv21b"]
+[ext_resource type="Texture2D" uid="uid://dwdklvhgy3cn1" path="res://art/Webphishing/webfishfish/ship/Axolotl.png" id="27_tel4y"]
+[ext_resource type="FontFile" uid="uid://6gbfyunugbpb" path="res://art/Fonts/accid___.ttf" id="28_qkpxi"]
+[ext_resource type="PackedScene" uid="uid://ckmesky4hvh4u" path="res://scenes/avatar.tscn" id="29_yq6so"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_dp3eg"]
 shader = ExtResource("1_muem4")
@@ -122,6 +128,10 @@ viewport_path = NodePath("ChatWindow/ChatViewport")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jscy8"]
 size = Vector2(514, 621)
+
+[sub_resource type="LabelSettings" id="LabelSettings_pm3ni"]
+font_size = 86
+font_color = Color(0.627451, 0.470588, 0.733333, 1)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pm3ni"]
 size = Vector2(845, 224)
@@ -623,6 +633,11 @@ shader_parameter/right = true
 [sub_resource type="ViewportTexture" id="ViewportTexture_eb6dy"]
 viewport_path = NodePath("Constellations/MainWindow/SubViewport")
 
+[sub_resource type="Environment" id="Environment_pm3ni"]
+
+[sub_resource type="World3D" id="World3D_y6deb"]
+environment = SubResource("Environment_pm3ni")
+
 [sub_resource type="Animation" id="Animation_0ld40"]
 length = 0.001
 tracks/0/type = "value"
@@ -749,6 +764,13 @@ _data = {
 &"open": SubResource("Animation_dp3eg")
 }
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2wyq8"]
+size = Vector2(228, 226)
+
+[sub_resource type="LabelSettings" id="LabelSettings_y6deb"]
+font_size = 31
+font_color = Color(0.627451, 0.470588, 0.733333, 1)
+
 [sub_resource type="RichTextEffect" id="RichTextEffect_dp3eg"]
 script = ExtResource("16_muem4")
 metadata/_custom_type_script = "uid://csl2xvh5lc4ld"
@@ -764,6 +786,132 @@ shader_parameter/crop_color = Color(0, 0, 0, 1)
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_gqmmt"]
 viewport_path = NodePath("SubViewport")
+
+[sub_resource type="Animation" id="Animation_c7rx8"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MarginContainer:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("MarginContainer/VBoxContainer/MarginContainer/Fact:theme_override_colors/font_outline_color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0, 0, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("MarginContainer/VBoxContainer/HBoxContainer/Header:theme_override_colors/font_outline_color")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 0.937255, 0.823529, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("MarginContainer/VBoxContainer/HBoxContainer/Texture:material:shader_parameter/alpha")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+
+[sub_resource type="Animation" id="Animation_eamyl"]
+resource_name = "fade_in"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MarginContainer:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(0, 0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("MarginContainer/VBoxContainer/MarginContainer/Fact:theme_override_colors/font_outline_color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 1), Color(0, 0, 0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("MarginContainer/VBoxContainer/HBoxContainer/Header:theme_override_colors/font_outline_color")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 0.937255, 0.823529, 1), Color(1, 0.937, 0.82, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("MarginContainer/VBoxContainer/HBoxContainer/Texture:material:shader_parameter/alpha")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [1.0, 0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_omsbt"]
+_data = {
+&"RESET": SubResource("Animation_c7rx8"),
+&"fade_in": SubResource("Animation_eamyl")
+}
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5q0nq"]
+shader = ExtResource("25_yq6so")
+shader_parameter/time_factor = 0.0
+shader_parameter/amplitude = Vector2(2, 2)
+shader_parameter/pos_factor = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dgi5k"]
+shader = ExtResource("25_yq6so")
+shader_parameter/time_factor = 1.0
+shader_parameter/amplitude = Vector2(10, 5)
+shader_parameter/pos_factor = 1.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2f3dj"]
+size = Vector2(705.785, 162)
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_yq6so"]
+viewport_path = NodePath("Viewport")
 
 [node name="Main" type="Control"]
 material = SubResource("ShaderMaterial_dp3eg")
@@ -908,8 +1056,25 @@ offset_top = 86.0
 offset_right = -489.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 border_color = Color(0.61721, 0.459465, 0.722727, 1)
-border_width = 2.1
+editor_only = false
+
+[node name="Label" type="Label" parent="ChatWindow/ReferenceRect"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "chat"
+label_settings = SubResource("LabelSettings_pm3ni")
 
 [node name="NotificationManager" parent="." node_paths=PackedStringArray("location") instance=ExtResource("4_jyhfs")]
 location = NodePath("Marker2D")
@@ -955,14 +1120,30 @@ mouse_filter = 1
 [node name="PromoWidget" parent="TopLeft/VBoxContainer" instance=ExtResource("8_a8y0u")]
 layout_mode = 2
 mouse_filter = 1
-messages = Array[String](["Join the discord  ➜  !discord", "Read the list of commands  ➜  !help", "Comission me for anything  ➜  !comms", "Watch past streams  ➜  !vods", "See your star on stream!  ➜  !s locate", "Discover my world  ➜  !yt", "See what's currently playing  ➜  !music", "Check out my socials  ➜  !links", "I stream on Mondays and Thursdays @ 6PM PST!", "I stream on Mondays and Thursdays @ 6PM PST!", "Check out my mama & papa 💜  ➜  !credits"])
+messages = Array[String](["Join the discord  ➜  !discord", "Read the list of commands  ➜  !help", "Watch past streams  ➜  !vods", "See your star on stream!  ➜  !s locate", "Discover my world  ➜  !yt", "See what's currently playing  ➜  !music", "Check out my socials  ➜  !links", "I stream on Wednesdays and Saturdays @ 6PM PST!", "I stream on Wednesdays and Saturdays @ 6PM PST!", "Check out my mama & papa 💜  ➜  !credits", "Rename your star!  ➜  !s name <name>"])
 
-[node name="Dragable" parent="TopLeft" instance=ExtResource("21_jscy8")]
+[node name="Dragable" parent="TopLeft" node_paths=PackedStringArray("visible_on_drag") instance=ExtResource("21_jscy8")]
 unique_id = "top_left"
+visible_on_drag = NodePath("../ReferenceRect")
 
 [node name="CollisionShape2D" parent="TopLeft/Dragable" index="0"]
 position = Vector2(227, 56)
 shape = SubResource("RectangleShape2D_y6deb")
+
+[node name="ReferenceRect" type="ReferenceRect" parent="TopLeft"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -20.0
+offset_top = -8.0
+offset_right = 475.0
+offset_bottom = 119.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+border_color = Color(0.61721, 0.459465, 0.722727, 1)
+border_width = 2.0
+editor_only = false
 
 [node name="Constellations" type="Node2D" parent="." node_paths=PackedStringArray("preview_viewport", "preview_animations", "preview_title", "preview_username", "preview_info", "preview_window", "main_viewport", "main_window", "main_animations")]
 script = ExtResource("7_85g3d")
@@ -1105,12 +1286,45 @@ visible_characters = 0
 visible_characters_behavior = 1
 visible_ratio = 0.0
 
-[node name="Dragable" parent="Constellations/PreviewWindow" instance=ExtResource("21_jscy8")]
+[node name="Dragable" parent="Constellations/PreviewWindow" node_paths=PackedStringArray("visible_on_drag") instance=ExtResource("21_jscy8")]
 unique_id = "stars_preview"
+visible_on_drag = NodePath("../ReferenceRect")
+custom_default_alpha = 0.0
 
 [node name="CollisionShape2D" parent="Constellations/PreviewWindow/Dragable" index="0"]
 position = Vector2(-1.70508, 1.4248)
 shape = SubResource("RectangleShape2D_og1vs")
+
+[node name="ReferenceRect" type="ReferenceRect" parent="Constellations/PreviewWindow"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -488.0
+offset_top = -485.0
+offset_right = -1432.0
+offset_bottom = -1432.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+border_color = Color(0.61721, 0.459465, 0.722727, 1)
+border_width = 5.0
+editor_only = false
+
+[node name="Label" type="Label" parent="Constellations/PreviewWindow/ReferenceRect"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Mini Constellations"
+label_settings = SubResource("LabelSettings_pm3ni")
 
 [node name="MainWindow" type="Sprite2D" parent="Constellations"]
 modulate = Color(1, 1, 1, 0.491)
@@ -1120,6 +1334,7 @@ texture = SubResource("ViewportTexture_eb6dy")
 offset = Vector2(960, 540)
 
 [node name="SubViewport" type="SubViewport" parent="Constellations/MainWindow"]
+world_3d = SubResource("World3D_y6deb")
 transparent_bg = true
 use_hdr_2d = true
 size = Vector2i(1920, 1080)
@@ -1128,6 +1343,47 @@ size = Vector2i(1920, 1080)
 libraries = {
 &"": SubResource("AnimationLibrary_yc10j")
 }
+
+[node name="Dragable" parent="Constellations/MainWindow" node_paths=PackedStringArray("visible_on_drag") instance=ExtResource("21_jscy8")]
+unique_id = "stars_main"
+visible_on_drag = NodePath("../ReferenceRect")
+
+[node name="CollisionShape2D" parent="Constellations/MainWindow/Dragable" index="0"]
+position = Vector2(960, 540)
+shape = SubResource("RectangleShape2D_2wyq8")
+
+[node name="ReferenceRect" type="ReferenceRect" parent="Constellations/MainWindow"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 826.0
+offset_top = 415.0
+offset_right = -832.0
+offset_bottom = -405.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+border_color = Color(0.61721, 0.459465, 0.722727, 1)
+border_width = 5.0
+editor_only = false
+
+[node name="Label" type="Label" parent="Constellations/MainWindow/ReferenceRect"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -295.5
+offset_top = -58.5
+offset_right = 295.5
+offset_bottom = 59.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Constellations"
+label_settings = SubResource("LabelSettings_y6deb")
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="RichTextLabel" type="RichTextLabel" parent="."]
 visible = false
@@ -1162,20 +1418,156 @@ grow_vertical = 2
 mouse_filter = 2
 
 [node name="OniraDisplay" parent="." instance=ExtResource("19_0ld40")]
+visible = false
 modulate = Color(1.2, 1.05, 1.2, 1)
 self_modulate = Color(0.60933, 0.60933, 0.60933, 1)
 position = Vector2(238, 227)
 scale = Vector2(0.240595, 0.240595)
 texture = SubResource("ViewportTexture_gqmmt")
 
-[node name="Dragable" parent="OniraDisplay" instance=ExtResource("21_jscy8")]
+[node name="Dragable" parent="OniraDisplay" node_paths=PackedStringArray("visible_on_drag") instance=ExtResource("21_jscy8")]
+visible_on_drag = NodePath("../ReferenceRect")
+
+[node name="ReferenceRect" type="ReferenceRect" parent="OniraDisplay"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -503.0
+offset_top = -623.0
+offset_right = -1391.0
+offset_bottom = -1105.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+border_color = Color(0.61721, 0.459465, 0.722727, 1)
+border_width = 5.0
+editor_only = false
 
 [node name="TVManager" type="Node2D" parent="."]
 position = Vector2(960, 540)
 script = ExtResource("21_yc10j")
 
+[node name="Facts" type="Node2D" parent="."]
+position = Vector2(696, 765)
+script = ExtResource("24_2f3dj")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Facts"]
+libraries = {
+&"": SubResource("AnimationLibrary_omsbt")
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="Facts"]
+offset_left = -323.0
+offset_top = -108.0
+offset_right = 445.0
+offset_bottom = 196.0
+theme_override_constants/margin_left = 21
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Facts/MarginContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Facts/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Header" type="RichTextLabel" parent="Facts/MarginContainer/VBoxContainer/HBoxContainer"]
+material = SubResource("ShaderMaterial_5q0nq")
+clip_contents = false
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/default_color = Color(0.415686, 0.266667, 0.12549, 1)
+theme_override_colors/font_outline_color = Color(1, 0.937255, 0.823529, 1)
+theme_override_constants/outline_size = 20
+theme_override_fonts/normal_font = ExtResource("26_fv21b")
+theme_override_font_sizes/normal_font_size = 66
+bbcode_enabled = true
+text = "[tornado radius=5.0 freq=2.0 connected=1]Did u know?"
+fit_content = true
+autowrap_mode = 0
+vertical_alignment = 1
+
+[node name="Texture" type="TextureRect" parent="Facts/MarginContainer/VBoxContainer/HBoxContainer"]
+material = SubResource("ShaderMaterial_dgi5k")
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.07
+texture = ExtResource("27_tel4y")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="MarginContainer" type="MarginContainer" parent="Facts/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+
+[node name="Fact" type="RichTextLabel" parent="Facts/MarginContainer/VBoxContainer/MarginContainer"]
+clip_contents = false
+layout_mode = 2
+theme_override_colors/default_color = Color(1, 0.937255, 0.823529, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 15
+theme_override_fonts/normal_font = ExtResource("28_qkpxi")
+theme_override_font_sizes/normal_font_size = 41
+bbcode_enabled = true
+text = "Fact that you didnt know"
+fit_content = true
+
+[node name="Dragable" parent="Facts" node_paths=PackedStringArray("visible_on_drag") instance=ExtResource("21_jscy8")]
+unique_id = "fish_fax"
+visible_on_drag = NodePath("CollisionShape2D/ReferenceRect")
+
+[node name="CollisionShape2D" parent="Facts/Dragable" index="0"]
+position = Vector2(321, 102)
+shape = SubResource("RectangleShape2D_2f3dj")
+
+[node name="ReferenceRect" type="ReferenceRect" parent="Facts/Dragable/CollisionShape2D" index="0"]
+custom_minimum_size = Vector2(10, 0)
+offset_left = -638.0
+offset_top = -185.0
+offset_right = 1.0
+offset_bottom = -25.0
+mouse_filter = 2
+border_color = Color(0.61721, 0.459465, 0.722727, 1)
+border_width = 5.0
+editor_only = false
+
+[node name="Label" type="Label" parent="Facts/Dragable/CollisionShape2D/ReferenceRect"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -295.5
+offset_top = -58.5
+offset_right = 295.5
+offset_bottom = 59.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "fax"
+label_settings = SubResource("LabelSettings_y6deb")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="3DAvatar" parent="." instance=ExtResource("29_yq6so")]
+visible = false
+layout_mode = 0
+anchors_preset = 0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 420.0
+offset_bottom = 382.0
+grow_horizontal = 1
+grow_vertical = 1
+texture = SubResource("ViewportTexture_yq6so")
+
 [editable path="ChatWindow/Dragable"]
 [editable path="NotificationManager/Dragable"]
 [editable path="TopLeft/Dragable"]
 [editable path="Constellations/PreviewWindow/Dragable"]
+[editable path="Constellations/MainWindow/Dragable"]
 [editable path="OniraDisplay/Dragable"]
+[editable path="Facts/Dragable"]

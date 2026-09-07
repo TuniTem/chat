@@ -12,10 +12,10 @@ func _ready() -> void:
 	multiplayer.multiplayer_peer.peer_disconnected.connect(_on_peer_disconnected)
 	print("ENet server created!")
 
-func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("debug"):
-		send_input("Tab", true)
-		call_deferred("send_input", "Tab", false)
+#func _input(event: InputEvent) -> void:
+	#if event.is_action_pressed("debug"):
+		#send_input("Tab", true)
+		#call_deferred("send_input", "Tab", false)
 	
 
 func _on_peer_disconnected(id : int):

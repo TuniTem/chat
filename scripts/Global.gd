@@ -1,6 +1,7 @@
 extends Node
 # General
 const DEBUG = false
+const START_ON_SECOND_MONITOR = true
 
 const CODE : String = "JGX7AK"
 var dummy_usernames = [
@@ -372,6 +373,9 @@ var crosshair : DrawCrosshair
 var main : Control
 var dragable_held : bool
 
+#func _init() -> void:
+	#DisplayServer.window_set_current_screen(1)
+
 func _ready():
 	DisplayServer.window_set_title("Overlay")
 	chat.message_received.connect(_on_chat_message_received)
@@ -408,7 +412,7 @@ func crash():
 func _input(event: InputEvent) -> void:
 	#if Util.input_context != "default" : return
 	if event.is_action_pressed("debug"):
-		crash()
+		#crash()
 		#global_keypress("c")
 		return
 		#if is_instance_valid(constellation_manager.telescope):

@@ -42,6 +42,7 @@ func _ready() -> void:
 	add_child(client)
 	
 	
+	
 func _enter_tree() -> void:
 	if instance == null: instance = self
 	

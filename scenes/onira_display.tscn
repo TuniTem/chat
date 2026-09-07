@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://cm80kd3xu77jn"]
+[gd_scene load_steps=9 format=3 uid="uid://cm80kd3xu77jn"]
 
 [ext_resource type="Shader" uid="uid://bq43mxo7qukb7" path="res://shader/edge_fade.gdshader" id="1_ii3uv"]
 [ext_resource type="PackedScene" uid="uid://bm2tuqs62ifs7" path="res://scenes/onira.tscn" id="1_jswwn"]
@@ -19,6 +19,8 @@ shader_parameter/right = false
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_ii3uv"]
 viewport_path = NodePath("SubViewport")
+
+[sub_resource type="World3D" id="World3D_ii3uv"]
 
 [sub_resource type="Animation" id="Animation_eqvop"]
 length = 0.001
@@ -63,6 +65,8 @@ material = SubResource("ShaderMaterial_eqvop")
 texture = SubResource("ViewportTexture_ii3uv")
 
 [node name="SubViewport" type="SubViewport" parent="."]
+own_world_3d = true
+world_3d = SubResource("World3D_ii3uv")
 transparent_bg = true
 size = Vector2i(2048, 2048)
 

@@ -413,6 +413,7 @@ var avalable_headers := HEADER_TEXT_OPTIONS.duplicate()
 var selected_fish : String
 var selected_fact : String
 var selected_header : String
+var shown : bool = false
 
 func choose_new_fish():
 	if avalable_fish.size() == 0:
@@ -438,13 +439,27 @@ func choose_new_fish():
 	texture.texture = FISHIES[selected_fish]
 
 func _ready() -> void:
-	animation_player.play("fade_in", -1, 0.0, true)
-	await get_tree().create_timer(5.0).timeout
-	for i in 1000:
+	pass
+
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("debug"):
+		shown = !shown
+		if shown:
+			animation_player.play("fade_in")
+			await get_tree().create_timer(5.0).timeout
+			cycle()
+			
+
+signal cancel
+
+func cycle():
+	while shown:
 		choose_new_fish()
-		animation_player.play("fade_in", -1, -1.0, true)
-		await get_tree().create_timer(FACT_TIME).timeout
-		animation_player.play("fade_in", -1, 1.0)
+		animation_player.play_backwards("fade_in")
+		await Util.compound_signal([get_tree().create_timer(FACT_TIME).timeout, cancel])
+		animation_player.play("fade_in")
+		
 		
 		await get_tree().create_timer(1.0).timeout
-		
+	
+	animation_player.play_backwards("fade_in")
